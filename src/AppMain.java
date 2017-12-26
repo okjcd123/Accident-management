@@ -141,20 +141,18 @@ public class AppMain extends JFrame implements ActionListener,MouseListener{
 	
 	public void registration() {
 		JDialog dia = new JDialog();
-		String[] year = {"년도","2000","2001","2002","2003","2004","2005","2006","2007","2008",
+		String[] year = {"년도","전체","2000","2001","2002","2003","2004","2005","2006","2007","2008",
 				"2009","2010","2011","2012","2013","2014","2015","2016","2017"};
 		String[] month = {"월","1","2","3","4","5","6","7","8","9","10","11","12",};
 		String[] day = {"일","1","2","3","4","5","6","7","8","9","10","11","12","13",
 				"14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31",};
-		String[] province = {"전체","서울특별시","부산광역시","대전광역시","대구광역시","인천광역시","광주광역시","울산광역시"};
+		String[] province = {"전체","서울특별시","경기도","인천광역시"};
 		String[] sTown = {"노원구","도봉구","강남구","서초구","강서구","강동구","종로구","중구","중랑구","성북구","금천구","영등포구",
 				"서대문구","은평구","동작구","마포구","송파구","광진구","용산구","양천구","구로구","성동구","관악구","동대문구","강북구"};
-		String[] bTown = {"중구","서구","동구","영도구","부산진구","동래구","남구","북구","해운대구","사하구","금정구","강서구","연제구","수영구","사상수","기장군"};
-		String [] dgTown = {"중구","동구","서구","남구","북구","수서구","달서구","달성군"};
 		String[] iTown = {"중구","동구","남구","연수구","남동구","부평구","계양구","서구","강화군","옹진군"};
-		String[] gwTown = {"동구","서구","남구","북구","광산구"};
-		String[] dzTown = {"동구","중구","서구","유성구","대덕구"};
-		String[] wTown = {"중구","동구","남구","북구","울주군"};
+		
+		String[] gyTown = {"수원시","성남시","의정부시","안양시","부천시","광명시","평택시","동두천시","안산시","고양시","과천시","구리시","남양주시","오산시","시흥시",
+				"군포시","의왕시","하남시","용인시","파주시","이천시","김포시","화성시","광주시","양주시","포천시","여주군","연천군","가평군","양평군"};
 
 		dia.setTitle("사고 등록");
 		//dia.setLayout(null);
@@ -197,28 +195,16 @@ public class AppMain extends JFrame implements ActionListener,MouseListener{
 				else if(select.equals("서울특별시")) {
 					tow.setModel(new DefaultComboBoxModel(sTown));
 				}
-				else if(select.equals("부산광역시")) {
-					tow.setModel(new DefaultComboBoxModel(bTown));
-				}
-				else if(select.equals("대전광역시")) {
-					tow.setModel(new DefaultComboBoxModel(dzTown));
-				}
-				else if(select.equals("대구광역시")) {
-					tow.setModel(new DefaultComboBoxModel(dgTown));
-				}
 				else if(select.equals("인천광역시")) {
 					tow.setModel(new DefaultComboBoxModel(iTown));
 				}
-				else if(select.equals("광주광역시")) {
-					tow.setModel(new DefaultComboBoxModel(gwTown));
-				}
 				else {
-					tow.setModel(new DefaultComboBoxModel(wTown));
+					tow.setModel(new DefaultComboBoxModel(gyTown));
 				}
-
 			}
 
 		});
+		
 		dia.add(label1);
 		dia.add(loc);
 		
@@ -229,6 +215,26 @@ public class AppMain extends JFrame implements ActionListener,MouseListener{
 		JComboBox monthcb = new JComboBox(month);
 		JComboBox daycb = new JComboBox(day);
 		time.add(yearcb);time.add(monthcb);time.add(daycb);
+		yearcb.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				JComboBox c = (JComboBox)arg0.getSource();
+				String select = (String)c.getSelectedItem();
+
+				if(select.equals("전체")) {
+					monthcb.setModel(new DefaultComboBoxModel());
+					daycb.setModel(new DefaultComboBoxModel());
+				}
+				else {
+					monthcb.setModel(new DefaultComboBoxModel(month));
+					daycb.setModel(new DefaultComboBoxModel(day));
+				}
+				
+			}
+			
+		});
 		
 		dia.add(label2);
 		dia.add(time);
