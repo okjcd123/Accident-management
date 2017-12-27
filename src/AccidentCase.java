@@ -7,7 +7,6 @@ public class AccidentCase {
 	private String year;
 	private String month;
 	private String day;
-	private String time;
 	private String policeno;
 	private String carno;
 	private int casulity; 
@@ -16,7 +15,6 @@ public class AccidentCase {
 	private String actype;
 	private float latitude;
 	private float longitude;
-	
 	public int getCscode() {
 		return cscode;
 	}
@@ -52,12 +50,6 @@ public class AccidentCase {
 	}
 	public void setDay(String day) {
 		this.day = day;
-	}
-	public String getTime() {
-		return time;
-	}
-	public void setTime(String time) {
-		this.time = time;
 	}
 	public String getPoliceno() {
 		return policeno;
@@ -107,5 +99,7 @@ public class AccidentCase {
 	public void setLongitude(float longitude) {
 		this.longitude = longitude;
 	}
+	
+	
 	
 }
