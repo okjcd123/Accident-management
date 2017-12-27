@@ -7,5 +7,4 @@ import javax.swing.JButton;
 
 public class AppController {
 	
-	AppManager app = new AppManager();
 }

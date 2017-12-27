@@ -15,6 +15,7 @@ public class AccidentCase {
 	private String actype;
 	private float latitude;
 	private float longitude;
+	
 	public int getCscode() {
 		return cscode;
 	}

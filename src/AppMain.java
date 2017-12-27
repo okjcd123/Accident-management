@@ -191,12 +191,10 @@ public class AppMain extends JFrame{
 		
 		//해당 날짜 사고 정보들 실시간? 띄우기
 		
-		/*accInfo = new JLabel("해당 날짜 사고 정보");
+		accInfo = new JLabel("해당 날짜 사고 정보");
 		accInfo.setBounds(0, 670, 1200, 30);
-		accInfo.setVerticalAlignment(SwingConstants.TOP);
-		accInfo.setHorizontalAlignment(SwingConstants.LEFT);
 		primary.add(accInfo);
-		 */
+		
 
 		//기능 버튼들 추가
 		//버튼 추가 예정
@@ -581,7 +579,7 @@ public class AppMain extends JFrame{
 	
 	public void analysis()
 	{
-		
+		new AccidentAnalysis();
 	}
 	
 	private class MouseListen implements MouseListener
