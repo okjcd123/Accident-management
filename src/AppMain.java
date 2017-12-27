@@ -15,29 +15,30 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.ScrollPaneConstants;
-import javax.swing.SwingConstants;
 
 public class AppMain extends JFrame{
 
 	private String initText = "<html>버튼 세부사항 보시려면<br/>마우스를 버튼위에 올려주세요</html>";
-	private JLabel accInfo;
+	
 	private JLabel[] labels;
 	private JPanel[] panels;
-	private JButton[] btns;
 	
 	private JPanel primary;
 	
 	//버튼----------------------------------------------------------------------------------
 	private JPanel bPanel;
-	
+	private JButton[] btns;
 	
 	//JList---------------------------------------------------------------------------------
-	private JList list;	
+	private JTable table;
 	private JScrollPane scroll;
-	private String [] listStr = {"대한민국", "미국"};
+	private String [] header = {"사고번호", "시/도", "구/군", "발생연", "월", "일", "사상자", "사망자", "부상자", "사고 유형"};
+	private String contents[][] = {{"1", "서울특별시", "강남구", "2017", "02", "28", "1", "0" ,"1", "차대사람"}
+	,{"1", "서울특별시", "강남구", "2017", "02", "28", "1", "0" ,"1", "차대차"}};
 	
 	//사고 검색--------------------------------------------------------------------------------
 	private JDialog diaSearch;
@@ -51,10 +52,10 @@ public class AppMain extends JFrame{
 	//사고 등록--------------------------------------------------------------------------------
 	private JDialog dia;
 	private	String[] year = {"년도","전체","2000","2001","2002","2003","2004","2005","2006","2007","2008",
-			"2009","2010","2011","2012","2013","2014","2015","2016","2017"};
+			"2009","2010","2011","2012","2013","2014","2015","2016","2017", "2018"};
 	private String[] month = {"월","1","2","3","4","5","6","7","8","9","10","11","12",};
 	private String[] day = {"일","1","2","3","4","5","6","7","8","9","10","11","12","13",
-			"14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31",};
+			"14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31"};
 	private String[] province = {"전체","서울특별시","인천광역시","경기도"};
 	private String[] sTown = {"노원구","도봉구","강남구","서초구","강서구","강동구","종로구","중구","중랑구","성북구","금천구","영등포구",
 			"서대문구","은평구","동작구","마포구","송파구","광진구","용산구","양천구","구로구","성동구","관악구","동대문구","강북구"};
@@ -83,21 +84,94 @@ public class AppMain extends JFrame{
 	private JTextField lati;
 	private JTextField longi;
 	
+	//장소입력부분
+	private JPanel loc;
+	private JComboBox pro;
+	private JComboBox tow;
+	
+	//날짜입력부분
+	private JPanel time;
+	private JComboBox yearcb;
+	private JComboBox monthcb;
+	private JComboBox daycb;
+	
+	//사상사주 입력 부분
+	private JPanel casualty;
+	private	JLabel tmp1;
+	private	JLabel tmp2;
+	
+	//위도 경도 입력부분
+	private	JPanel locInfo;
+	private	JLabel laTmp;
+	private	JLabel loTmp;
+	
+	//하단 패널
 	private JPanel subPanel;
-	JButton regBtn;
+	private	JButton regBtn;
 	
 	//사고 수정/삭제----------------------------------------------------------------------------
 	
+	private JDialog diaUpdate;
+	private JPanel leftUpdatePanel;
+	private JLabel caseNum;			//사건 번호
 	
+	private JLabel labelUpdate1;	//장소
+	private JLabel labelUpdate2; 	//날짜
+	private	JLabel labelUpdate3; 	//경찰번호
+	private JLabel labelUpdate4; 	//차번호
+	private JLabel labelUpdate5; 	//사상자 수
+	private JLabel labelUpdate6;	//사고 타입
+	private JLabel labelUpdate7; 	//"위도, 경도
+	//private JLabel label8 //"등록"
+	
+	private JPanel rightUpdatePanel;
+	
+	private JTextField caseNumTxt;		//사건 번호 입력란
+	private JButton searchUpdateBtn;	//사건 번호 검색
+	
+	private JTextField polnoUpdate;
+	private JTextField carnoUpdate;
+	private JTextField deadUpdate;
+	private JTextField injuredUpdate;
+	private JTextField accTypeUpdate;
+	private JTextField latiUpdate;
+	private JTextField longiUpdate;
+	
+	//장소입력부분
+	private JPanel locUpdate;
+	private JComboBox proUpdate;
+	private JComboBox towUpdate;
+	
+	//날짜입력부분
+	private JPanel timeUpdate;
+	private JComboBox yearcbUpdate;
+	private JComboBox monthcbUpdate;
+	private JComboBox daycbUpdate;
+	
+	//사상사주 입력 부분
+	private JPanel casualtyUpdate;
+	private	JLabel tmp1Update;
+	private	JLabel tmp2Update;
+	
+	//위도 경도 입력부분
+	private	JPanel locInfoUpdate;
+	private	JLabel laTmpUpdate;
+	private	JLabel loTmpUpdate;
+	
+	//하단 패널
+	private JPanel subUpdatePanel;
+
 	
 	//사고 분석----------------------------------------------------------------------------
 	
 	
 	
-	
+	//하단 메세지-------------------------------------------------------------------------------
+	private JLabel accInfo;
 	//마우스 이벤트-----------------------------------------------------------------------------
 	MouseAction action = new MouseAction();
 	MouseListen mouseMove = new MouseListen();
+	
 	public AppMain() {
 		setTitle("교통 사고 관리 시스템");
 		setSize(Execute.WIDTH,Execute.HEIGHT);
@@ -153,13 +227,13 @@ public class AppMain extends JFrame{
 		
 		
 		//List 관련 사항------------------------------------------------------------------------------
-		list = new JList();
-		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-	    list.setListData(listStr); //리스트의 데이터가 될 목록 설정
+		table = new JTable(contents, header);
+	//	list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+	   // table.setListData(contents); //리스트의 데이터가 될 목록 설정
 		//list.addListSelectionListener();
 		
 		scroll = new JScrollPane();
-		scroll.setViewportView(list);
+		scroll.setViewportView(table);
       	scroll.setBounds(20,110,1260, 510);
       	scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS); //가로바정책
       	scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS); //가로바정책
@@ -200,7 +274,7 @@ public class AppMain extends JFrame{
 		
 		diaSearch.setVisible(true);
 	}
-	
+
 	public void registration() {
 		dia = new JDialog();
 		dia.setTitle("사고 등록");
@@ -246,10 +320,10 @@ public class AppMain extends JFrame{
 		longi = new JTextField(10);
 
 		//장소입력부분
-		JPanel loc = new JPanel();
+		loc = new JPanel();
 		loc.setLayout(new GridLayout(1,2));
-		JComboBox pro = new JComboBox(province);
-		JComboBox tow = new JComboBox();
+		pro = new JComboBox(province);
+		tow = new JComboBox();
 		loc.add(pro);loc.add(tow);
 		pro.addActionListener(new ActionListener() {
 
@@ -275,11 +349,11 @@ public class AppMain extends JFrame{
 		rightPanel.add(loc);
 		
 		//날짜입력부분
-		JPanel time = new JPanel();
+		time = new JPanel();
 		time.setLayout(new GridLayout(1,3));
-		JComboBox yearcb = new JComboBox(year);
-		JComboBox monthcb = new JComboBox(month);
-		JComboBox daycb = new JComboBox(day);
+		yearcb = new JComboBox(year);
+		monthcb = new JComboBox(month);
+		daycb = new JComboBox(day);
 		time.add(yearcb);time.add(monthcb);time.add(daycb);
 		yearcb.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -305,10 +379,10 @@ public class AppMain extends JFrame{
 		rightPanel.add(carno);
 		
 		//사상사주 입력 부분
-		JPanel casualty = new JPanel();
+		casualty = new JPanel();
 		casualty.setLayout(new GridLayout(1,4));
-		JLabel tmp1 = new JLabel("사망자 수");
-		JLabel tmp2 = new JLabel("부상자 수");
+		tmp1 = new JLabel("사망자 수");
+		tmp2 = new JLabel("부상자 수");
 		casualty.add(tmp1); casualty.add(dead);
 		casualty.add(tmp2); casualty.add(injured);
 		rightPanel.add(casualty);
@@ -317,10 +391,10 @@ public class AppMain extends JFrame{
 		rightPanel.add(accType);
 		
 		//위도 경도 입력부분
-		JPanel locInfo = new JPanel();
+		locInfo = new JPanel();
 		locInfo.setLayout(new GridLayout(1,4,70,0));
-		JLabel laTmp = new JLabel("위도");
-		JLabel loTmp = new JLabel("경도");
+		laTmp = new JLabel("위도");
+		loTmp = new JLabel("경도");
 		locInfo.add(laTmp);locInfo.add(lati);
 		locInfo.add(loTmp);locInfo.add(longi);
 		rightPanel.add(locInfo);
@@ -345,21 +419,141 @@ public class AppMain extends JFrame{
 		
 		dia.setVisible(true);
 	}
-	
-	
+	public void modifyDelete() {
+		diaUpdate = new JDialog();
+		diaUpdate.setTitle("사고 등록");
+		diaUpdate.setLayout(null);
+		diaUpdate.setResizable(false);
+		diaUpdate.setSize(810,700);
+		
+		//leftPanel 관련 사항 --------------------------------------------------
+		leftUpdatePanel = new JPanel();
+		leftUpdatePanel.setBackground(Color.white);
+		leftUpdatePanel.setLayout(new GridLayout(7,1));
+		leftUpdatePanel.setBounds(0,0,100,600);
+		diaUpdate.add(leftUpdatePanel);
+		
+		labelUpdate1 = new JLabel("장소",JLabel.CENTER);
+		labelUpdate2 = new JLabel("날짜",JLabel.CENTER);
+		labelUpdate3 = new JLabel("경찰번호",JLabel.CENTER);
+		labelUpdate4 = new JLabel("차번호",JLabel.CENTER);
+		labelUpdate5 = new JLabel("사상자 수",JLabel.CENTER);
+		labelUpdate6 = new JLabel("사고 타입",JLabel.CENTER);
+		labelUpdate7 = new JLabel("위도, 경도",JLabel.CENTER);
+		
+		leftUpdatePanel.add(labelUpdate1);
+		leftUpdatePanel.add(labelUpdate2);
+		leftUpdatePanel.add(labelUpdate3);
+		leftUpdatePanel.add(labelUpdate4);
+		leftUpdatePanel.add(labelUpdate5);
+		leftUpdatePanel.add(labelUpdate6);
+		leftUpdatePanel.add(labelUpdate7);
+		
+		//rightPanel 관련 사항 --------------------------------------------------
+		rightUpdatePanel = new JPanel();
+		rightUpdatePanel.setLayout(new GridLayout(7,1));
+		rightUpdatePanel.setBounds(100,0,700,600);
+		diaUpdate.add(rightUpdatePanel);
+		
+		polnoUpdate = new JTextField(10);
+		carnoUpdate = new JTextField(10);
+		deadUpdate = new JTextField(10);
+		injuredUpdate = new JTextField(10);
+		accTypeUpdate = new JTextField(10);
+		latiUpdate = new JTextField(10);
+		longiUpdate = new JTextField(10);
 
-	
-	public void modify() {
-		JDialog dia = new JDialog();
-		dia.setTitle("사고 정보 수정");
-		dia.setSize(300,300);
-		dia.setVisible(true);
+		//장소입력부분
+		locUpdate = new JPanel();
+		locUpdate.setLayout(new GridLayout(1,2));
+		proUpdate = new JComboBox(province);
+		towUpdate = new JComboBox();
+		locUpdate.add(proUpdate);locUpdate.add(towUpdate);
+		proUpdate.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				JComboBox tmp = (JComboBox)arg0.getSource();
+				String select = (String)tmp.getSelectedItem();
+
+				if(select.equals("전체")) {
+					towUpdate.setModel(new DefaultComboBoxModel());
+				}
+				else if(select.equals("서울특별시")) {
+					towUpdate.setModel(new DefaultComboBoxModel(sTown));
+				}
+				else if(select.equals("인천광역시")) {
+					towUpdate.setModel(new DefaultComboBoxModel(iTown));
+				}
+				else {
+					towUpdate.setModel(new DefaultComboBoxModel(gyTown));
+				}
+			}
+		});
+		rightUpdatePanel.add(locUpdate);
+		
+		//날짜입력부분
+		timeUpdate = new JPanel();
+		timeUpdate.setLayout(new GridLayout(1,3));
+		yearcbUpdate = new JComboBox(year);
+		monthcbUpdate = new JComboBox(month);
+		daycbUpdate = new JComboBox(day);
+		timeUpdate.add(yearcbUpdate);timeUpdate.add(monthcbUpdate);timeUpdate.add(daycbUpdate);
+		yearcbUpdate.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				JComboBox box = (JComboBox)arg0.getSource();
+				String select = (String)box.getSelectedItem();
+
+				if(select.equals("전체")) {
+					monthcbUpdate.setModel(new DefaultComboBoxModel());
+					daycbUpdate.setModel(new DefaultComboBoxModel());
+				}
+				else {
+					monthcbUpdate.setModel(new DefaultComboBoxModel(month));
+					daycbUpdate.setModel(new DefaultComboBoxModel(day));
+				}
+			}
+			
+		});
+		rightUpdatePanel.add(timeUpdate);
+		
+		//경찰번호 입력부분
+		rightUpdatePanel.add(polnoUpdate);
+		rightUpdatePanel.add(carnoUpdate);
+		
+		//사상사주 입력 부분
+		casualtyUpdate= new JPanel();
+		casualtyUpdate.setLayout(new GridLayout(1,4));
+		tmp1Update = new JLabel("사망자 수");
+		tmp2Update = new JLabel("부상자 수");
+		casualtyUpdate.add(tmp1Update); casualtyUpdate.add(deadUpdate);
+		casualtyUpdate.add(tmp2Update); casualtyUpdate.add(injuredUpdate);
+		rightUpdatePanel.add(casualtyUpdate);
+		
+		//사고타입 입력부분
+		rightUpdatePanel.add(accTypeUpdate);
+		
+		//위도 경도 입력부분
+		locInfoUpdate = new JPanel();
+		locInfoUpdate.setLayout(new GridLayout(1,4,70,0));
+		laTmpUpdate = new JLabel("위도");
+		loTmpUpdate = new JLabel("경도");
+		locInfoUpdate.add(laTmpUpdate);locInfoUpdate.add(latiUpdate);
+		locInfoUpdate.add(loTmpUpdate);locInfoUpdate.add(longiUpdate);
+		rightUpdatePanel.add(locInfoUpdate);
+
+		//subPanel----------------------------------------------------------------------------
+		subUpdatePanel = new JPanel();
+		subUpdatePanel.setBounds(0,600,810,100);
+		diaUpdate.add(subUpdatePanel);
+		
+		diaUpdate.setVisible(true);
 	}
-	public void delete() {
-		JDialog dia = new JDialog();
-		dia.setTitle("사고 사례 삭제");
-		dia.setSize(300,300);
-		dia.setVisible(true);
+	
+	public void analysis()
+	{
+		
 	}
 	
 	private class MouseListen implements MouseListener
@@ -369,39 +563,9 @@ public class AppMain extends JFrame{
 		}
 		@Override
 		public void mouseEntered(MouseEvent arg0) {
-			// TODO Auto-generated method stub
-			JButton btn = (JButton)arg0.getSource();
-			for(int i=0;i<btns.length;i++) {
-				if(btns[i] == btn) {
-					if(i==0) {
-						/*btns[i].setLayout(new GridLayout(3,1));
-						btns[i].add(new JLabel("1. 기간, 시, 구 설정 이용 검색"));
-						btns[i].add(new JLabel("2. 차번호를 이용한 차 정보 검색"));
-						btns[i].add(new JLabel("3. 경찰 번호를 이용한 담당 경찰 검색"));*/
-						btns[i].setText("");
-						btns[i].setText("<html>1. 날짜, 시, 구 설정 이용 검색"
-								+ "<br/>2. 차번호를 이용한 차 정보 검색"
-								+ "<br/>3. 경찰 번호를 이용한 담당 경찰 검색</html>");
-					}
-					else if(i==1) {
-						btns[i].setText("");
-						btns[i].setText("<html>1. 직접 현장 정보 접수<br/>2. 메신저 통한 내용 접수</html>");
-					}
-					else if(i==2) {
-						btns[i].setText("");
-						btns[i].setText("1. 사고 조회 후 사고 사례 데이터 수정");
-					}
-					else {
-						btns[i].setText("");
-						btns[i].setText("<html>1. 처리된 사례 삭제<br/>2. 허위 사례 삭제</html>");
-					}
-				}
-			}
 		}
 		@Override
 		public void mouseExited(MouseEvent arg0) {
-			JButton btn = (JButton)arg0.getSource();
-			btn.setText(initText);
 		}
 		@Override
 		public void mousePressed(MouseEvent arg0) {
@@ -424,10 +588,11 @@ public class AppMain extends JFrame{
 						registration();
 					}
 					else if(i==2) {
-						modify();
+						modifyDelete();
 					}
-					else {
-						delete();
+					else
+					{
+						analysis();
 					}
 				}
 			}
