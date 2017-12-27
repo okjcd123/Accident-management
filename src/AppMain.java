@@ -22,6 +22,9 @@ import javax.swing.ScrollPaneConstants;
 
 public class AppMain extends JFrame{
 
+	
+	AppManager app = new AppManager();
+	
 	private String initText = "<html>버튼 세부사항 보시려면<br/>마우스를 버튼위에 올려주세요</html>";
 	
 	private JLabel[] labels;
@@ -109,7 +112,7 @@ public class AppMain extends JFrame{
 	private JPanel subPanel;
 	private	JButton regBtn;
 	
-	//사고 수정/삭제----------------------------------------------------------------------------
+	//사고 수정/삭제-----------------------------------------------------------------------------------------
 	
 	private JDialog diaUpdate;
 	private JPanel leftUpdatePanel;
@@ -126,6 +129,7 @@ public class AppMain extends JFrame{
 	
 	private JPanel rightUpdatePanel;
 	
+	private JPanel searchCaseNumPanel;	//케이스 검색 패널
 	private JTextField caseNumTxt;		//사건 번호 입력란
 	private JButton searchUpdateBtn;	//사건 번호 검색
 	
@@ -160,7 +164,8 @@ public class AppMain extends JFrame{
 	
 	//하단 패널
 	private JPanel subUpdatePanel;
-
+	private JButton updateButton;
+	private JButton deleteButton;
 	
 	//사고 분석----------------------------------------------------------------------------
 	
@@ -173,6 +178,7 @@ public class AppMain extends JFrame{
 	MouseListen mouseMove = new MouseListen();
 	
 	public AppMain() {
+		
 		setTitle("교통 사고 관리 시스템");
 		setSize(Execute.WIDTH,Execute.HEIGHT);
 		setResizable(false);
@@ -228,10 +234,7 @@ public class AppMain extends JFrame{
 		
 		//List 관련 사항------------------------------------------------------------------------------
 		table = new JTable(contents, header);
-	//	list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-	   // table.setListData(contents); //리스트의 데이터가 될 목록 설정
-		//list.addListSelectionListener();
-		
+
 		scroll = new JScrollPane();
 		scroll.setViewportView(table);
       	scroll.setBounds(20,110,1260, 510);
@@ -241,6 +244,7 @@ public class AppMain extends JFrame{
 		
 		add(primary);
 		setVisible(true);
+		
 	}
 	
 	public void search() {
@@ -420,19 +424,21 @@ public class AppMain extends JFrame{
 		dia.setVisible(true);
 	}
 	public void modifyDelete() {
+		
 		diaUpdate = new JDialog();
 		diaUpdate.setTitle("사고 등록");
 		diaUpdate.setLayout(null);
 		diaUpdate.setResizable(false);
-		diaUpdate.setSize(810,700);
+		diaUpdate.setSize(810,800);
 		
 		//leftPanel 관련 사항 --------------------------------------------------
 		leftUpdatePanel = new JPanel();
 		leftUpdatePanel.setBackground(Color.white);
-		leftUpdatePanel.setLayout(new GridLayout(7,1));
-		leftUpdatePanel.setBounds(0,0,100,600);
+		leftUpdatePanel.setLayout(new GridLayout(8,1));
+		leftUpdatePanel.setBounds(0,0,100,700);
 		diaUpdate.add(leftUpdatePanel);
 		
+		caseNum = new JLabel("사고 번호 입력", JLabel.CENTER);
 		labelUpdate1 = new JLabel("장소",JLabel.CENTER);
 		labelUpdate2 = new JLabel("날짜",JLabel.CENTER);
 		labelUpdate3 = new JLabel("경찰번호",JLabel.CENTER);
@@ -441,6 +447,7 @@ public class AppMain extends JFrame{
 		labelUpdate6 = new JLabel("사고 타입",JLabel.CENTER);
 		labelUpdate7 = new JLabel("위도, 경도",JLabel.CENTER);
 		
+		leftUpdatePanel.add(caseNum);
 		leftUpdatePanel.add(labelUpdate1);
 		leftUpdatePanel.add(labelUpdate2);
 		leftUpdatePanel.add(labelUpdate3);
@@ -451,8 +458,8 @@ public class AppMain extends JFrame{
 		
 		//rightPanel 관련 사항 --------------------------------------------------
 		rightUpdatePanel = new JPanel();
-		rightUpdatePanel.setLayout(new GridLayout(7,1));
-		rightUpdatePanel.setBounds(100,0,700,600);
+		rightUpdatePanel.setLayout(new GridLayout(8,1));
+		rightUpdatePanel.setBounds(100,0,700,700);
 		diaUpdate.add(rightUpdatePanel);
 		
 		polnoUpdate = new JTextField(10);
@@ -463,6 +470,14 @@ public class AppMain extends JFrame{
 		latiUpdate = new JTextField(10);
 		longiUpdate = new JTextField(10);
 
+		//사건 번호 입력 부분
+		searchCaseNumPanel = new JPanel(new GridLayout(1,2));	//케이스 검색 패널
+		caseNumTxt = new JTextField(10);		//사건 번호 입력란
+		searchUpdateBtn = new JButton("검색");	//사건 번호 검색
+		searchCaseNumPanel.add(caseNumTxt);
+		searchCaseNumPanel.add(searchUpdateBtn);
+		rightUpdatePanel.add(searchCaseNumPanel);
+		
 		//장소입력부분
 		locUpdate = new JPanel();
 		locUpdate.setLayout(new GridLayout(1,2));
@@ -544,9 +559,22 @@ public class AppMain extends JFrame{
 		rightUpdatePanel.add(locInfoUpdate);
 
 		//subPanel----------------------------------------------------------------------------
+		//diaUpdate.setSize(810,800);
 		subUpdatePanel = new JPanel();
-		subUpdatePanel.setBounds(0,600,810,100);
+		subUpdatePanel.setLayout(null);
+		subUpdatePanel.setBounds(0,700,810,100);
+		
+		updateButton = new JButton("수정");
+		updateButton.setBounds(600,0,80,50);
+		subUpdatePanel.add(updateButton);
+		
+		deleteButton = new JButton("삭제");
+		deleteButton.setBounds(690, 0, 80,50);
+		subUpdatePanel.add(deleteButton);
+		
 		diaUpdate.add(subUpdatePanel);
+		
+		
 		
 		diaUpdate.setVisible(true);
 	}
@@ -598,5 +626,5 @@ public class AppMain extends JFrame{
 			}
 		}			
 	}
-
 }
+
