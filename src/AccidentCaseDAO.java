@@ -18,6 +18,7 @@ public class AccidentCaseDAO {
 	String sql;
 	ArrayList<AccidentCase> datas;
 
+
 	//DB¿¬°á
 	void connectDB(){
 		try {
@@ -112,11 +113,11 @@ public class AccidentCaseDAO {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		closeDB();
 		return flag;
 	}
-	
+
 	boolean deleteCase(int cscode) {
 		connectDB();
 		sql = "delete from accidentcase where cscode = ?";
@@ -135,6 +136,64 @@ public class AccidentCaseDAO {
 		closeDB();
 		return flag;
 	}
+
+	AccidentCase getCase(int cscode) {
+		connectDB();
+		AccidentCase tmp = new AccidentCase();
+		sql = "select * from accidentcase where cscode = ?";
+		try {
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+
+			tmp.setCscode(rs.getInt("cscode"));
+			tmp.setProvince(rs.getString("province"));
+			tmp.setTown(rs.getString("town"));
+			tmp.setYear(rs.getString("year"));
+			tmp.setMonth(rs.getString("month"));
+			tmp.setDay(rs.getString("day"));
+			tmp.setCarno(rs.getString("carno"));
+			tmp.setPoliceno(rs.getString("policeno"));
+			tmp.setCasulity(rs.getInt("casulity"));
+			tmp.setDead(rs.getInt("dead"));
+			tmp.setInjured(rs.getInt("injured"));
+			tmp.setActype(rs.getString("actype"));
+			tmp.setLatitude(rs.getFloat("latitude"));
+			tmp.setLongitude(rs.getFloat("longitude"));
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		closeDB();
+		return tmp;
+	}
+
+	Police getPolice(int cscode) {
+		connectDB();
+		Police pTmp = new Police();
+		AccidentCase ac = new AccidentCase();
+		String nTmp;
+		sql = "select policeno from where cscode = ?";
+		try {
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			nTmp = rs.getString("policeno");
+			sql = "select * from police where policeno = ?";
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			pTmp.setPoliceno(rs.getString("policeno"));
+			pTmp.setPolname(rs.getString("polname"));
+			pTmp.setRank(rs.getString("rank"));
+			pTmp.setDepart(rs.getString("depart"));
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		closeDB();
+		return pTmp;
+	}
+
 
 	ArrayList<AccidentCase> getAll() {
 		AccidentCase a;
