@@ -89,7 +89,7 @@ public class AccidentCaseDAO {
 		int chk;
 		boolean flag=false; 
 		sql = "insert into accidentcase "
-				+ "(province,town,year,month,day,policeno,carno,casulity,dead,injured,actype,latitude,longitude) "
+				+ "(province,town,year,month,day,policeno,dead,injured,actype,latitude,longitude) "
 				+ "values(?,?,?,?,?,?,?,?,?,?,?,?,?)";
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -99,14 +99,14 @@ public class AccidentCaseDAO {
 			pstmt.setString(4, info.getMonth());
 			pstmt.setString(5, info.getDay());
 			pstmt.setString(6, info.getPoliceno());
-			pstmt.setString(7, info.getCarno());
-			pstmt.setInt(8, info.getCasulity());
-			pstmt.setInt(9, info.getDead());
-			pstmt.setInt(10, info.getInjured());
-			pstmt.setString(11, info.getActype());
-			pstmt.setFloat(12, info.getLatitude());
-			pstmt.setFloat(13, info.getLongitude());
+			pstmt.setInt(7, info.getDead());
+			pstmt.setInt(8, info.getInjured());
+			pstmt.setString(9, info.getActype());
+			pstmt.setDouble(10, info.getLatitude());
+			pstmt.setDouble(11, info.getLongitude());
+			
 			chk = pstmt.executeUpdate();
+			
 			if(chk>0)
 				flag = true;
 		} catch (SQLException e) {
@@ -118,11 +118,13 @@ public class AccidentCaseDAO {
 		return flag;
 	}
 
-	boolean deleteCase(int cscode) {
+	boolean deleteCase(int cscode)
+	{
 		connectDB();
 		sql = "delete from accidentcase where cscode = ?";
 		int chk;
 		boolean flag = false;
+		
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, cscode);
@@ -137,25 +139,26 @@ public class AccidentCaseDAO {
 		return flag;
 	}
 
-	AccidentCase getCase(int cscode) {
+	AccidentCase getCase(int cscode) 
+	{
 		connectDB();
 		AccidentCase tmp = new AccidentCase();
 		sql = "select * from accidentcase where cscode = ?";
 		try {
 			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, cscode);
 			rs = pstmt.executeQuery();
 
-			tmp.setCscode(rs.getInt("cscode"));
+			tmp.setCscode(cscode);
 			tmp.setProvince(rs.getString("province"));
 			tmp.setTown(rs.getString("town"));
 			tmp.setYear(rs.getString("year"));
 			tmp.setMonth(rs.getString("month"));
 			tmp.setDay(rs.getString("day"));
-			tmp.setCarno(rs.getString("carno"));
 			tmp.setPoliceno(rs.getString("policeno"));
-			tmp.setCasulity(rs.getInt("casulity"));
 			tmp.setDead(rs.getInt("dead"));
 			tmp.setInjured(rs.getInt("injured"));
+			tmp.setCasulity();
 			tmp.setActype(rs.getString("actype"));
 			tmp.setLatitude(rs.getFloat("latitude"));
 			tmp.setLongitude(rs.getFloat("longitude"));
@@ -196,7 +199,7 @@ public class AccidentCaseDAO {
 
 
 	ArrayList<AccidentCase> getAll() {
-		AccidentCase a;
+		AccidentCase accCase;
 		int col=0,row=0;
 
 		datas = new ArrayList<AccidentCase>();
@@ -211,22 +214,22 @@ public class AccidentCaseDAO {
 			row = rs.getRow(); rs.beforeFirst();
 
 			while(rs.next()) {
-				a = new AccidentCase();
-				a.setCscode(rs.getInt("cscode"));
-				a.setProvince(rs.getString("province"));
-				a.setTown(rs.getString("town"));
-				a.setYear(rs.getString("year"));
-				a.setMonth(rs.getString("month"));
-				a.setDay(rs.getString("day"));
-				a.setCarno(rs.getString("carno"));
-				a.setPoliceno(rs.getString("policeno"));
-				a.setCasulity(rs.getInt("casulity"));
-				a.setDead(rs.getInt("dead"));
-				a.setInjured(rs.getInt("injured"));
-				a.setActype(rs.getString("actype"));
-				a.setLatitude(rs.getFloat("latitude"));
-				a.setLongitude(rs.getFloat("longitude"));
-				datas.add(a);
+				accCase = new AccidentCase();
+				accCase.setCscode(rs.getInt("cscode"));
+				accCase.setProvince(rs.getString("province"));
+				accCase.setTown(rs.getString("town"));
+				accCase.setYear(rs.getString("year"));
+				accCase.setMonth(rs.getString("month"));
+				accCase.setDay(rs.getString("day"));
+				accCase.setPoliceno(rs.getString("policeno"));
+				accCase.setDead(rs.getInt("dead"));
+				accCase.setInjured(rs.getInt("injured"));
+				accCase.setCasulity();
+				accCase.setActype(rs.getString("actype"));
+				accCase.setLatitude(rs.getDouble("latitude"));
+				accCase.setLongitude(rs.getDouble("longitude"));
+				
+				datas.add(accCase);
 			}
 
 		} catch (SQLException e) {
