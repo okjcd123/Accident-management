@@ -1,10 +1,11 @@
 
 public class Police {
 
-	private String policeno;
-	private String polname;
-	private String rank;
-	private String depart;
+	private String policeno;   //경찰 번호
+	private String polname;    //경찰 이름
+	private String rank;       //경찰 계급
+	private String depart;     //소속 부서
+	private String dpcode;     //소속 부서 코드
 	
 	public String getPoliceno() {
 		return policeno;
@@ -30,6 +31,13 @@ public class Police {
 	public void setDepart(String depart) {
 		this.depart = depart;
 	}
+	public String getDpcode() {
+		return dpcode;
+	}
+	public void setDpcode(String dpcode) {
+		this.dpcode = dpcode;
+	}
 	
+
 }
 
