@@ -8,7 +8,6 @@ public class AccidentCase {
 	private String month;
 	private String day;
 	private String policeno;
-	private String carno;
 	private int casulity; 
 	private int dead;
 	private int injured;
@@ -56,12 +55,6 @@ public class AccidentCase {
 	}
 	public void setPoliceno(String policeno) {
 		this.policeno = policeno;
-	}
-	public String getCarno() {
-		return carno;
-	}
-	public void setCarno(String carno) {
-		this.carno = carno;
 	}
 	public int getCasulity() {
 		return casulity;

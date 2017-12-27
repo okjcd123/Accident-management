@@ -90,7 +90,7 @@ public class AccidentCaseDAO {
 		boolean flag=false; 
 		sql = "insert into accidentcase "
 				+ "(province,town,year,month,day,policeno,carno,casulity,dead,injured,actype,latitude,longitude) "
-				+ "values(?,?,?,?,?,?,?,?,?,?,?,?,?)";
+				+ "values(?,?,?,?,?,?,?,?,?,?,?,?)";
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, info.getProvince());
@@ -99,13 +99,12 @@ public class AccidentCaseDAO {
 			pstmt.setString(4, info.getMonth());
 			pstmt.setString(5, info.getDay());
 			pstmt.setString(6, info.getPoliceno());
-			pstmt.setString(7, info.getCarno());
-			pstmt.setInt(8, info.getCasulity());
-			pstmt.setInt(9, info.getDead());
-			pstmt.setInt(10, info.getInjured());
-			pstmt.setString(11, info.getActype());
-			pstmt.setFloat(12, info.getLatitude());
-			pstmt.setFloat(13, info.getLongitude());
+			pstmt.setInt(7, info.getCasulity());
+			pstmt.setInt(8, info.getDead());
+			pstmt.setInt(9, info.getInjured());
+			pstmt.setString(10, info.getActype());
+			pstmt.setFloat(11, info.getLatitude());
+			pstmt.setFloat(12, info.getLongitude());
 			chk = pstmt.executeUpdate();
 			if(chk>0)
 				flag = true;
@@ -151,7 +150,6 @@ public class AccidentCaseDAO {
 			tmp.setYear(rs.getString("year"));
 			tmp.setMonth(rs.getString("month"));
 			tmp.setDay(rs.getString("day"));
-			tmp.setCarno(rs.getString("carno"));
 			tmp.setPoliceno(rs.getString("policeno"));
 			tmp.setCasulity(rs.getInt("casulity"));
 			tmp.setDead(rs.getInt("dead"));
@@ -171,15 +169,11 @@ public class AccidentCaseDAO {
 	Police getPolice(int cscode) {
 		connectDB();
 		Police pTmp = new Police();
-		AccidentCase ac = new AccidentCase();
 		String nTmp;
-		sql = "select policeno from where cscode = ?";
+		sql = "select * from police where policeno = (select policeno from accidentcase where cscode = ?)";
 		try {
 			pstmt = conn.prepareStatement(sql);
-			rs = pstmt.executeQuery();
-			nTmp = rs.getString("policeno");
-			sql = "select * from police where policeno = ?";
-			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, cscode);
 			rs = pstmt.executeQuery();
 			pTmp.setPoliceno(rs.getString("policeno"));
 			pTmp.setPolname(rs.getString("polname"));
@@ -205,11 +199,7 @@ public class AccidentCaseDAO {
 		try {
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
-			ResultSetMetaData md = rs.getMetaData();
-			col = md.getColumnCount();
-			rs.last();
-			row = rs.getRow(); rs.beforeFirst();
-
+			
 			while(rs.next()) {
 				a = new AccidentCase();
 				a.setCscode(rs.getInt("cscode"));
@@ -218,7 +208,6 @@ public class AccidentCaseDAO {
 				a.setYear(rs.getString("year"));
 				a.setMonth(rs.getString("month"));
 				a.setDay(rs.getString("day"));
-				a.setCarno(rs.getString("carno"));
 				a.setPoliceno(rs.getString("policeno"));
 				a.setCasulity(rs.getInt("casulity"));
 				a.setDead(rs.getInt("dead"));
@@ -233,7 +222,7 @@ public class AccidentCaseDAO {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+		
 		closeDB();
 		return datas;
 	}
