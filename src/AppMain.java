@@ -22,9 +22,6 @@ import javax.swing.ScrollPaneConstants;
 
 public class AppMain extends JFrame{
 
-	
-	AppManager app = new AppManager();
-	
 	private String initText = "<html>버튼 세부사항 보시려면<br/>마우스를 버튼위에 올려주세요</html>";
 	
 	private JLabel[] labels;
@@ -36,7 +33,7 @@ public class AppMain extends JFrame{
 	private JPanel bPanel;
 	private JButton[] btns;
 	
-	//JList---------------------------------------------------------------------------------
+	//JTable---------------------------------------------------------------------------------
 	private JTable table;
 	private JScrollPane scroll;
 	private String [] header = {"사고번호", "시/도", "구/군", "발생연", "월", "일", "사상자", "사망자", "부상자", "사고 유형"};
@@ -45,7 +42,8 @@ public class AppMain extends JFrame{
 	
 	//사고 검색--------------------------------------------------------------------------------
 	private JDialog diaSearch;
-	private JPanel searchPanel;
+	private JPanel searchUpPanel;
+	private JPanel searchDownPanel;
 	
 	private JLabel siDolbl;
 	private JLabel guGunlbl;
@@ -113,7 +111,6 @@ public class AppMain extends JFrame{
 	private	JButton regBtn;
 	
 	//사고 수정/삭제-----------------------------------------------------------------------------------------
-	
 	private JDialog diaUpdate;
 	private JPanel leftUpdatePanel;
 	private JLabel caseNum;			//사건 번호
@@ -248,31 +245,39 @@ public class AppMain extends JFrame{
 	public void search() {
 		
 		diaSearch = new JDialog();
-		diaSearch.setSize(new Dimension(400,300));
+		diaSearch.setSize(400,300);
 		diaSearch.setResizable(false);
+		diaSearch.setLayout(null);
 		diaSearch.setTitle("사고 정보 검색");
 		
-		searchPanel = new JPanel();
-		searchPanel.setBounds(0,0,400,300);
-		searchPanel.setBackground(Color.white);
-		searchPanel.setLayout(null);
-		diaSearch.add(searchPanel);
+		searchUpPanel = new JPanel();
+		searchUpPanel.setBounds(0,0,400,150);
+		searchUpPanel.setBackground(Color.white);
+		searchUpPanel.setLayout(null);
 		
 		siDolbl = new JLabel("시/도");
-		siDolbl.setBounds(0,0,50,150);
-		searchPanel.add(siDolbl);
-		
-		guGunlbl = new JLabel("군/구");
-		guGunlbl.setBounds(0,150,50,150);
-		searchPanel.add(guGunlbl);
+		siDolbl.setBounds(0,40,50,50);
+		searchUpPanel.add(siDolbl);
 		
 		siDo = new JComboBox();
-		siDo.setBounds(50,0,250,50);
-		searchPanel.add(siDo);
+		siDo.setBounds(100,40,250,50);
+		searchUpPanel.add(siDo);
+		
+		searchDownPanel = new JPanel();
+		searchDownPanel.setBounds(0,150,400,150);
+		searchDownPanel.setBackground(Color.white);
+		searchDownPanel.setLayout(null);
+		
+		guGunlbl = new JLabel("군/구");
+		guGunlbl.setBounds(0,0,50,50);
+		searchDownPanel.add(guGunlbl);
 		
 		guGun = new JComboBox();
-		guGun.setBounds(50,150,250,50);
-		searchPanel.add(guGun);
+		guGun.setBounds(100,0,250,50);
+		searchDownPanel.add(guGun);
+		
+		diaSearch.add(searchUpPanel);
+		diaSearch.add(searchDownPanel);
 		
 		diaSearch.setVisible(true);
 	}
