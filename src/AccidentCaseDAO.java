@@ -6,7 +6,7 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.*;
 import javax.swing.JTable;
-public class AccidentDataDAO {
+public class AccidentCaseDAO {
 
 	String jdbcDriver = "com.mysql.jdbc.Driver";
 	String jdbcUrl = "jdbc:mysql://localhost/javadb";//mysql이 연결 안되는 관계로 강의자료값을 넣었습니다.
@@ -16,7 +16,7 @@ public class AccidentDataDAO {
 	ResultSet rs;
 
 	String sql;
-	ArrayList<AccidentData> datas;
+	ArrayList<AccidentCase> datas;
 
 	//DB연결
 	void connectDB(){
@@ -83,11 +83,64 @@ public class AccidentDataDAO {
 		return rowCnt;
 	}
 
+	boolean insertCase(AccidentCase info) {
+		connectDB();
+		int chk;
+		boolean flag=false; 
+		sql = "insert into accidentcase "
+				+ "(province,town,year,month,day,policeno,carno,casulity,dead,injured,actype,latitude,longitude) "
+				+ "values(?,?,?,?,?,?,?,?,?,?,?,?,?)";
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, info.getProvince());
+			pstmt.setString(2, info.getTown());
+			pstmt.setString(3, info.getYear());
+			pstmt.setString(4, info.getMonth());
+			pstmt.setString(5, info.getDay());
+			pstmt.setString(6, info.getPoliceno());
+			pstmt.setString(7, info.getCarno());
+			pstmt.setInt(8, info.getCasulity());
+			pstmt.setInt(9, info.getDead());
+			pstmt.setInt(10, info.getInjured());
+			pstmt.setString(11, info.getActype());
+			pstmt.setFloat(12, info.getLatitude());
+			pstmt.setFloat(13, info.getLongitude());
+			chk = pstmt.executeUpdate();
+			if(chk>0)
+				flag = true;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		closeDB();
+		return flag;
+	}
+	
+	boolean deleteCase(int cscode) {
+		connectDB();
+		sql = "delete from accidentcase where cscode = ?";
+		int chk;
+		boolean flag = false;
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, cscode);
+			chk = pstmt.executeUpdate();
+			if(chk>0)
+				flag = true;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		closeDB();
+		return flag;
+	}
 
-	ArrayList<AccidentData> getAll() {
-		AccidentData a;
+	ArrayList<AccidentCase> getAll() {
+		AccidentCase a;
 		int col=0,row=0;
 
+		datas = new ArrayList<AccidentCase>();
 		connectDB();
 		sql = "select * from accidentcase";
 		try {
@@ -99,19 +152,21 @@ public class AccidentDataDAO {
 			row = rs.getRow(); rs.beforeFirst();
 
 			while(rs.next()) {
-				a = new AccidentData();
+				a = new AccidentCase();
 				a.setCscode(rs.getInt("cscode"));
 				a.setProvince(rs.getString("province"));
 				a.setTown(rs.getString("town"));
-				a.setDate(rs.getDate("date"));
+				a.setYear(rs.getString("year"));
+				a.setMonth(rs.getString("month"));
+				a.setDay(rs.getString("day"));
 				a.setCarno(rs.getString("carno"));
-				a.setPolno(rs.getString("polno"));
-				a.setCasualty(rs.getInt("casualty"));
+				a.setPoliceno(rs.getString("policeno"));
+				a.setCasulity(rs.getInt("casulity"));
 				a.setDead(rs.getInt("dead"));
 				a.setInjured(rs.getInt("injured"));
-				a.setType(rs.getString("type"));
-				a.setLatitude(rs.getDouble("latitude"));
-				a.setLongitude(rs.getDouble("longitude"));
+				a.setActype(rs.getString("actype"));
+				a.setLatitude(rs.getFloat("latitude"));
+				a.setLongitude(rs.getFloat("longitude"));
 				datas.add(a);
 			}
 
