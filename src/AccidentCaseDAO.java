@@ -9,6 +9,7 @@ import javax.swing.JTable;
 public class AccidentCaseDAO {
 
 	String jdbcDriver = "com.mysql.jdbc.Driver";
+	
 	String jdbcUrl = "jdbc:mysql://localhost/javadb";//mysql이 연결 안되는 관계로 강의자료값을 넣었습니다.
 	Connection conn;
 
@@ -18,13 +19,11 @@ public class AccidentCaseDAO {
 	String sql;
 	ArrayList<AccidentCase> datas;
 
-
 	//DB연결
 	void connectDB(){
 		try {
 			Class.forName(jdbcDriver);
-
-			conn = DriverManager.getConnection(jdbcUrl,"javabook","1234");
+			conn = DriverManager.getConnection(jdbcUrl,"heeho","1234");
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -33,6 +32,7 @@ public class AccidentCaseDAO {
 			e.printStackTrace();
 		}
 	}
+	
 	//DB 닫기
 	void closeDB(){
 		try {
@@ -88,9 +88,7 @@ public class AccidentCaseDAO {
 		connectDB();
 		int chk;
 		boolean flag=false; 
-		sql = "insert into accidentcase "
-				+ "(province,town,year,month,day,policeno,dead,injured,actype,latitude,longitude) "
-				+ "values(?,?,?,?,?,?,?,?,?,?,?,?,?)";
+		sql = "insert into accidentcase(province,town,year,month,day,policeno,dead,injured,actype,latitude,longitude) values(?,?,?,?,?,?,?,?,?,?,?)";
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, info.getProvince());
@@ -196,22 +194,49 @@ public class AccidentCaseDAO {
 		closeDB();
 		return pTmp;
 	}
-
+	
+	String getPolCode(String dpcode)
+	{
+	
+		int num = 0;
+		Vector<String> list = new Vector<String>();
+		
+		connectDB();
+		sql = "select * from police where dpcode = ? ";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, dpcode);
+			rs = pstmt.executeQuery();
+				
+			while(rs.next())
+			{
+				list.add(rs.getString("policeno"));
+			}
+			
+			num = list.size();
+			if(num>0)
+				return list.get((int) (Math.random()*num));
+			else
+				return "NULL";
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		closeDB();
+		return "NULL";
+	}
 
 	ArrayList<AccidentCase> getAll() {
+		
 		AccidentCase accCase;
-		int col=0,row=0;
-
 		datas = new ArrayList<AccidentCase>();
 		connectDB();
 		sql = "select * from accidentcase";
 		try {
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
-			ResultSetMetaData md = rs.getMetaData();
-			col = md.getColumnCount();
-			rs.last();
-			row = rs.getRow(); rs.beforeFirst();
 
 			while(rs.next()) {
 				accCase = new AccidentCase();
