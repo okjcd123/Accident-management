@@ -8,9 +8,12 @@ import java.util.*;
 import javax.swing.JTable;
 public class AccidentCaseDAO {
 
-	String jdbcDriver = "com.mysql.jdbc.Driver";
+	String DBid = "heeho";
+	String DBpw = "1234";
 	
+	String jdbcDriver = "com.mysql.jdbc.Driver";
 	String jdbcUrl = "jdbc:mysql://localhost/javadb";//mysql이 연결 안되는 관계로 강의자료값을 넣었습니다.
+	
 	Connection conn;
 
 	PreparedStatement pstmt;
@@ -23,7 +26,7 @@ public class AccidentCaseDAO {
 	void connectDB(){
 		try {
 			Class.forName(jdbcDriver);
-			conn = DriverManager.getConnection(jdbcUrl,"heeho","1234");
+			conn = DriverManager.getConnection(jdbcUrl,DBid,DBpw);
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -127,6 +130,7 @@ public class AccidentCaseDAO {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, cscode);
 			chk = pstmt.executeUpdate();
+			
 			if(chk>0)
 				flag = true;
 		} catch (SQLException e) {
@@ -137,6 +141,47 @@ public class AccidentCaseDAO {
 		return flag;
 	}
 
+	ArrayList<AccidentCase> searchCase(String province, String town)
+	{
+		AccidentCase accCase;
+		datas = new ArrayList<AccidentCase>();
+		connectDB();
+		sql = "select * from accidentcase where province = ? && town = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			pstmt.setString(1, province);
+			pstmt.setString(2, town);
+
+			while(rs.next()) {
+				accCase = new AccidentCase();
+				accCase.setCscode(rs.getInt("cscode"));
+				accCase.setProvince(rs.getString("province"));
+				accCase.setTown(rs.getString("town"));
+				accCase.setYear(rs.getString("year"));
+				accCase.setMonth(rs.getString("month"));
+				accCase.setDay(rs.getString("day"));
+				accCase.setPoliceno(rs.getString("policeno"));
+				accCase.setDead(rs.getInt("dead"));
+				accCase.setInjured(rs.getInt("injured"));
+				accCase.setCasulity();
+				accCase.setActype(rs.getString("actype"));
+				accCase.setLatitude(rs.getDouble("latitude"));
+				accCase.setLongitude(rs.getDouble("longitude"));
+				
+				datas.add(accCase);
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		closeDB();
+		return datas;
+	}	
+	
 	AccidentCase getCase(int cscode) 
 	{
 		connectDB();
@@ -169,35 +214,34 @@ public class AccidentCaseDAO {
 		return tmp;
 	}
 
-	Police getPolice(int cscode) {
-		connectDB();
-		Police pTmp = new Police();
-		AccidentCase ac = new AccidentCase();
-		String nTmp;
-		sql = "select policeno from where cscode = ?";
-		try {
-			pstmt = conn.prepareStatement(sql);
-			rs = pstmt.executeQuery();
-			nTmp = rs.getString("policeno");
-			sql = "select * from police where policeno = ?";
-			pstmt = conn.prepareStatement(sql);
-			rs = pstmt.executeQuery();
-			pTmp.setPoliceno(rs.getString("policeno"));
-			pTmp.setPolname(rs.getString("polname"));
-			pTmp.setRank(rs.getString("rank"));
-			pTmp.setDepart(rs.getString("depart"));
-
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		closeDB();
-		return pTmp;
-	}
+//	Police getPolice(int cscode) {
+//		connectDB();
+//		Police pTmp = new Police();
+//		AccidentCase ac = new AccidentCase();
+//		String nTmp;
+//		sql = "select policeno from where cscode = ?";
+//		try {
+//			pstmt = conn.prepareStatement(sql);
+//			rs = pstmt.executeQuery();
+//			nTmp = rs.getString("policeno");
+//			sql = "select * from police where policeno = ?";
+//			pstmt = conn.prepareStatement(sql);
+//			rs = pstmt.executeQuery();
+//			pTmp.setPoliceno(rs.getString("policeno"));
+//			pTmp.setPolname(rs.getString("polname"));
+//			pTmp.setRank(rs.getString("rank"));
+//			pTmp.setDepart(rs.getString("depart"));
+//
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		closeDB();
+//		return pTmp;
+//	}
 	
 	String getPolCode(String dpcode)
 	{
-	
 		int num = 0;
 		Vector<String> list = new Vector<String>();
 		
@@ -215,17 +259,18 @@ public class AccidentCaseDAO {
 			}
 			
 			num = list.size();
-			if(num>0)
-				return list.get((int) (Math.random()*num));
-			else
-				return "NULL";
+
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		closeDB();
-		return "NULL";
+		
+		if(num>0)
+			return list.get((int) (Math.random()*num));
+		else
+			return "NULL";
 	}
 
 	ArrayList<AccidentCase> getAll() {
