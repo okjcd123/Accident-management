@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="lib/DJNativeSwing-SWT.jar"/>
+	<classpathentry kind="lib" path="lib/DJNativeSwing-SWTDemo.jar"/>
+	<classpathentry kind="lib" path="lib/DJNativeSwing.jar"/>
+	<classpathentry kind="lib" path="lib/jna_WindowUtils.jar"/>
+	<classpathentry kind="lib" path="lib/jna-4.0.0.jar"/>
+	<classpathentry kind="lib" path="lib/MozillaInterfaces-1.8.1.3.jar"/>
+	<classpathentry kind="lib" path="lib/swt-debug.jar"/>
+	<classpathentry kind="lib" path="lib/swt.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
