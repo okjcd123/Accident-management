@@ -7,6 +7,9 @@ public class Execute {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		new AppMain();
+		new AppController();
+		new AccidentCaseDAO();
+		
 	//	new ParsingAccidentData();
 	}
 }

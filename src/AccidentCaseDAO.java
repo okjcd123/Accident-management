@@ -22,6 +22,10 @@ public class AccidentCaseDAO {
 	String sql;
 	ArrayList<AccidentCase> datas;
 
+	public AccidentCaseDAO()
+	{
+		AppManager.CreateInstance().setAccidentCaseDAO(this);
+	}
 	//DB¿¬°á
 	void connectDB(){
 		try {
