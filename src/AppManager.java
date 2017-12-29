@@ -1,11 +1,16 @@
 
 public class AppManager {
+	
 	private static AppManager s_instance;
 	
 	private AppMain m_appMain;
 	private AppController m_appController;
 	private AccidentCaseDAO m_accidentCaseDAO;
 	
+	private AppManager()
+	{
+		 s_instance =null;
+	}
 	public AppMain getAppMain() {
 		return m_appMain;
 	}
@@ -35,8 +40,12 @@ public class AppManager {
 		if(s_instance == null)
 		{
 			s_instance = new AppManager();
+			return s_instance;
 		}
-		return s_instance;
+		else
+		{
+			return s_instance;		
+		}
 	}
 	
 }

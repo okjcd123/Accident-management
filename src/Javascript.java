@@ -32,7 +32,7 @@ public class Javascript {
   	            "var seoul = {lat: 37.566, lng: 126.978};\r\n" + 							//지도 중앙 위치 초기화
   	            "function initMap() {\r\n" + 
   	            "	map = new google.maps.Map(document.getElementById('map'), {\r\n" + 		//googeAPI map 으로 설정
-  	            "       zoom: 12," + 														//zoom 범위 1-20 중 12설정
+  	            "       zoom: 9," + 														//zoom 범위 1-20 중 12설정
   	            "       center: seoul"+														//중앙은 서울로 지정
   	            "   });\r\n" +	
   	            "var icon1 = {\r\n" + 														//병원 아이콘 옵션 지정

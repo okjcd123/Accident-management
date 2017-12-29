@@ -32,7 +32,7 @@ public class DetailInfo extends JDialog{
 	
 	private JPanel infoPanel;
 	
-	public DetailInfo()
+	public DetailInfo(int accNum)
 	{
 		primary = new JPanel();
 		primary.setLayout(null);

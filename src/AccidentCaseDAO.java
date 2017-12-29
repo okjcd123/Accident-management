@@ -50,7 +50,6 @@ public class AccidentCaseDAO {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 	}
 
 	int entireColNum() {
@@ -168,8 +167,8 @@ public class AccidentCaseDAO {
 			accCase.setInjured(rs.getInt("injured"));
 			accCase.setCasulity();
 			accCase.setActype(rs.getString("actype"));
-			accCase.setLatitude(rs.getFloat("latitude"));
-			accCase.setLongitude(rs.getFloat("longitude"));
+			accCase.setLatitude(rs.getDouble("latitude"));
+			accCase.setLongitude(rs.getDouble("longitude"));
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
