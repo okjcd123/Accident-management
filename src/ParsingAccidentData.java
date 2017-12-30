@@ -1,5 +1,6 @@
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.Vector;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -10,39 +11,49 @@ public class ParsingAccidentData {
 
 		ParsingAccidentData()
 		{
+			// JSON 데이터가 저장된 url 주소를 저장하는 String 배열
 			String url[] = new String[9];
-			//2016
-			url[0] = new String();
+			
+			//2016 년도
+			url[0] = new String();  //서울
 			url[0] = "http://apis.data.go.kr/B552061/trafficAccidentDeath/getRestTrafficAccidentDeath?servicekey=2%2BbS76NE8TFgiPqTxDyXneu97RYUJJxFo3c1K5FHwD5tja3W8etlkdp6jXOr9zHl6xAZJB9LUaLrcEudogq5iQ%3D%3D&searchYear=2016&siDo=1100&guGun=";
-			url[1] = new String();
+			url[1] = new String();  //경기도
 			url[1] = "http://apis.data.go.kr/B552061/trafficAccidentDeath/getRestTrafficAccidentDeath?servicekey=2%2BbS76NE8TFgiPqTxDyXneu97RYUJJxFo3c1K5FHwD5tja3W8etlkdp6jXOr9zHl6xAZJB9LUaLrcEudogq5iQ%3D%3D&searchYear=2016&siDo=1300&guGun=";
-			url[2] = new String();
+			url[2] = new String();  //인천광역시
 			url[2] = "http://apis.data.go.kr/B552061/trafficAccidentDeath/getRestTrafficAccidentDeath?servicekey=2%2BbS76NE8TFgiPqTxDyXneu97RYUJJxFo3c1K5FHwD5tja3W8etlkdp6jXOr9zHl6xAZJB9LUaLrcEudogq5iQ%3D%3D&searchYear=2016&siDo=2300&guGun=";
 	
 			//2015
-			url[3] = new String();
+			url[3] = new String();  //서울
 			url[3] = "http://apis.data.go.kr/B552061/trafficAccidentDeath/getRestTrafficAccidentDeath?servicekey=2%2BbS76NE8TFgiPqTxDyXneu97RYUJJxFo3c1K5FHwD5tja3W8etlkdp6jXOr9zHl6xAZJB9LUaLrcEudogq5iQ%3D%3D&searchYear=2015&siDo=1100&guGun=";
-			url[4] = new String();
+			url[4] = new String();  //경기도
 			url[4] = "http://apis.data.go.kr/B552061/trafficAccidentDeath/getRestTrafficAccidentDeath?servicekey=2%2BbS76NE8TFgiPqTxDyXneu97RYUJJxFo3c1K5FHwD5tja3W8etlkdp6jXOr9zHl6xAZJB9LUaLrcEudogq5iQ%3D%3D&searchYear=2015&siDo=1300&guGun=";
-			url[5] = new String();
+			url[5] = new String();  //인천광역시
 			url[5] = "http://apis.data.go.kr/B552061/trafficAccidentDeath/getRestTrafficAccidentDeath?servicekey=2%2BbS76NE8TFgiPqTxDyXneu97RYUJJxFo3c1K5FHwD5tja3W8etlkdp6jXOr9zHl6xAZJB9LUaLrcEudogq5iQ%3D%3D&searchYear=2015&siDo=2300&guGun=";
 	
 			//2014
-			url[6] = new String();
+			url[6] = new String();   //서울
 			url[6] = "http://apis.data.go.kr/B552061/trafficAccidentDeath/getRestTrafficAccidentDeath?servicekey=2%2BbS76NE8TFgiPqTxDyXneu97RYUJJxFo3c1K5FHwD5tja3W8etlkdp6jXOr9zHl6xAZJB9LUaLrcEudogq5iQ%3D%3D&searchYear=2014&siDo=1100&guGun=";
-			url[7] = new String();
+			url[7] = new String();   //경기도
 			url[7] = "http://apis.data.go.kr/B552061/trafficAccidentDeath/getRestTrafficAccidentDeath?servicekey=2%2BbS76NE8TFgiPqTxDyXneu97RYUJJxFo3c1K5FHwD5tja3W8etlkdp6jXOr9zHl6xAZJB9LUaLrcEudogq5iQ%3D%3D&searchYear=2014&siDo=1300&guGun=";
-			url[8] = new String();
+			url[8] = new String();   //인천광역시
 			url[8] = "http://apis.data.go.kr/B552061/trafficAccidentDeath/getRestTrafficAccidentDeath?servicekey=2%2BbS76NE8TFgiPqTxDyXneu97RYUJJxFo3c1K5FHwD5tja3W8etlkdp6jXOr9zHl6xAZJB9LUaLrcEudogq5iQ%3D%3D&searchYear=2014&siDo=2300&guGun=";
 	
 			
-			JSONParser parser = new JSONParser();
+			// Parsing을 진행할 Parser 생성
+			JSONParser parser = new JSONParser(); 
+			
+			// 특정 웹 주소를 가리키는 URL 객체
 			URL postUrl;
+			
+			// 출력 스트림 생성
 			InputStreamReader isr;
-			JSONObject object, object2;
+			
+			//JSON 형식 데이터를 저장하는 객체
+			JSONObject jsonObj;
+			//JSON 형식의 데이터를 문자열을 저장하는 String
 			String jsonStr;
-			Object obj;
-			JSONArray jsonarr ;
+	
+			JSONArray jsonArr;
 		
 			AccidentCaseDAO dao = new AccidentCaseDAO();
 			
@@ -50,42 +61,48 @@ public class ParsingAccidentData {
 			{
 				for(int i =0 ; i<9; i++)
 				{
+					// url[i] 주소를 갖는 웹을 가리키는 postUrl
 					postUrl = new URL(url[i]);
-	
+					
+					//postUrl로 부터 "UTF-8" 형식의 문자가져옴
 					isr = new InputStreamReader(postUrl.openConnection().getInputStream(), "UTF-8");
-					object = (JSONObject) JSONValue.parseWithException(isr);
 					
-					System.out.println(object.toString());
-					object2 = (JSONObject) object.get("searchResult");
-					
-					jsonStr = object2.get("accidentDeath").toString();
-			 		obj = parser.parse(jsonStr);
-			 		jsonarr = (JSONArray) obj;
+					//키 searchResult에 해당하는 값 jsonObject에 저장
+					jsonObj = (JSONObject)((JSONObject)JSONValue.parseWithException(isr)).get("searchResult");
+					//키 accidentDeath에 해당하는 문자열을 jsonStr에 저장
+					jsonStr = jsonObj.get("accidentDeath").toString();
+					System.out.println(jsonObj.get("accidentDeath").toString());
+		
+			 		//파싱한 결과러 JSONobject 여러개를 JSONarray에 저장
+			 		jsonArr = (JSONArray)parser.parse(jsonStr);
 	
+			 		//사고사례를 저장할 객체 생성
 			 		AccidentCase accCase = new AccidentCase();
-	
-			 		for (int j = 0; j < jsonarr.size(); j++) 
+			 		//JSON 배열에서 하나를 꺼내 저장할  JSON 객체
+			 		
+	 				JSONObject jObj;
+			 		
+			 		for (int j = 0; j < jsonArr.size(); j++) 
 			 		{
-			 				JSONObject jobj = new JSONObject(); 
-			 				jobj = (JSONObject) jsonarr.get(j);
+			 				jObj = (JSONObject) jsonArr.get(j);
 			                
-			 				accCase.setProvince(funcProvince((String) jobj.get("cd_003_lv1")));
-			 				accCase.setTown(funcTown((String)jobj.get("cd_003"))); 
+			 				accCase.setProvince(funcProvince((String) jObj.get("cd_003_lv1")));
+			 				accCase.setTown(funcTown((String)jObj.get("cd_003"))); 
 			 				
-			 				String date = (String)jobj.get("dt_006");
+			 				String date = (String)jObj.get("dt_006");
 			 				accCase.setYear(date.substring(0,4));
 			 				accCase.setMonth(date.substring(4,6));
 			 				accCase.setDay(date.substring(6,8));
 			 				
-			 				accCase.setPoliceno(dao.getPolCode((String)jobj.get("cd_003"))); 
+			 				accCase.setPoliceno(dao.getPolCode((String)jObj.get("cd_003"))); 
 			 				
-			 				accCase.setDead(((Long)jobj.get("no_010")).intValue());
-			 				accCase.setInjured(((Long)jobj.get("injpsn_co")).intValue());
+			 				accCase.setDead(((Long)jObj.get("no_010")).intValue());
+			 				accCase.setInjured(((Long)jObj.get("injpsn_co")).intValue());
 			 				accCase.setCasulity();
 			 				
-			 				accCase.setActype(funcAcctype((String) jobj.get("cd_014_lv1")));
-			 				accCase.setLatitude(Double.parseDouble((String)jobj.get("grd_la")));
-			 				accCase.setLongitude(Double.parseDouble((String)jobj.get("grd_lo")));
+			 				accCase.setActype(funcAcctype((String) jObj.get("cd_014_lv1")));
+			 				accCase.setLatitude(Double.parseDouble((String)jObj.get("grd_la")));
+			 				accCase.setLongitude(Double.parseDouble((String)jObj.get("grd_lo")));
 			 				
 			 				dao.insertCase(accCase);
 			 				System.out.println("시도:"+accCase.getProvince());
@@ -100,8 +117,7 @@ public class ParsingAccidentData {
 			 				System.out.println("사고유형:" + accCase.getActype());
 			                System.out.println("경도:" + accCase.getLongitude());
 			                System.out.println("위도:" + accCase.getLatitude());
-			              
-			              
+			   
 			 			}
 				}
 			
@@ -289,7 +305,7 @@ public class ParsingAccidentData {
 	
 	private String funcAcctype(String code)
 	{
-		String acctype[] = {"차대차","차대사람","차량단독"};
+		String acctype[] = {"차대사람","차대차","차량단독"};
 		
 		if(code.equals("01"))
 			return acctype[0];
