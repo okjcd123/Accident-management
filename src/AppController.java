@@ -2,6 +2,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -23,7 +24,7 @@ public class AppController {
 	protected String[] day = {"일","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15",
 			"16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31"};
 	
-	
+
 	public AppController()
 	{
 		searchUpdateFlag = false;
@@ -79,11 +80,25 @@ public class AppController {
 						JButton btn = (JButton)e.getSource();
 						if(btn == AppManager.CreateInstance().getAppMain().searchButton)
 						{
+							ArrayList <AccidentCase> outputDatas = new ArrayList<AccidentCase>();
 							//데이터 받아오기
+							String pro = (String)AppManager.CreateInstance().getAppMain().siDo.getSelectedItem();
+							String tow = (String)AppManager.CreateInstance().getAppMain().guGun.getSelectedItem();
 							
+							outputDatas = AppManager.CreateInstance().getAccidentCaseDAO().searchCaseLoca(pro, tow);
 							// 출력 절차
 							
-							System.out.println("해해");
+							AppManager.CreateInstance().getAppMain().basicTable.setRowCount(0);
+							//Table 데이터 다시 채우기
+							for(AccidentCase outputCase: outputDatas)
+							{
+								String [] temp = {Integer.toString(outputCase.getCscode()),
+										outputCase.getProvince(),outputCase.getTown(), outputCase.getYear(),
+										outputCase.getMonth(), outputCase.getDay(),Integer.toString(outputCase.getCasulity()),
+										Integer.toString(outputCase.getDead()),Integer.toString(outputCase.getInjured()),
+										outputCase.getActype()};
+								AppManager.CreateInstance().getAppMain().basicTable.addRow(temp);				
+							}
 							AppManager.CreateInstance().getAppMain().diaSearch.dispose();			
 						}
 					}
@@ -134,16 +149,26 @@ public class AppController {
 							tempCase.setActype((String)AppManager.CreateInstance().getAppMain().accType.getSelectedItem());
 							tempCase.setLatitude(Double.parseDouble(AppManager.CreateInstance().getAppMain().lati.getText()));
 							tempCase.setLongitude(Double.parseDouble(AppManager.CreateInstance().getAppMain().longi.getText()));
-							//AppManager.CreateInstance().getAccidentCaseDAO().insertCase(tempCase);
+							
+							AppManager.CreateInstance().getAccidentCaseDAO().insertCase(tempCase);
 							AppManager.CreateInstance().getAppMain().dia.dispose();
 							
-							//가져오는 부분 보류--------------------------------------------------------------------------------
+							//가져오는 부분--------------------------------------------------------------------------------
 							
+							int maxIndex = AppManager.CreateInstance().getAccidentCaseDAO().getNewCaseCode();
+							AccidentCase outputCase = new AccidentCase();
+							outputCase = AppManager.CreateInstance().getAccidentCaseDAO().getCase(maxIndex);
+							String [] temp = {Integer.toString(outputCase.getCscode()),
+									outputCase.getProvince(),outputCase.getTown(), outputCase.getYear(),
+									outputCase.getMonth(), outputCase.getDay(),Integer.toString(outputCase.getCasulity()),
+									Integer.toString(outputCase.getDead()),Integer.toString(outputCase.getInjured()),
+									outputCase.getActype()};
+						
 							//Table 초기화
 							AppManager.CreateInstance().getAppMain().basicTable.setRowCount(0);
 							//Table 데이터 다시 채우기
-							AppManager.CreateInstance().getAppMain().basicTable.addRow(contents[0]);
-							
+							AppManager.CreateInstance().getAppMain().basicTable.addRow(temp);
+							AppManager.CreateInstance().getAppMain().dia.dispose();
 						}		
 						
 					}
@@ -194,6 +219,10 @@ public class AppController {
 								AppManager.CreateInstance().getAppMain().accTypeUpdate.setSelectedItem(temp.getActype());
 								AppManager.CreateInstance().getAppMain().latiUpdate.setText(Double.toString(temp.getLatitude()));
 								AppManager.CreateInstance().getAppMain().longiUpdate.setText(Double.toString(temp.getLongitude()));
+							}
+							else
+							{
+								
 							}
 						}
 						
