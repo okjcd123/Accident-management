@@ -8,8 +8,11 @@ import java.util.*;
 import javax.swing.JTable;
 public class AccidentCaseDAO {
 
-	String DBid = "heeho";
-	String DBpw = "1234";
+	//String DBid = "heeho";
+	//String DBpw = "1234";
+	
+	String DBid;
+	String DBpw;
 	
 	String jdbcDriver = "com.mysql.jdbc.Driver";
 	String jdbcUrl = "jdbc:mysql://localhost/javadb";//mysql이 연결 안되는 관계로 강의자료값을 넣었습니다.
@@ -26,6 +29,26 @@ public class AccidentCaseDAO {
 	{
 		AppManager.CreateInstance().setAccidentCaseDAO(this);
 	}
+	
+	boolean connectTest(String id, String pw)
+	{
+		try {
+			Class.forName(jdbcDriver);
+			DriverManager.getConnection(jdbcUrl,id,pw);
+			this.DBid= id;
+			this.DBpw = pw;
+			return true;
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+			return false;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
+	
 	//DB연결
 	void connectDB(){
 
