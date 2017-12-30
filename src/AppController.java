@@ -235,17 +235,47 @@ public class AppController {
 					public void actionPerformed(ActionEvent arg0)
 					{
 						Object obj = arg0.getSource();
-						if(obj == AppManager.CreateInstance().getAppMain().updateButton)
+						if(obj == AppManager.CreateInstance().getAppMain().updateButton && searchUpdateFlag == true)
 						{
-							//번호 가져오기
+							
+							//모든 정보 가져와서 tempCase 에 저장하기.
+							AccidentCase tempCase = new AccidentCase();
+							
+							tempCase.setCscode(Integer.parseInt(AppManager.CreateInstance().getAppMain().caseNum.getText()));
+							tempCase.setProvince((String)AppManager.CreateInstance().getAppMain().pro.getSelectedItem());
+							tempCase.setTown((String)AppManager.CreateInstance().getAppMain().tow.getSelectedItem());
+							tempCase.setYear((String)AppManager.CreateInstance().getAppMain().yearcb.getSelectedItem());
+							tempCase.setMonth((String)AppManager.CreateInstance().getAppMain().monthcb.getSelectedItem());
+							tempCase.setDay((String)AppManager.CreateInstance().getAppMain().daycb.getSelectedItem());
+							tempCase.setPoliceno((String)AppManager.CreateInstance().getAppMain().polno.getText());
+							tempCase.setDead(Integer.parseInt(AppManager.CreateInstance().getAppMain().dead.getText()));
+							tempCase.setInjured(Integer.parseInt(AppManager.CreateInstance().getAppMain().injured.getText()));
+							tempCase.setCasulity();
+							tempCase.setActype((String)AppManager.CreateInstance().getAppMain().accType.getSelectedItem());
+							tempCase.setLatitude(Double.parseDouble(AppManager.CreateInstance().getAppMain().lati.getText()));
+							tempCase.setLongitude(Double.parseDouble(AppManager.CreateInstance().getAppMain().longi.getText()));
+							
+							//tempCase 업데이트 실시
+							
 							AppManager.CreateInstance().getAppMain().diaUpdate.dispose();
 							searchUpdateFlag = false;					
 						}
-						else if(obj == AppManager.CreateInstance().getAppMain().deleteButton)
+						else if(obj == AppManager.CreateInstance().getAppMain().deleteButton && searchUpdateFlag == true)
 						{
-							//번호 가져오기
-							AppManager.CreateInstance().getAppMain().diaUpdate.dispose();
-							searchUpdateFlag = false;
+							boolean delSuccess;
+							delSuccess = AppManager.CreateInstance().getAccidentCaseDAO().deleteCase(Integer.parseInt(AppManager.CreateInstance().getAppMain().caseNum.getText()));
+							
+							if(delSuccess == true)
+							{
+								//화면 CardLayout 으로 사진 으로 전환
+								searchUpdateFlag = false;
+								AppManager.CreateInstance().getAppMain().diaUpdate.dispose();	
+							}
+							else
+							{	
+								//실패 메세지 출력.
+							}
+							
 						}
 					}
 					

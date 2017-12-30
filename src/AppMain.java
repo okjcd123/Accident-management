@@ -1,5 +1,13 @@
 
+//table 전환작업 필요
+//등록, 삭제 디테일 잡기
+//Detail info 개요 측면 잡기
+//Analysis 틀 잡기
+//Detail info, Analysis 버튼 이벤트 클래스 별도 생성
+
+import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Container;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -33,8 +41,14 @@ public class AppMain extends JFrame{
 
 	//기본 옵션 패널 라벨----------------------------------------------------------------------
 	protected JPanel[] panels;
-	protected JPanel primary;
 	protected JLabel[] labels;
+	
+	protected CardLayout cardLayout = new CardLayout();
+	protected JPanel primary;
+	protected Container cardPanel = new JPanel();
+	protected JPanel tablePanel = new JPanel();
+	protected JPanel imagePanel = new JPanel();
+	protected JLabel imageLabel = new JLabel();
 	
 	//버튼----------------------------------------------------------------------------------
 	protected JPanel bPanel;
@@ -113,7 +127,7 @@ public class AppMain extends JFrame{
 	
 	//하단 패널
 	protected JPanel subPanel;
-	protected	JButton regBtn = new JButton("등록");
+	protected JButton regBtn = new JButton("등록");
 	
 	//사고 수정/삭제-----------------------------------------------------------------------------------------
 	protected JDialog diaUpdate;
@@ -130,7 +144,7 @@ public class AppMain extends JFrame{
 	protected JPanel rightUpdatePanel;
 	
 	protected JPanel searchCaseNumPanel;	//케이스 검색 패널
-	protected JTextField caseNumTxt;		//사건 번호 입력란
+	protected JTextField caseNumTxt = new JTextField();		//사건 번호 입력란
 	protected JButton searchUpdateBtn = new JButton("검색");	//사건 번호 검색;		//사건 번호 검색
 	
 	protected JTextField polnoUpdate = new JTextField(10);
@@ -222,8 +236,19 @@ public class AppMain extends JFrame{
 		
 		primary.add(bPanel);
 		
-		//Table 관련 사항------------------------------------------------------------------------------
-	
+		//Table과 기본 이미지 관련 사항------------------------------------------------------------------------------
+		
+		cardPanel.setBounds(20,110,1260,510);
+		cardPanel.setLayout(cardLayout);
+		
+		imagePanel.setBounds(0,0,1260,510);
+		//이미지 추가 예정 
+		imageLabel.setBounds(0,0,1260,510);
+		imagePanel.add(imageLabel);
+		
+		//table 관련 사항 만들기
+		tablePanel.setBounds(0,0,1260,510);
+		tablePanel.setLayout(null);
 		for(int i =0; i<header.length; i++)
 		{
 			basicTable.addColumn(header[i]);	
@@ -234,11 +259,18 @@ public class AppMain extends JFrame{
 		}
 		scroll = new JScrollPane();
 		scroll.setViewportView(table);
-      	scroll.setBounds(20,110,1260, 510);
-      	scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS); //가로바정책
+      	//scroll.setBounds(20,110,1260, 510);
+      	scroll.setBounds(0,0,1260,510);
+		scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS); //가로바정책
       	scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS); //가로바정책
-      	primary.add(scroll);
-		
+      	tablePanel.add(scroll);
+      	
+      	cardPanel.add(tablePanel, "table");
+      	cardPanel.add(imagePanel, "image");
+      	cardLayout.show(cardPanel,"table");		
+      	
+      	primary.add(cardPanel);
+      	
 		add(primary);
 		setVisible(true);
 	}
@@ -411,7 +443,6 @@ public class AppMain extends JFrame{
 		
 		//사건 번호 입력 부분
 		searchCaseNumPanel = new JPanel(new GridLayout(1,2));	//케이스 검색 패널
-		caseNumTxt = new JTextField(10);		//사건 번호 입력란
 		
 		searchCaseNumPanel.add(caseNumTxt);
 		searchCaseNumPanel.add(searchUpdateBtn);
