@@ -131,268 +131,273 @@ VALUES ('0256','이정민','경사', '관악경찰서','1115');
 
 
 insert into police
-values ('0310','김준혁','경사','가평경찰서','1322');
+values ('03001','김준혁','경사','가평경찰서','1322');
 insert into police
-values ('0311','오세훈','경장','가평경찰서','1322');
+values ('03002','오세훈','경장','가평경찰서','1322');
 insert into police
-values ('0312','김종국','순경','가평경찰서','1322');
+values ('03003','김종국','순경','가평경찰서','1322');
 
 insert into police
-values ('0313','김세훈','경사','고양경찰서','1318');
+values ('03004','김세훈','경사','고양경찰서','1318');
 insert into police
-values ('0314','김병만','경중','고양경찰서','1318');
+values ('03005','김병만','경중','고양경찰서','1318');
 insert into police
-values ('0315','우병우','순경','고양경찰서','1318');
+values ('03006','우병우','순경','고양경찰서','1318');
 
 insert into police
-values ('0316','오지명','경장','과천경찰서','1332');
+values ('03007','오지명','경장','과천경찰서','1332');
 insert into police
-values ('0317','김준혁','순경','과천경찰서','1332');
+values ('03008','김준혁','순경','과천경찰서','1332');
 
 insert into police
-values ('0318','김세종','경사','광명경찰서','1309');
+values ('03009','김세종','경사','광명경찰서','1309');
 insert into police
-values ('0319','김건대','순경','광명경찰서','1309');
+values ('03010','김건대','순경','광명경찰서','1309');
 
 insert into police
-values ('03110','이세훈','경사','광주경찰서','1319');
+values ('03011','이세훈','경사','광주경찰서','1319');
 insert into police
-values ('03111','박혁거세','경장','광주경찰서','1319');
+values ('03012','박혁거세','경장','광주경찰서','1319');
 
 insert into police
-values ('03112','김한울','경사','구리경찰서','1310');
+values ('03013','김한울','경사','구리경찰서','1310');
 insert into police
-values ('03113','김준혁','순경','구리경찰서','1310');
+values ('03014','김준혁','순경','구리경찰서','1310');
 
 insert into police
-values ('03114','윤은일','순경','군포경찰서','1333');
-
+values ('03015','윤은일','순경','군포경찰서','1333');
 insert into police
-values ('03115','김구','경사','김포경찰서','1327');
-insert into police
-values ('03116','이산','경사','김포경찰서','1327');
+values ('03016','박현일','경장','군포경찰서','1333');
 
 
 insert into police
-values ('03117','김군자','순경','남양주경찰서','1312');
+values ('03017','김구','경사','김포경찰서','1327');
+insert into police
+values ('03018','이산','경사','김포경찰서','1327');
 
 insert into police
-values ('03118','이순재','순경','동두천경찰서','1330');
+values ('03019','김군자','순경','남양주경찰서','1334');
 insert into police
-values ('03119','김상중','순경','동두천경찰서','1330');
+values ('03020','박진수','순경','남양주경찰서','1334');
 
 insert into police
-values ('03120','김준수','경장','부천소사경찰서','1306');
+values ('03021','이순재','순경','동두천경찰서','1330');
 insert into police
-values ('03121','구본승','경사','부천소사경찰서','1306');
+values ('03022','김상중','순경','동두천경찰서','1330');
 
 insert into police
-values ('03122','이구순','경사','부천오정경찰서','1306');
+values ('03023','김준수','경장','부천경찰서','1306');
 insert into police
-values ('03123','양요섭','순경','부천오정경찰서','1306');
+values ('03024','구본승','경사','부천경찰서','1306');
 
 insert into police
-values ('03124','김부천','경장','부천원미경경찰서','1306');
+values ('03025','이구순','경사','부천오정경찰서','1306');
+insert into police
+values ('03026','양요셉','순경','부천오정경찰서','1306');
+
+insert into police
+values ('03027','김부진','경장','부천원미경경찰서','1306');
+
+insert into police
+values ('03028','김분당','경사','분당경찰서','1303');
+insert into police
+values ('03029','김하림','순경','분당경찰서','1303');
+
+insert into police
+values ('03030','선우용녀','순경','성남수정경찰서','1303');
+insert into police
+values ('03031','선우재덕','경사','성남수정경찰서','1303');
+
+insert into police
+values ('03032','김삼성','순경','성남중원경찰서','1303');
+insert into police
+values ('03033','김엘지','경장','성남중원경찰서','1303');
+
+insert into police
+values ('03034','강인','경사','수원남부경찰서','1302');
+insert into police
+values ('03035','강은혁','순경','수원남부경찰서','1302');
+
+insert into police
+values ('03036','김진','경사','수원서부경찰서','1302');
+insert into police
+values ('03037','오종혁','경장','수원서부경찰서','1302');
+
+insert into police
+values ('03038','김수원','경사','수원중부경찰서','1302');
+insert into police
+values ('03039','김중부','경사','수원중부경찰서','1302');
+
+insert into police
+values ('03040','김부선','경장','시흥경찰서','1316');
+insert into police
+values ('03041','권상우','순경','시흥경찰서','1316');
+
+insert into police
+values ('03042','배용준','순경','안산단원경찰서','1307');
+insert into police
+values ('03043','이지아','경장','안산단원경찰서','1307');
+
+insert into police
+values ('03044','김준혁','경사','오산경찰서','1335');
+insert into police
+values ('03045','김종혁','순경','오산경찰서','1335');
+
+insert into police
+values ('03046','김준','경사','안성경찰서','1326');
+insert into police
+values ('03047','양준혁','경장','안성경찰서','1326');
+
+insert into police
+values ('03048','이소룡','경사','안양동안경찰서','1305');
+insert into police
+values ('03049','김루피','순경','안양동안경찰서','1305');
+
+insert into police
+values ('03050','강백호','경장','안양만안경찰서','1305');
+insert into police
+values ('03051','이서진','경사','안양만안경찰서','1305');
+
+insert into police
+values ('03052','김상혁','경사','양주경찰서','1311');
+insert into police
+values ('03053','강준혁','경사','양주경찰서','1311');
+
+insert into police
+values ('03054','강산애','경장','양평경찰서','1323');
+insert into police
+values ('03055','윤도현','순경','양평경찰서','1323');
+
+insert into police
+values ('03056','장범준','순경','여주경찰서','1313');
+insert into police
+values ('03057','박원','순경','여주경찰서','1313');
+
+insert into police
+values ('03058','감우성','경사','연천경찰서','1320');
+insert into police
+values ('03059','이정진','경사','연천경찰서','1320');
+
+insert into police
+values ('03060','정우성','순경','용인동부경찰서','1325');
+insert into police
+values ('03061','윤계상','순경','용인동부경찰서','1325');
+
+insert into police
+values ('03062','김태우','경사','용인서부경찰서','1325');
+insert into police
+values ('03063','박형식','경장','용인서부경찰서','1325');
+
+insert into police
+values ('03064','김준혁','경사','의왕경찰서','1336');
+insert into police
+values ('03065','한효주','순경','의왕경찰서','1336');
+
+insert into police
+values ('03066','소지섭','순경','의정부경찰서','1304');
+insert into police
+values ('03067','정경호','순경','의정부경찰서','1304');
+
+insert into police
+values ('03068','한지민','순경','이천경찰서','1324');
+insert into police
+values ('03069','김국진','경장','이천경찰서','1324');
+
+insert into police
+values ('03070','김구라','순경','일산동부경찰서','1318');
+insert into police
+values ('03071','윤종신','경사','일산동부경찰서','1318');
+
+insert into police
+values ('03072','김이사','경장','일산서부경찰서','1318');
+insert into police
+values ('03073','김대리','경장','일산서부경찰서','1318');
+
+insert into police
+values ('03074','김승일','순경','파주경찰서','1317');
+insert into police
+values ('03075','정주영','경사','파주경찰서','1317');
+
+insert into police
+values ('03076','박찬호','경사','평택경찰서','1314');
+insert into police
+values ('03077','김지향','순경','평택경찰서','1314');
+
+insert into police
+values ('03078','김준혁','순경','평택해양경찰서','1308');
+insert into police
+values ('03079','김사랑','경장','평택해양경찰서','1308');
+
+insert into police
+values ('03080','이기훈','순경','포천경찰서','1321');
+insert into police
+values ('03081','황주원','경사','포천경찰서','1321');
+
+insert into police
+values ('03082','김순재','경사','하남경찰서','1337');
+insert into police
+values ('03083','김지우','경사','하남경찰서','1337');
+
+insert into police
+values ('03084','김길동','경사','화성동부경찰서','1315');
+insert into police
+values ('03085','홍여경','순경','화성동부경찰서','1315');
+
+insert into police
+values ('03086','김부양','순경','화성서부경찰서','1315');
+insert into police
+values ('03087','오춘자','경사','화성서부경찰서','1315');
 
 
 insert into police
-values ('03125','김분당','경사','분당경찰서','1303');
+values ('04001','박준수','순경','강화경찰서','2309');
 insert into police
-values ('03126','김하림','순경','분당경찰서','1303');
+values ('04002','오현경','경사','강화경찰서','2309');
 
 insert into police
-values ('03127','선우용녀','순경','성남수정경찰서','1303');
+values ('04003','이주인','순경','계양경찰서','2308');
 insert into police
-values ('03128','선우재덕','경사','성남수정경찰서','1303');
+values ('04004','박경훈','경사','계양경찰서','2308');
 
 insert into police
-values ('03129','김삼성','순경','성남중원경찰서','1303');
+values ('04005','이규한','순경','인천남구경찰서','2303');
 insert into police
-values ('03130','김엘지','경장','성남중원경찰서','1303');
+values ('04006','이미숙','경사','인천남구경찰서','2303');
 
 insert into police
-values ('03131','강인','경사','수원남부경찰서','1302');
+values ('04007','문정수','순경','인천남동구경찰서','2305');
 insert into police
-values ('03132','강은혁','순경','수원남부경찰서','1302');
+values ('04008','황제현','경사','인천남동구경찰서','2305');
 
 insert into police
-values ('03133','김진','경사','수원서부경찰서','1302');
+values ('04009','윤정수','순경','인천동구경찰서','2302');
 insert into police
-values ('03134','오종혁','경장','수원서부경찰서','1302');
+values ('04010','박수홍','경사','인천동구경찰서','2302');
 
 insert into police
-values ('03135','김수원','경사','수원중부경찰서','1302');
+values ('04011','이철우','순경','부평경찰서','2304');
 insert into police
-values ('03136','김중부','경사','수원중부경찰서','1302');
+values ('04012','황민현','경사','부평경찰서','2304');
 
 insert into police
-values ('03137','김부선','경장','시흥경찰서','1316');
+values ('04013','김철원','순경','인천서구경찰서','2306');
 insert into police
-values ('03138','권상우','순경','시흥경찰서','1316');
+values ('04014','양세종','경사','인천서구경찰서','2306');
 
 insert into police
-values ('03139','배용준','순경','안산단원경찰서','1307');
+values ('04015','황진구','순경','연수경찰서','2307');
 insert into police
-values ('03140','이지아','경장','안산단원경찰서','1307');
+values ('04016','이진우','경사','연수경찰서','2307');
 
 insert into police
-values ('03141','김준혁','경사','안산상록경찰서','1307');
+values ('04017','박승택','순경','옹진경찰서','2310');
 insert into police
-values ('03142','김종혁','순경','안산상록경찰서','1307');
+values ('04018','황진희','경장','옹진경찰서','2310');
 
 insert into police
-values ('03143','김준','경사','안성경찰서','1326');
+values ('04019','오춘자','경사','인천중구경찰서','2301');
 insert into police
-values ('03144','양준혁','경장','안성경찰서','1326');
-
-insert into police
-values ('03145','이소룡','경사','안양동안경찰서','1305');
-insert into police
-values ('03146','김루피','순경','안양동안경찰서','1305');
-
-insert into police
-values ('03147','강백호','경장','안양만안경찰서','1305');
-insert into police
-values ('03148','이서진','경사','안양만안경찰서','1305');
-
-insert into police
-values ('03149','김상혁','경사','양주경찰서','1311');
-insert into police
-values ('03150','강준혁','경사','양주경찰서','1311');
-
-insert into police
-values ('03151','강산애','경장','양평경찰서','1323');
-insert into police
-values ('03152','윤도현','순경','양평경찰서','1323');
-
-insert into police
-values ('03153','장범준','순경','여주경찰서','1313');
-insert into police
-values ('03154','박원','순경','여주경찰서','1313');
-
-insert into police
-values ('03155','감우성','경사','연천경찰서','1320');
-insert into police
-values ('03156','이정진','경사','연천경찰서','1320');
-
-insert into police
-values ('03157','정우성','순경','용인동부경찰서','1325');
-insert into police
-values ('03158','윤계상','순경','용인동부경찰서','1325');
-
-insert into police
-values ('03159','김태우','경사','용인서부경찰서','1325');
-insert into police
-values ('03160','박형식','경장','용인서부경찰서','1325');
-
-insert into police
-values ('03161','김준혁','경사','의왕경찰서','1336');
-insert into police
-values ('03162','한효주','순경','의왕경찰서','1336');
-
-insert into police
-values ('03163','소지섭','순경','의정부경찰서','1304');
-insert into police
-values ('03164','정경호','순경','의정부경찰서','1304');
-
-insert into police
-values ('03165','한지민','순경','이천경찰서','1324');
-insert into police
-values ('03166','김국진','경장','이천경찰서','1324');
-
-insert into police
-values ('03167','김구라','순경','일산동부경찰서','1318');
-insert into police
-values ('03168','윤종신','경사','일산동부경찰서','1318');
-
-insert into police
-values ('03169','김이사','경장','일산서부경찰서','1318');
-insert into police
-values ('03170','김대리','경장','일산서부경찰서','1318');
-
-insert into police
-values ('03171','김승일','순경','파주경찰서','1317');
-insert into police
-values ('03172','정주영','경사','파주경찰서','1317');
-
-insert into police
-values ('03173','박찬호','경사','평택경찰서','1314');
-insert into police
-values ('03174','김지향','순경','평택경찰서','1314');
-
-insert into police
-values ('03175','김준혁','순경','평택해양경찰서','1314');
-insert into police
-values ('03176','김사랑','경장','평택해양경찰서','1314');
-
-insert into police
-values ('03177','김주승','순경','포천경찰서','1321');
-insert into police
-values ('03178','김주원','경사','포천경찰서','1321');
-
-insert into police
-values ('03179','김순재','경사','하남경찰서','1337');
-insert into police
-values ('03180','김지우','경사','하남경찰서','1337');
-
-insert into police
-values ('03181','김길동','경사','화성동부경찰서','1315');
-insert into police
-values ('03182','홍여경','순경','화성동부경찰서','1315');
-
-insert into police
-values ('03183','김부양','순경','화성서부경찰서','1315');
-insert into police
-values ('03184','오춘자','경사','화성서부경찰서','1315');
-
-
-
-insert into police
-values ('04101','박준수','순경','강화경찰서','2309');
-insert into police
-values ('04102','오현경','경사','강화경찰서','2309');
-
-insert into police
-values ('04103','이주인','순경','계양경찰서','2308');
-insert into police
-values ('04104','박경훈','경사','계양경찰서','2308');
-
-insert into police
-values ('04105','이규한','순경','인천남구경찰서','2303');
-insert into police
-values ('04106','이미숙','경사','인천남구경찰서','2303');
-
-insert into police
-values ('04107','문정수','순경','인천남동구경찰서','2305');
-insert into police
-values ('04108','황제현','경사','인천남동구경찰서','2305');
-
-insert into police
-values ('04109','윤정수','순경','인천동구경찰서','2302');
-insert into police
-values ('04110','박수홍','경사','인천동구경찰서','2302');
-
-insert into police
-values ('04111','이철우','순경','부평경찰서','2304');
-insert into police
-values ('04112','황민현','경사','부평경찰서','2304');
-
-insert into police
-values ('04113','김철원','순경','인천서구경찰서','2306');
-insert into police
-values ('04114','양세종','경사','인천서구경찰서','2306');
-
-insert into police
-values ('04115','황진구','순경','연수경찰서','2307');
-insert into police
-values ('04116','이진우','경사','연수경찰서','2307');
-
-insert into police
-values ('04117','김부양','순경','옹진경찰서','2310');
-
-insert into police
-values ('04118','오춘자','경사','인천중구경찰서','2301');
-
+values ('04020','노민현','경순경','인천중구경찰서','2301');
 
 CREATE TABLE AccidentCase (
 cscode int NOT NULL AUTO_INCREMENT,
