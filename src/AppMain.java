@@ -1,3 +1,4 @@
+
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
@@ -14,6 +15,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.table.DefaultTableModel;
 
 public class AppMain extends JFrame{
 
@@ -39,8 +41,11 @@ public class AppMain extends JFrame{
 	protected JButton[] btns;
 	
 	//JTable---------------------------------------------------------------------------------
+	//DefaultTableModel 기본표모델=new DefaultTableModel();
+
+	DefaultTableModel basicTable =new DefaultTableModel();
 	
-	protected JTable table = new JTable(contents, header)
+	protected JTable table = new JTable(basicTable)
 	{
 		public boolean isCellEditable(int row, int column)
 		{
@@ -218,6 +223,15 @@ public class AppMain extends JFrame{
 		primary.add(bPanel);
 		
 		//Table 관련 사항------------------------------------------------------------------------------
+	
+		for(int i =0; i<header.length; i++)
+		{
+			basicTable.addColumn(header[i]);	
+		}
+		for(int i =0; i<contents.length; i++)
+		{
+			basicTable.addRow(contents[i]);
+		}
 		scroll = new JScrollPane();
 		scroll.setViewportView(table);
       	scroll.setBounds(20,110,1260, 510);
@@ -518,4 +532,3 @@ public class AppMain extends JFrame{
 	}
 	
 }
-

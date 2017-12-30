@@ -10,6 +10,8 @@ import javax.swing.JComboBox;
 public class AppController {
 	
 	protected boolean searchUpdateFlag;
+	protected String contents[][] = {{"133333", "인천광역시", "미친구", "2017", "02", "28", "1", "0" ,"1", "차대사람"}
+	,{"1", "서울특별시", "강남구", "2017", "02", "28", "1", "0" ,"1", "차대차"}};
 	
 	protected String[] sTown = {"노원구","도봉구","강남구","서초구","강서구","강동구","종로구","중구","중랑구","성북구","금천구","영등포구",
 			"서대문구","은평구","동작구","마포구","송파구","광진구","용산구","양천구","구로구","성동구","관악구","동대문구","강북구"};
@@ -132,14 +134,15 @@ public class AppController {
 							tempCase.setActype((String)AppManager.CreateInstance().getAppMain().accType.getSelectedItem());
 							tempCase.setLatitude(Double.parseDouble(AppManager.CreateInstance().getAppMain().lati.getText()));
 							tempCase.setLongitude(Double.parseDouble(AppManager.CreateInstance().getAppMain().longi.getText()));
-							AppManager.CreateInstance().getAccidentCaseDAO().insertCase(tempCase);
+							//AppManager.CreateInstance().getAccidentCaseDAO().insertCase(tempCase);
 							AppManager.CreateInstance().getAppMain().dia.dispose();
 							
 							//가져오는 부분 보류--------------------------------------------------------------------------------
 							
 							//Table 초기화
-							
+							AppManager.CreateInstance().getAppMain().basicTable.setRowCount(0);
 							//Table 데이터 다시 채우기
+							AppManager.CreateInstance().getAppMain().basicTable.addRow(contents[0]);
 							
 						}		
 						
@@ -230,6 +233,7 @@ public class AppController {
 						{
 							int row = AppManager.CreateInstance().getAppMain().table.getSelectedRow();
 							int accNum = Integer.parseInt((String)AppManager.CreateInstance().getAppMain().table.getValueAt(row, 0));
+							System.out.println(accNum);
 							new DetailInfo(accNum);
 						}
 						if(e.getButton() == 3)
@@ -262,3 +266,5 @@ public class AppController {
 		}
 	}
 });*/
+
+
