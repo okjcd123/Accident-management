@@ -28,6 +28,7 @@ public class AccidentCaseDAO {
 	}
 	//DB¿¬°á
 	void connectDB(){
+
 		try {
 			Class.forName(jdbcDriver);
 			conn = DriverManager.getConnection(jdbcUrl,DBid,DBpw);
@@ -52,15 +53,45 @@ public class AccidentCaseDAO {
 		}
 	}
 
-	int entireColNum() {
+	int getNewCaseCode() {
+
+		int newCode = 0;
+		connectDB();
+		sql = "select MAX(cscode) FROM accidentcase;";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			if(rs.next())
+			{
+				newCode = rs.getInt(1) + 1;
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		closeDB();
+		return newCode;
+	}
+	
+	int entireColNum() 
+	{
 		int colCnt=0;
 		connectDB();
 		sql = "select * from accidentcase";
 		try {
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
-			ResultSetMetaData md = rs.getMetaData();
-			colCnt = md.getColumnCount();
+			
+			if(rs.next())
+			{
+				ResultSetMetaData md = rs.getMetaData();
+				colCnt = md.getColumnCount();
+			}
+			
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -69,8 +100,7 @@ public class AccidentCaseDAO {
 		closeDB();
 		return colCnt;
 	}
-
-
+	
 	int entireRowNum() {
 		int rowCnt=0;
 		connectDB();
@@ -78,9 +108,14 @@ public class AccidentCaseDAO {
 		try {
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
-			rs.last();
-			rowCnt = rs.getRow();
-			rs.beforeFirst();
+			
+			if(rs.next())
+			{
+				rs.last();
+				rowCnt = rs.getRow();
+				rs.beforeFirst();
+			}
+		
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -90,13 +125,15 @@ public class AccidentCaseDAO {
 		return rowCnt;
 	}
 
-	boolean insertCase(AccidentCase info) {
+	boolean insertCase(AccidentCase info) 
+	{
 		connectDB();
 		int chk;
 		boolean flag=false; 
 		sql = "insert into accidentcase(province,town,year,month,day,policeno,dead,injured,actype,latitude,longitude) values(?,?,?,?,?,?,?,?,?,?,?)";
 		try {
 			pstmt = conn.prepareStatement(sql);
+			
 			pstmt.setString(1, info.getProvince());
 			pstmt.setString(2, info.getTown());
 			pstmt.setString(3, info.getYear());
@@ -156,20 +193,22 @@ public class AccidentCaseDAO {
 			pstmt.setInt(1, cscode);
 			rs = pstmt.executeQuery();
 
-			accCase.setCscode(cscode);
-			accCase.setProvince(rs.getString("province"));
-			accCase.setTown(rs.getString("town"));
-			accCase.setYear(rs.getString("year"));
-			accCase.setMonth(rs.getString("month"));
-			accCase.setDay(rs.getString("day"));
-			accCase.setPoliceno(rs.getString("policeno"));
-			accCase.setDead(rs.getInt("dead"));
-			accCase.setInjured(rs.getInt("injured"));
-			accCase.setCasulity();
-			accCase.setActype(rs.getString("actype"));
-			accCase.setLatitude(rs.getDouble("latitude"));
-			accCase.setLongitude(rs.getDouble("longitude"));
-
+			if(rs.next())
+			{
+				accCase.setCscode(cscode);
+				accCase.setProvince(rs.getString("province"));
+				accCase.setTown(rs.getString("town"));
+				accCase.setYear(rs.getString("year"));
+				accCase.setMonth(rs.getString("month"));
+				accCase.setDay(rs.getString("day"));
+				accCase.setPoliceno(rs.getString("policeno"));
+				accCase.setDead(rs.getInt("dead"));
+				accCase.setInjured(rs.getInt("injured"));
+				accCase.setCasulity();
+				accCase.setActype(rs.getString("actype"));
+				accCase.setLatitude(rs.getDouble("latitude"));
+				accCase.setLongitude(rs.getDouble("longitude"));
+			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -256,32 +295,6 @@ public class AccidentCaseDAO {
 	      }
 	      return datas;
 	   }
-
-//	Police getPolice(int cscode) {
-//		connectDB();
-//		Police pTmp = new Police();
-//		AccidentCase ac = new AccidentCase();
-//		String nTmp;
-//		sql = "select policeno from where cscode = ?";
-//		try {
-//			pstmt = conn.prepareStatement(sql);
-//			rs = pstmt.executeQuery();
-//			nTmp = rs.getString("policeno");
-//			sql = "select * from police where policeno = ?";
-//			pstmt = conn.prepareStatement(sql);
-//			rs = pstmt.executeQuery();
-//			pTmp.setPoliceno(rs.getString("policeno"));
-//			pTmp.setPolname(rs.getString("polname"));
-//			pTmp.setRank(rs.getString("rank"));
-//			pTmp.setDepart(rs.getString("depart"));
-//
-//		} catch (SQLException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		closeDB();
-//		return pTmp;
-//	}
 	
 	String getPolCode(String dpcode)
 	{
@@ -313,7 +326,9 @@ public class AccidentCaseDAO {
 		if(num>0)
 			return list.get((int) (Math.random()*num));
 		else
+		{
 			return "NULL";
+		}
 	}
 
 	ArrayList<AccidentCase> getAll() {
