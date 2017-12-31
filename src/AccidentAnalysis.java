@@ -1,6 +1,8 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -22,21 +24,19 @@ import chrriis.dj.nativeswing.swtimpl.components.WebBrowserWindowWillOpenEvent;
 public class AccidentAnalysis extends JDialog{
 
 	protected static final String LS = System.getProperty("line.separator");		//html 문서 개행 명령어 
-	private	String[] year = {"년도","전체","2000","2001","2002","2003","2004","2005","2006","2007","2008",
-			"2009","2010","2011","2012","2013","2014","2015","2016","2017", "2018"};
-	private String[] month = {"월","1","2","3","4","5","6","7","8","9","10","11","12",};
+	private	String[] year = {"년도", "2014","2015","2016","2017", "2018"};
 	
 	private ArrayList <AccidentCase> accList = new ArrayList<AccidentCase>();
 	
 	private JPanel primary;
 	private JPanel boxPanel;
 	private JLabel yearlbl;
-	private JLabel monthlbl;
 	
 	private JComboBox yearBox;
-	private JComboBox monthBox;
-	
 	private JButton searchDateBtn;
+	
+	private JButton parsingButton;
+	
 	private Javascript script = new Javascript();
 	private JPanel infoPanel;
 	
@@ -50,23 +50,29 @@ public class AccidentAnalysis extends JDialog{
 		boxPanel.setLayout(null);
 		boxPanel.setBounds(0,0,650,50);
 		
-		yearlbl = new JLabel("년");
-		yearlbl.setBounds(0,0,50,50);
+		yearlbl = new JLabel("년", JLabel.CENTER);
+		yearlbl.setBounds(5,10,40,40);
 		boxPanel.add(yearlbl);
 		
 		yearBox = new JComboBox(year);
-		yearBox.setBounds(50,0,200,50);
+		yearBox.setBounds(50,10,250,40);
 		boxPanel.add(yearBox);
 			
 		searchDateBtn = new JButton("검색");
-		searchDateBtn.setBounds(520, 0, 50,50);
+		searchDateBtn.setBounds(320, 10, 100,40);
 		boxPanel.add(searchDateBtn);
+		
+		parsingButton = new JButton("System Update");
+		parsingButton.setBounds(430,10,210,40);
+		boxPanel.add(parsingButton);
+		
+		
 		primary.add(boxPanel);
 		
 		infoPanel = new JPanel();
 		infoPanel.setLayout(null);
 		infoPanel.setBackground(Color.blue);
-		infoPanel.setBounds(650,0,350,600);
+		infoPanel.setBounds(650,0,650,600);
 		primary.add(infoPanel);
 		
 		NativeInterface.open();			
@@ -139,6 +145,22 @@ public class AccidentAnalysis extends JDialog{
 		   
 	}
 
+	private class YearSearch implements ActionListener
+	{
+		public void actionPerformed(ActionEvent e)
+		{
+			Object obj = e.getSource();
+			
+			if(obj == searchDateBtn)
+			{
+				//script.setMarker();
+			}
+			else if(obj == parsingButton)
+			{
+				new ParsingAccidentData();
+			}
+		}
+	}
 	
 	public void paint(Graphics g)
 	{

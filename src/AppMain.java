@@ -8,7 +8,7 @@
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Container;
-import java.awt.GridLayout;
+import java.awt.Graphics;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseListener;
@@ -19,6 +19,7 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -44,19 +45,17 @@ public class AppMain extends JFrame{
 	protected JPanel[] panels;
 	protected JLabel[] labels;
 	
-	protected CardLayout cardLayout = new CardLayout();
-	protected JPanel primary;
-	protected Container cardPanel = new JPanel();
-	protected JPanel tablePanel = new JPanel();
-	protected JPanel imagePanel = new JPanel();
-	protected JLabel imageLabel = new JLabel(ImageData.mainImage);
+	protected CardLayout mainLayout = new CardLayout();
+	protected Container cardMainPanel = new JPanel();
+	protected Intro introPanel = new Intro();
+	protected JPanel primary = new JPanel();
+	
 	
 	//버튼----------------------------------------------------------------------------------
 	protected JPanel bPanel;
 	protected JButton[] btns;
 	
 	//JTable---------------------------------------------------------------------------------
-	//DefaultTableModel 기본표모델=new DefaultTableModel();
 
 	DefaultTableModel basicTable =new DefaultTableModel();
 	
@@ -68,7 +67,12 @@ public class AppMain extends JFrame{
 		}
 	};
 	protected JScrollPane scroll;
-	
+	protected CardLayout cardLayout = new CardLayout();
+	protected Container cardPanel = new JPanel();
+	protected JPanel tablePanel = new JPanel();
+	protected JPanel imagePanel = new JPanel();
+	protected JLabel imageLabel = new JLabel(ImageData.mainImage);
+
 	//사고 검색--------------------------------------------------------------------------------
 	protected JDialog diaSearch;
 	protected JPanel searchUpPanel;
@@ -192,20 +196,30 @@ public class AppMain extends JFrame{
 	public AppMain() {
 		
 		AppManager.CreateInstance().setAppMain(this);
-		
 		setTitle("교통 사고 관리 시스템");
 		setSize(Execute.WIDTH,Execute.HEIGHT);
 		setResizable(false);
-		//setUndecorated(true);
+		setUndecorated(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	
 		
-		primary = new JPanel();
-		primary.setBounds(0,0,Execute.WIDTH,Execute.HEIGHT);
-		primary.setLayout(null);
-		getContentPane().add(primary);
+		getContentPane().add(introPanel);
 		
+	//	cardMainPanel.setBounds(0,0,Execute.WIDTH,Execute.HEIGHT);
+	//cardMainPanel.setLayout(mainLayout);
+	//	getContentPane().add(cardMainPanel);		
+
+		
+		//primary.setBounds(0,0,Execute.WIDTH,Execute.HEIGHT);
+		//primary.setLayout(null);
+		
+//		cardMainPanel.add(introPanel, "intro");
+  //  	cardMainPanel.add(primary, "primary");
+//     	mainLayout.show(cardMainPanel,"intro");		
+
+
+ 
 		//해당 날짜 사고 정보들 실시간? 띄우기
-		
 		accInfo = new JLabel("해당 날짜 사고 정보");
 		accInfo.setBounds(0, 670, 1200, 30);
 		primary.add(accInfo);
@@ -274,6 +288,37 @@ public class AppMain extends JFrame{
 		setVisible(true);
 	}
 	
+	public class Intro extends JPanel
+	{
+		//intro관련 요소들------------------------------------------------------------------------
+		JTextField idField = new JTextField();
+	    JPasswordField pwField = new JPasswordField();
+	  	JButton loginBtn = new JButton(ImageData.loginBaiscImage);
+	  	
+		public Intro()
+		{
+			setBounds(0,0,Execute.WIDTH,Execute.HEIGHT);
+			setLayout(null);
+			idField.setBounds(980, 500, 140, 30);
+	      	pwField.setBounds(980, 540, 140,30);
+	        loginBtn.setBounds(1130,500,70,70);
+	        
+	        add(idField);
+	    	add(pwField);
+			add(loginBtn);
+		}
+		public void paintComponent(Graphics g)
+		{
+			super.paintComponents(g);
+			g.drawImage(ImageData.introImage,0, 0, null);
+
+		}
+		public void addActionLoginButtonListener(ActionListener action) {
+			// TODO Auto-generated method stub
+			introPanel.loginBtn.addActionListener(action);
+		}
+	}
+	
 	public void search() {
 		diaSearch = new JDialog();
 		diaSearch.setSize(400,300);
@@ -317,7 +362,7 @@ public class AppMain extends JFrame{
 		diaSearch.setVisible(true);
 	}
 
-	 public void registration() {
+	public void registration() {
 
 	      dia = new JDialog();
 	      dia.setTitle("사고 등록");
@@ -417,20 +462,12 @@ public class AppMain extends JFrame{
 	      locInfo.add(loTmp);locInfo.add(longi);
 	      rightPanel.add(locInfo);
 
-	      //subPanel----------------------------------------------------------------------------
-	      /*subPanel = new JPanel();
-	      subPanel.setBounds(0,500,810,100);
-	      dia.add(subPanel);*/
-
-	      /*regBtn.setBounds(405-20, 0, 40, 30);
-	      subPanel.add(regBtn);*/
-
 	      regBtn.setBounds(130,450,60,50);
 	      rightPanel.add(regBtn);
 
 	      dia.setVisible(true);
 	   }
-	   public void modifyDelete() {
+	 public void modifyDelete() {
 
 	      diaUpdate = new JDialog();
 	      diaUpdate.setTitle("사고 수정 / 삭제");
@@ -555,8 +592,6 @@ public class AppMain extends JFrame{
 	      diaUpdate.add(subUpdatePanel);
 	      diaUpdate.setVisible(true);
 	   }
-
-
 	
 	public void analysis()
 	{
@@ -573,7 +608,6 @@ public class AppMain extends JFrame{
 	}
 	
 	//Search 내부 버튼 관련---------------------------------------------------------------------
-	
 	public void addActionSearchProListener(ActionListener action)
 	{
 		siDo.addActionListener(action);
@@ -619,5 +653,7 @@ public class AppMain extends JFrame{
 	{
 		table.addMouseListener(mouse);
 	}
-	
+
+
+
 }

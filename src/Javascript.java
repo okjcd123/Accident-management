@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 
 public class Javascript {
 	private String myLocation;									//GuideToSeoul.class 로 부터 받을 사용자 위치 변수
@@ -5,6 +6,8 @@ public class Javascript {
 	private String markers;										//(javascript)마커 (아이콘) 옵션
 	private String others;										//(javascript)별도 옵션
 	private String src;											//(javascript)필수 옵션
+	
+	private ArrayList <AccidentCase> accCase = new ArrayList<AccidentCase>();
 	
 	public Javascript() {
 		myLocation = new String("");
@@ -19,6 +22,8 @@ public class Javascript {
 	}
 	
 	public void setMain() {
+		this.accCase = accCase;
+		
 		myLocation = "seoul";
 		offset = new String(
 				"document.body.style.padding = 0;"+
@@ -37,20 +42,7 @@ public class Javascript {
   	            "   });\r\n" +	
   	            "var icon1 = {\r\n" + 														//병원 아이콘 옵션 지정
 				"    url:'https://d30y9cdsu7xlg0.cloudfront.net/png/1363373-200.png',\r\n" + 
-				"    scaledSize: new google.maps.Size(50, 50) \r\n" + 
-				"};"+
-				"var icon2 = {\r\n" + 														//서울길 아이콘 옵션 지정
-				"    url: 'https://d30y9cdsu7xlg0.cloudfront.net/png/1363377-200.png',\r\n" + 
-				"    scaledSize: new google.maps.Size(50, 50) \r\n" + 
-				"};"+
-				"var icon3 = {\r\n" + 														//식당 아이콘 옵션 지정
-				"    url:'https://d30y9cdsu7xlg0.cloudfront.net/png/1363382-200.png'," + 
-				"    scaledSize: new google.maps.Size(50, 50) \r\n" + 
-				"};"+
-				"var icon4 = {\r\n" + 														//숙박 아이콘 옵션 지정
-				"    url: 'https://d30y9cdsu7xlg0.cloudfront.net/png/1363379-200.png',\r\n" + 
-				"    scaledSize: new google.maps.Size(50, 50) \r\n" + 
-				"};"
+				"    scaledSize: new google.maps.Size(30, 30) \r\n" 
   	            );
 		markers = new String("");
   	  
@@ -120,34 +112,27 @@ public class Javascript {
                 "}\r\n" + 
                 "includeJs(\"https://maps.googleapis.com/maps/api/js?key=AIzaSyDu5LHktof5c2e81HbeiMy3tm4vIfkEs9c&libraries=places&callback=initMap\");\r\n");
 	}
-	/*
-	public void setMarker(String marker , double myLat, double myLng){						//마커 설정
 	
+	public void setMarker(ArrayList<AccidentCase> accCase){						//마커 설정
+	
+		this.accCase = accCase;
+		
 		markers = "";
-		if(marker.equals("Hospital"))
+		
+		for(int i=0; i< accCase.size(); i++)										//병원 옵션
 		{
-			for(int i=0; i<Hospital.hospitalCount; i++)										//병원 옵션
-			{
-				double distanceKiloMeter =0;
-				
-				//데이터 자료와 사용자간 거리 계산
-				distanceKiloMeter =DistanceCalculation.distance(myLat, myLng, Double.parseDouble(Hospital.hospitalLA[i]), Double.parseDouble(Hospital.hospitalLO[i]), "kilometer");	
-	  		   	if(distanceKiloMeter <5)													//거리가 5km 미만일 경우 좌표 표시
-	  		   	{
-					markers = markers+
-			    	"   var h = {lat: "+Hospital.hospitalLA[i]+", lng: "+Hospital.hospitalLO[i]+"};\r\n" + 
-			    	"   var marker = new google.maps.Marker({\r\n" + 
-			    	"	animation: google.maps.Animation.DROP," +
-					"   	position: h,\r\n" + 
-					"   	icon: icon1,\r\n" + 
-					"       map: map\r\n" + 
-					"   });\n";
-			  		    
-	  		   	}
-			}
+			markers = markers+
+	    	"   var h = {lat: "+ accCase.get(i).getLatitude() +", lng: "+accCase.get(i).getLongitude()+"};\r\n" + 
+	    	"   var marker = new google.maps.Marker({\r\n" + 
+	    	"	animation: google.maps.Animation.DROP," +
+			"   	position: h,\r\n" + 
+			"   	icon: icon1,\r\n" + 
+			"       map: map\r\n" + 
+			"   });\n";
 		}
+		
 	}
-*/
+
 	public void setDetailMain(String dstLat, String dstLng)	//ClonedDetailFrame 에서 사용할 함수 javascript에 필요한 코드를 한번에 생성
 	{
 		offset = new String(		"document.body.style.padding = 0;"+								//지도 초기화

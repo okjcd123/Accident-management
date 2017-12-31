@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
 public class AppController {
@@ -26,6 +25,26 @@ public class AppController {
 	public AppController()
 	{
 		AppManager.CreateInstance().setAppController(this);
+		
+		AppManager.CreateInstance().getAppMain().introPanel.addActionLoginButtonListener(new ActionListener()
+				{
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						String id = AppManager.CreateInstance().getAppMain().introPanel.idField.getText();
+						String pwd = new String(AppManager.CreateInstance().getAppMain().introPanel.pwField.getPassword());
+						if(AppManager.CreateInstance().getAccidentCaseDAO().connectTest(id, pwd))
+						{
+							AppManager.CreateInstance().getAppMain().getContentPane().removeAll();
+							AppManager.CreateInstance().getAppMain().getContentPane().add(AppManager.CreateInstance().getAppMain().primary);
+						}
+						else
+						{
+							AppManager.CreateInstance().getAppMain().introPanel.idField.setText("¿À·ù");
+							AppManager.CreateInstance().getAppMain().introPanel.pwField.setText("");
+						}
+					}
+				});
+		
 		AppManager.CreateInstance().getAppMain().addActionButtonListener(new ActionListener()
 				{
 					@Override
@@ -106,6 +125,10 @@ public class AppController {
 								AppManager.CreateInstance().getAppMain().basicTable.addRow(temp);				
 							}
 							AppManager.CreateInstance().getAppMain().diaSearch.dispose();			
+						}
+						else
+						{
+							
 						}
 					}
 			
