@@ -1,15 +1,13 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
 import chrriis.dj.nativeswing.swtimpl.NativeInterface;
@@ -35,6 +33,7 @@ public class AccidentAnalysis extends JDialog{
 	private JLabel monthlbl;
 	private JComboBox yearBox;
 	private JComboBox monthBox;
+	
 	private JButton searchDateBtn;
 	private Javascript script = new Javascript();
 	
@@ -44,7 +43,7 @@ public class AccidentAnalysis extends JDialog{
 	{
 		primary = new JPanel();
 		primary.setLayout(null);
-		primary.setBounds(0,0,1000,600);
+		primary.setBounds(0,0,1300,600);
 		
 		boxPanel = new JPanel();
 		boxPanel.setLayout(null);
@@ -149,6 +148,11 @@ public class AccidentAnalysis extends JDialog{
 		   
 	}
 
+	public void addActionAnalysis(ActionListener action)
+	{
+		searchDateBtn.addActionListener(action);
+	}
+	
 	public void paint(Graphics g)
 	{
 		super.paintComponents(g);

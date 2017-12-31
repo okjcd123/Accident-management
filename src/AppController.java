@@ -317,7 +317,11 @@ public class AppController {
 							int row = AppManager.CreateInstance().getAppMain().table.getSelectedRow();
 							int accNum = Integer.parseInt((String)AppManager.CreateInstance().getAppMain().table.getValueAt(row, 0));
 							System.out.println(accNum);
-							new DetailInfo(accNum);
+							
+							AccidentCase tempCase = new AccidentCase();
+							tempCase = AppManager.CreateInstance().getAccidentCaseDAO().getCase(accNum);
+							
+							new DetailInfo(tempCase);
 						}
 						if(e.getButton() == 3)
 						{
@@ -327,7 +331,13 @@ public class AppController {
 					
 				});
 		}
-	
+	public class detailInfoAction implements ActionListener
+	{
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			
+		}
+	}
 }
 
 
