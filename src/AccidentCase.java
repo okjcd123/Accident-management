@@ -13,7 +13,7 @@ public class AccidentCase {
 	private int injured;            //부상자 
 	private String actype;          //사고유형 (차대차, 차대사람, 차량단독)
 	private double latitude;        //위도
-	private double longitude;       //경도 
+	private double longitude;       //경도
 	
 	public int getCscode() {
 		return cscode;

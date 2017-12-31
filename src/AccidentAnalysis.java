@@ -1,8 +1,12 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -28,6 +32,10 @@ public class AccidentAnalysis extends JDialog{
 	
 	private ArrayList <AccidentCase> accList = new ArrayList<AccidentCase>();
 	
+	protected JLabel menuBarAnalysis = new JLabel(ImageData.menuBarAnalysis);
+	protected JButton analysisExit = new JButton(ImageData.exitButtonBasic);
+	protected int mouseX; int mouseY;
+	
 	private JPanel primary;
 	private JPanel boxPanel;
 	private JLabel yearlbl;
@@ -42,9 +50,65 @@ public class AccidentAnalysis extends JDialog{
 	
 	public AccidentAnalysis()
 	{
+		setUndecorated(true);
+		setSize(1300,640);
+  	  	setLayout(null);
+  	  	setResizable(false);
+  	  
+	    JPanel upPanel = new JPanel();
+	    upPanel.setBounds(0,0,1300,40);
+	    upPanel.setLayout(null);
+      
+	    analysisExit.setBounds(1260, 5, 30, 30);
+	    analysisExit.setBorderPainted(false);
+	    analysisExit.setContentAreaFilled(false);
+	    analysisExit.setFocusPainted(false);
+	    analysisExit.addMouseListener(new MouseAdapter(){
+					
+					@Override
+					public void mouseEntered(MouseEvent e)
+					{
+						analysisExit.setIcon(ImageData.exitButtonEntered);
+					}
+					@Override
+					public void mouseExited(MouseEvent e)
+					{
+						analysisExit.setIcon(ImageData.exitButtonBasic);
+					}
+					@Override
+					public void mouseReleased(MouseEvent e)
+					{
+						dispose();
+					}
+				});
+	    upPanel.add(analysisExit);
+	    
+	    menuBarAnalysis.setBounds(0,0,1300, 40);
+	    menuBarAnalysis.addMouseListener(new MouseAdapter()
+		{	@Override
+				public void mousePressed(MouseEvent e)							//메뉴바를 잡았을 떄 절대좌표를 받아옴
+				{
+					mouseX = e.getX();
+					mouseY = e.getY();
+				}
+		});
+	    menuBarAnalysis.addMouseMotionListener(new MouseMotionAdapter()	
+		{
+			@Override
+			public void mouseDragged(MouseEvent e)
+			{
+				int x = e.getXOnScreen();
+				int y = e.getYOnScreen();
+				setLocation(x - mouseX, y - mouseY);							//메뉴바를 잡고 움직였을 때 전체 프레임도 움직이게 만듦
+			}
+		});
+	    upPanel.add(menuBarAnalysis);
+	    add(upPanel);
+      
 		primary = new JPanel();
+		primary.setBackground(Color.black);
 		primary.setLayout(null);
-		primary.setBounds(0,0,1300,600);
+		primary.setBounds(0,40,1300,600);
 		
 		boxPanel = new JPanel();
 		boxPanel.setLayout(null);
@@ -65,8 +129,7 @@ public class AccidentAnalysis extends JDialog{
 		parsingButton = new JButton("System Update");
 		parsingButton.setBounds(430,10,210,40);
 		boxPanel.add(parsingButton);
-		
-		
+	
 		primary.add(boxPanel);
 		
 		infoPanel = new JPanel();
@@ -78,9 +141,6 @@ public class AccidentAnalysis extends JDialog{
 		NativeInterface.open();			
 	    SwingUtilities.invokeLater(new Runnable() {
 	      public void run() {
-	    	  setSize(1300,600);
-	    	  setLayout(null);
-	    	  setResizable(false);
 	    	  createContent();
 	    	  add(primary);
 	    	  repaint();

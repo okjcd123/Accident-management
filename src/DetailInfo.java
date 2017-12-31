@@ -1,6 +1,9 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -21,6 +24,10 @@ public class DetailInfo extends JDialog{
 
    protected static final String LS = System.getProperty("line.separator");      //html 문서 개행 명령어 
 
+   protected JLabel menuBarDetail = new JLabel(ImageData.menuBarDetail);
+   protected JButton detailExit = new JButton(ImageData.exitButtonBasic);
+   protected int mouseX; int mouseY;
+   
    private AccidentCase detailCase = new AccidentCase();
    private Police police = new Police();
    
@@ -59,6 +66,61 @@ public class DetailInfo extends JDialog{
    
    public DetailInfo(AccidentCase tempCase, Police tempPolice)
    {
+       setSize(940,540);
+       setLayout(null);
+       setResizable(false);
+       setUndecorated(true);
+       
+	  JPanel upPanel = new JPanel();
+	  upPanel.setBounds(0,0,940,40);
+	  upPanel.setLayout(null);
+	 
+	  detailExit.setBounds(900, 5, 30, 30);
+	  detailExit.setBorderPainted(false);
+	  detailExit.setContentAreaFilled(false);
+	  detailExit.setFocusPainted(false);
+	  detailExit.addMouseListener(new MouseAdapter(){
+			
+			@Override
+			public void mouseEntered(MouseEvent e)
+			{
+				detailExit.setIcon(ImageData.exitButtonEntered);
+			}
+			@Override
+			public void mouseExited(MouseEvent e)
+			{
+				detailExit.setIcon(ImageData.exitButtonBasic);
+			}
+			@Override
+			public void mouseReleased(MouseEvent e)
+			{
+				dispose();
+			}
+		});
+	  upPanel.add(detailExit);
+	  
+	  menuBarDetail.setBounds(0,0,940, 40);
+	  menuBarDetail.addMouseListener(new MouseAdapter()
+		{	@Override
+				public void mousePressed(MouseEvent e)							//메뉴바를 잡았을 떄 절대좌표를 받아옴
+				{
+					mouseX = e.getX();
+					mouseY = e.getY();
+				}
+		});
+	  menuBarDetail.addMouseMotionListener(new MouseMotionAdapter()	
+		{
+			@Override
+			public void mouseDragged(MouseEvent e)
+			{
+				int x = e.getXOnScreen();
+				int y = e.getYOnScreen();
+				setLocation(x - mouseX, y - mouseY);							//메뉴바를 잡고 움직였을 때 전체 프레임도 움직이게 만듦
+			}
+		});
+	  upPanel.add(menuBarDetail);
+	  add(upPanel);
+	 
       detailCase = tempCase;
       police = tempPolice;
       
@@ -67,7 +129,7 @@ public class DetailInfo extends JDialog{
       
       primary = new JPanel();
       primary.setLayout(null);
-      primary.setBounds(0,0,940,500);
+      primary.setBounds(0,40,940,500);
       
       //AccidentCase Panel-----------------------------------------------------------------------------
       infoPanel = new JPanel();
@@ -167,10 +229,6 @@ public class DetailInfo extends JDialog{
       NativeInterface.open();         
        SwingUtilities.invokeLater(new Runnable() {
          public void run() {
-            setSize(940,500);
-            setLayout(null);
-            setBackground(Color.BLUE);
-            setResizable(false);
             createContent();
             add(primary);
            

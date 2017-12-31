@@ -1,7 +1,9 @@
+import java.awt.Cursor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 import java.util.ArrayList;
 
 import javax.swing.DefaultComboBoxModel;
@@ -74,6 +76,140 @@ public class AppController {
 						}
 					}			
 				});
+		
+		AppManager.CreateInstance().getAppMain().addMouseAdapterButtonListener(new MouseAdapter()
+				{
+						public void mousePressed(MouseEvent e)							//메뉴바를 잡았을 떄 절대좌표를 받아옴
+						{
+							Object obj = e.getSource();
+							if(obj == AppManager.CreateInstance().getAppMain().menuBar)
+							{
+								AppManager.CreateInstance().getAppMain().mainMouseX = e.getX();
+								AppManager.CreateInstance().getAppMain().mainMouseY = e.getY();			
+							}
+							else if(obj == AppManager.CreateInstance().getAppMain().menuBarSearch)
+							{
+								AppManager.CreateInstance().getAppMain().searchMouseX = e.getX();
+								AppManager.CreateInstance().getAppMain().searchMouseY = e.getY();						
+							}
+							else if(obj == AppManager.CreateInstance().getAppMain().menuBarRegist)
+							{
+								AppManager.CreateInstance().getAppMain().registMouseX = e.getX();
+								AppManager.CreateInstance().getAppMain().registMouseY = e.getY();					
+							}
+							else if(obj == AppManager.CreateInstance().getAppMain().menuBarUpdate)
+							{
+								AppManager.CreateInstance().getAppMain().updateMouseX = e.getX();
+								AppManager.CreateInstance().getAppMain().updateMouseY = e.getY();					
+							}
+						}
+				});
+		AppManager.CreateInstance().getAppMain().addMouseMotionButtonListener(new MouseMotionAdapter() {
+			
+			public void mouseDragged(MouseEvent e)
+			{
+				Object obj = e.getSource();
+				if(obj == AppManager.CreateInstance().getAppMain().menuBar)
+				{
+					int x = e.getXOnScreen();
+					int y = e.getYOnScreen();
+					AppManager.CreateInstance().getAppMain().setLocation(x - AppManager.CreateInstance().getAppMain().mainMouseX,
+							y - AppManager.CreateInstance().getAppMain().mainMouseY);							//메뉴바를 잡고 움직였을 때 전체 프레임도 움직이게 만듦
+					
+				}
+				else if(obj == AppManager.CreateInstance().getAppMain().menuBarSearch)
+				{
+					int x = e.getXOnScreen();
+					int y = e.getYOnScreen();
+					AppManager.CreateInstance().getAppMain().diaSearch.setLocation(x - AppManager.CreateInstance().getAppMain().searchMouseX,
+							y - AppManager.CreateInstance().getAppMain().searchMouseY);							//메뉴바를 잡고 움직였을 때 전체 프레임도 움직이게 만듦
+					
+				}
+				else if(obj == AppManager.CreateInstance().getAppMain().menuBarRegist)
+				{
+					int x = e.getXOnScreen();
+					int y = e.getYOnScreen();
+					AppManager.CreateInstance().getAppMain().dia.setLocation(x - AppManager.CreateInstance().getAppMain().registMouseX,
+							y - AppManager.CreateInstance().getAppMain().registMouseY);							//메뉴바를 잡고 움직였을 때 전체 프레임도 움직이게 만듦
+					
+				}
+				else if(obj == AppManager.CreateInstance().getAppMain().menuBarUpdate)
+				{
+					int x = e.getXOnScreen();
+					int y = e.getYOnScreen();
+					AppManager.CreateInstance().getAppMain().diaUpdate.setLocation(x - AppManager.CreateInstance().getAppMain().updateMouseX,
+							y - AppManager.CreateInstance().getAppMain().updateMouseY);							//메뉴바를 잡고 움직였을 때 전체 프레임도 움직이게 만듦
+				}
+			}
+			
+		});
+		AppManager.CreateInstance().getAppMain().addExitMouseListener(new MouseAdapter()
+				{
+					@Override
+					public void mouseEntered(MouseEvent e)
+					{
+						Object obj = e.getSource();
+						if(obj == AppManager.CreateInstance().getAppMain().exit)
+						{
+							AppManager.CreateInstance().getAppMain().exit.setIcon(ImageData.exitButtonEntered);
+						}
+						else if(obj == AppManager.CreateInstance().getAppMain().searchExit)
+						{
+							AppManager.CreateInstance().getAppMain().searchExit.setIcon(ImageData.exitButtonEntered);
+						}
+						else if(obj == AppManager.CreateInstance().getAppMain().registerExit)
+						{
+							AppManager.CreateInstance().getAppMain().registerExit.setIcon(ImageData.exitButtonEntered);
+						}
+						else if(obj == AppManager.CreateInstance().getAppMain().updateExit)
+						{
+							AppManager.CreateInstance().getAppMain().updateExit.setIcon(ImageData.exitButtonEntered);
+						}
+					}
+					@Override
+					public void mouseExited(MouseEvent e)
+					{
+						Object obj = e.getSource();
+						if(obj == AppManager.CreateInstance().getAppMain().exit)
+						{
+							AppManager.CreateInstance().getAppMain().exit.setIcon(ImageData.exitButtonBasic);			
+						}
+						else if(obj == AppManager.CreateInstance().getAppMain().searchExit)
+						{
+							AppManager.CreateInstance().getAppMain().searchExit.setIcon(ImageData.exitButtonBasic);			
+						}
+						else if(obj == AppManager.CreateInstance().getAppMain().registerExit)
+						{
+							AppManager.CreateInstance().getAppMain().registerExit.setIcon(ImageData.exitButtonBasic);		
+						}
+						else if(obj == AppManager.CreateInstance().getAppMain().updateExit)
+						{
+							AppManager.CreateInstance().getAppMain().updateExit.setIcon(ImageData.exitButtonBasic);	
+						}
+					}
+					@Override
+					public void mouseReleased(MouseEvent e)
+					{
+						Object obj = e.getSource();
+						if(obj == AppManager.CreateInstance().getAppMain().exit)
+						{
+							System.exit(0);
+						}
+						else if(obj == AppManager.CreateInstance().getAppMain().searchExit)
+						{
+							AppManager.CreateInstance().getAppMain().diaSearch.dispose();
+						}
+						else if(obj == AppManager.CreateInstance().getAppMain().registerExit)
+						{
+							AppManager.CreateInstance().getAppMain().dia.dispose();
+						}
+						else if(obj == AppManager.CreateInstance().getAppMain().updateExit)
+						{
+							AppManager.CreateInstance().getAppMain().diaUpdate.dispose();
+						}
+					}
+				});
+		
 		AppManager.CreateInstance().getAppMain().addActionSearchProListener(new ActionListener()
 				{
 					@Override
