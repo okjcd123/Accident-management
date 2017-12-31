@@ -53,7 +53,7 @@ public class AppMain extends JFrame{
 	protected Intro introPanel = new Intro();
 	protected JPanel primary = new JPanel();
 	
-	
+
 	//¹öÆ°----------------------------------------------------------------------------------
 	protected JPanel bPanel;
 	protected JButton[] btns;
@@ -324,7 +324,7 @@ public class AppMain extends JFrame{
 	      searchUpPanel.setLayout(new GridLayout(3,1));
 	      searchUpPanel.setBackground(Color.LIGHT_GRAY);
 
-	      
+	     
 	      JPanel siDoPn = new JPanel();
 	      siDoPn.setLayout(null);
 	      siDoPn.setBorder(new EtchedBorder(EtchedBorder.LOWERED));

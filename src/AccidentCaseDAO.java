@@ -8,8 +8,6 @@ import java.util.*;
 import javax.swing.JTable;
 public class AccidentCaseDAO {
 	
-	int currentCscode = 0 ;
-	
 	String DBid;
 	String DBpw;
 	
@@ -76,7 +74,27 @@ public class AccidentCaseDAO {
 	
 	int getNewCaseCode() {
 		
-		return currentCscode;
+		connectDB();
+		int newCsCode = 0;
+		
+		sql = "select MAX(cscode) from accidentcase";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			if(rs.next())
+			{
+				newCsCode = rs.getInt(1);
+			}
+			rs.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		closeDB();
+		
+		return newCsCode;
 	}
 	
 	
@@ -358,7 +376,7 @@ public class AccidentCaseDAO {
 			boolean flag=false; 
 			sql = "INSERT "+
 				  "INTO accidentcase(province,town,year,month,day,policeno,dead,injured,actype,latitude,longitude) "+
-				  "VALUES(?,?,?,?,?,?,?,?,?,?,?)" ;
+				  "VALUES(?,?,?,?,?,?,?,?,?,?,?)";
 	
 			try {
 				pstmt = conn.prepareStatement(sql);
@@ -375,7 +393,7 @@ public class AccidentCaseDAO {
 				pstmt.setDouble(10, accCase.getLatitude());
 				pstmt.setDouble(11, accCase.getLongitude());
 				
-				rs = pstmt.executeQuery();
+				chk = pstmt.executeUpdate();
 				
 				if(chk >0)
 					flag = true;
@@ -385,18 +403,6 @@ public class AccidentCaseDAO {
 				e.printStackTrace();
 			}
 
-			sql = "select LAST_INSERT_ID()";
-			
-			try {
-				pstmt = conn.prepareStatement(sql);
-				rs = pstmt.executeQuery();
-				currentCscode = rs.getInt(1);
-				
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
 			closeDB();
 			return flag;
 		}
@@ -408,7 +414,7 @@ public class AccidentCaseDAO {
 			boolean flag=false; 
 			
 			sql = "UPDATE accidentcase " + 
-				  "SET province = ? ', town = ?, year = ? , month = ?, day = ?, policeno = ?, dead = ?, injured =? , actype = ?, latitude = ?, longitude = ? " + 
+				  "SET province = ? , town = ?, year = ? , month = ?, day = ?, policeno = ?, dead = ?, injured =? , actype = ?, latitude = ?, longitude = ? " + 
 				  "WHERE cscode = ? ";
 			try {
 				pstmt = conn.prepareStatement(sql);
