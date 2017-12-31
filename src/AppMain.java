@@ -508,7 +508,7 @@ public class AppMain extends JFrame{
 	      dia.setLayout(null);
 	      dia.setResizable(false);
 	      dia.setSize(550,550);
-
+	      
 	      //leftPanel 관련 사항 --------------------------------------------------
 	      leftPanel = new JPanel();
 	      leftPanel.setBackground(Color.white);

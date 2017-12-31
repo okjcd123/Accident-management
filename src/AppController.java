@@ -316,12 +316,16 @@ public class AppController {
 						{
 							int row = AppManager.CreateInstance().getAppMain().table.getSelectedRow();
 							int accNum = Integer.parseInt((String)AppManager.CreateInstance().getAppMain().table.getValueAt(row, 0));
-							System.out.println(accNum);
-							
+			
 							AccidentCase tempCase = new AccidentCase();
+							
 							tempCase = AppManager.CreateInstance().getAccidentCaseDAO().getCase(accNum);
 							
-							new DetailInfo(tempCase);
+							String polNum = tempCase.getPoliceno();
+							Police pol =new Police();
+							pol = AppManager.CreateInstance().getAccidentCaseDAO().getPolice(polNum);
+							
+							new DetailInfo(tempCase, pol);
 						}
 						if(e.getButton() == 3)
 						{

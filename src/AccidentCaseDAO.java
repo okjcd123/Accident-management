@@ -431,6 +431,37 @@ public class AccidentCaseDAO {
 		closeDB();
 		return datas;
 	}
+	
+	 Police getPolice (String polno)
+	   {
+	      int num = 0;
+	      Police pol = new Police();
+	      
+	      connectDB();
+	      sql = "select * from police where policeno = ? ";
+	      
+	      try {
+	         pstmt = conn.prepareStatement(sql);
+	         pstmt.setString(1, polno);
+	         rs = pstmt.executeQuery();
+	            
+	         if(rs.next())
+	         {
+	            pol.setPoliceno(polno);
+	            pol.setPolname(rs.getString("polname"));
+	            pol.setRank(rs.getString("rank"));
+	            pol.setDepart(rs.getString("depart"));
+	            pol.setDpcode(rs.getString("dpcode"));
+	         }
+	         
+	      } catch (SQLException e) {
+	         // TODO Auto-generated catch block
+	         e.printStackTrace();
+	      }
+	      closeDB();
+	      
+	      return pol;
+	   }
 
 
 

@@ -22,6 +22,7 @@ public class DetailInfo extends JDialog{
 	protected static final String LS = System.getProperty("line.separator");		//html 문서 개행 명령어 
 
 	private AccidentCase detailCase = new AccidentCase();
+	private Police police = new Police();
 	
 	private String lat;
 	private String lng;
@@ -47,17 +48,28 @@ public class DetailInfo extends JDialog{
 	private JLabel latitude;        //위도
 	private JLabel longitude;       //경도 
 	
-	public DetailInfo(AccidentCase tempCase)
+	private JPanel policePanel;
+	private JLabel policeNo;   //경찰 번호
+	private JLabel polname;    //경찰 이름
+	private JLabel rank;       //경찰 계급
+	private JLabel depart;     //소속 부서
+	private JLabel dpcode;     //소속 부서 코드
+	
+	private JPanel mapPanel;
+	
+	public DetailInfo(AccidentCase tempCase, Police tempPolice)
 	{
 		detailCase = tempCase;
+		police = tempPolice;
 		
 		this.lat = lat;
 		this.lng = lng;
 		
 		primary = new JPanel();
 		primary.setLayout(null);
-		primary.setBounds(0,0,600,300);
+		primary.setBounds(0,0,600,500);
 		
+		//AccidentCase Panel-----------------------------------------------------------------------------
 		infoPanel = new JPanel();
 		infoPanel.setLayout(null);
 		infoPanel.setBounds(0,0,300,300);
@@ -111,17 +123,56 @@ public class DetailInfo extends JDialog{
 		latitude = new JLabel();
 		latitude.setText("위도: " + detailCase.getLatitude());
 		latitude.setBounds(0,300/13*9, 300,300/13);
-		infoPanel.add(actype);
+		infoPanel.add(latitude);
 		
 		longitude = new JLabel();
 		longitude.setText("경도: " + detailCase.getLongitude());
 		longitude.setBounds(0, 300/13*10, 300, 300/13);
 		infoPanel.add(longitude);
 		
+		//경찰 패널---------------------------------------------------------------------------------
+		policePanel = new JPanel();
+		policePanel.setLayout(null);
+		policePanel.setBounds(0,300,300,200);
+		primary.add(policePanel);
+		
+		policeNo = new JLabel();   //경찰 번호
+		policeNo.setText("담당 경찰번호: " + police.getPoliceno());
+		policeNo.setBounds(0,0, 300,200/5);
+		policePanel.add(policeNo);
+		
+		polname = new JLabel();    //경찰 이름
+		polname.setText("담당경찰관: " + police.getPolname());
+		polname.setBounds(0,200/5, 300,200/5);
+		policePanel.add(policeNo);
+		
+		rank = new JLabel();       //경찰 계급
+		rank.setText("계급: " + police.getRank());
+		rank.setBounds(0, 200/5*2, 300,200/5);
+		policePanel.add(rank);
+		
+		depart = new JLabel();     //소속 부서
+		depart.setText("소속부서: " + police.getDepart());
+		depart.setBounds(0,200/5*3, 300,200/5);
+		policePanel.add(depart);
+		
+		dpcode = new JLabel();     //소속 부서 코드
+		dpcode.setText("소속부서코드: "  + police.getDpcode());
+		dpcode.setBounds(0,200/5*4, 300,200/5);
+		policePanel.add(dpcode);
+		primary.add(policePanel);
+		
+		//지도 관련---------------------------------------------------------------------
+		mapPanel = new JPanel();
+		mapPanel.setBounds(300,0,300,600);
+		mapPanel.setLayout(null);
+		primary.add(mapPanel);
+		
+		
 		NativeInterface.open();			
 	    SwingUtilities.invokeLater(new Runnable() {
 	      public void run() {
-	    	  setSize(600,300);
+	    	  setSize(600,500);
 	    	  setLayout(null);
 	    	  setResizable(false);
 	    	  createContent();
@@ -137,7 +188,7 @@ public class DetailInfo extends JDialog{
 	public void createContent() {
 		    
 			JPanel webBrowserPanel = new JPanel(new BorderLayout());					//지도를 출력할 패널 생성 및 초기화
-			webBrowserPanel.setBounds(310,10,280,280);									//패널 크기 설정
+			webBrowserPanel.setBounds(10,10,280,480);									//패널 크기 설정
 			
 		    final JWebBrowser webBrowser = new JWebBrowser();							//웹브라우져 객체 생성
 		    webBrowser.setBarsVisible(false);
@@ -186,7 +237,7 @@ public class DetailInfo extends JDialog{
 				}
 		    });				
 		    webBrowserPanel.add(webBrowser);													//웹브라우져를 지도 패널(webBrowserPanel)에 붙이기
-		    primary.add(webBrowserPanel);														//subPanel 에 지도 패널 붙이기
+		    mapPanel.add(webBrowserPanel);														//subPanel 에 지도 패널 붙이기
 		   
 	}
 
