@@ -1,7 +1,7 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -26,8 +26,9 @@ public class AccidentAnalysis extends JDialog{
 			"2009","2010","2011","2012","2013","2014","2015","2016","2017", "2018"};
 	private String[] month = {"월","1","2","3","4","5","6","7","8","9","10","11","12",};
 	
-	private JPanel primary;
+	private ArrayList <AccidentCase> accList = new ArrayList<AccidentCase>();
 	
+	private JPanel primary;
 	private JPanel boxPanel;
 	private JLabel yearlbl;
 	private JLabel monthlbl;
@@ -36,7 +37,6 @@ public class AccidentAnalysis extends JDialog{
 	
 	private JButton searchDateBtn;
 	private Javascript script = new Javascript();
-	
 	private JPanel infoPanel;
 	
 	public AccidentAnalysis()
@@ -53,18 +53,9 @@ public class AccidentAnalysis extends JDialog{
 		yearlbl.setBounds(0,0,50,50);
 		boxPanel.add(yearlbl);
 		
-		yearBox = new JComboBox(year);
 		yearBox.setBounds(50,0,200,50);
 		boxPanel.add(yearBox);
-		
-		monthlbl = new JLabel("월");
-		monthlbl.setBounds(250,0,50,50);
-		boxPanel.add(monthlbl);
-	
-		monthBox = new JComboBox(month);
-		monthBox.setBounds(300,0,200,50);
-		boxPanel.add(monthBox);
-		
+			
 		searchDateBtn = new JButton("검색");
 		searchDateBtn.setBounds(520, 0, 50,50);
 		boxPanel.add(searchDateBtn);
@@ -79,12 +70,11 @@ public class AccidentAnalysis extends JDialog{
 		NativeInterface.open();			
 	    SwingUtilities.invokeLater(new Runnable() {
 	      public void run() {
-	    	  setSize(1000,600);
+	    	  setSize(1300,600);
 	    	  setLayout(null);
 	    	  setResizable(false);
 	    	  createContent();
 	    	  add(primary);
-	  		
 	    	  repaint();
 	      }
 	    });
@@ -93,8 +83,6 @@ public class AccidentAnalysis extends JDialog{
 	}
 	
 	public void createContent() {
-			//primary.setBounds(0,0,1300,600);
-			//boxPanel.setBounds(0,0,650,50);
 		
 			JPanel webBrowserPanel = new JPanel(new BorderLayout());					//지도를 출력할 패널 생성 및 초기화
 			webBrowserPanel.setBounds(10,60,630,480);									//패널 크기 설정
@@ -149,10 +137,6 @@ public class AccidentAnalysis extends JDialog{
 		   
 	}
 
-	public void addActionAnalysis(ActionListener action)
-	{
-		searchDateBtn.addActionListener(action);
-	}
 	
 	public void paint(Graphics g)
 	{
