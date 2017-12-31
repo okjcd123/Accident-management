@@ -36,6 +36,9 @@ public class AppController {
 						{
 							AppManager.CreateInstance().getAppMain().getContentPane().removeAll();
 							AppManager.CreateInstance().getAppMain().getContentPane().add(AppManager.CreateInstance().getAppMain().primary);
+							AppManager.CreateInstance().getAppMain().revalidate();
+							AppManager.CreateInstance().getAppMain().primary.requestFocus();
+							
 						}
 						else
 						{
