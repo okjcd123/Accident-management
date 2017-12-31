@@ -621,8 +621,8 @@ public class AccidentCaseDAO {
 			 		{
 			 				jObj = (JSONObject) jsonArr.get(j);
 			                
-			 				accCase.setProvince(funcProvince((String) jObj.get("cd_003_lv1")));
-			 				accCase.setTown(funcTown((String)jObj.get("cd_003"))); 
+			 				accCase.setProvince(findProvince((String) jObj.get("cd_003_lv1")));
+			 				accCase.setTown(findTown((String)jObj.get("cd_003"))); 
 			 				
 			 				String date = (String)jObj.get("dt_006");
 			 				accCase.setYear(date.substring(0,4));
@@ -635,7 +635,7 @@ public class AccidentCaseDAO {
 			 				accCase.setInjured(((Long)jObj.get("injpsn_co")).intValue());
 			 				accCase.setCasulity();
 			 				
-			 				accCase.setActype(funcAcctype((String) jObj.get("cd_014_lv1")));
+			 				accCase.setActype(findAcctype((String) jObj.get("cd_014_lv1")));
 			 				accCase.setLatitude(Double.parseDouble((String)jObj.get("grd_la")));
 			 				accCase.setLongitude(Double.parseDouble((String)jObj.get("grd_lo")));
 			 				
@@ -664,7 +664,7 @@ public class AccidentCaseDAO {
 						
 		}
 		
-		String funcProvince(String code)
+		String findProvince(String code)
 		{
 			String str[] = {"서울특별시","경기도","인천광역시"};
 			
@@ -674,171 +674,73 @@ public class AccidentCaseDAO {
 				return str[1];
 			else if(code.equals("2300"))
 				return str[2];
-			
-			return "NULL";
+			else
+				return "NULL";
 		}
 		
-		String funcTown(String code)
+		String findTown(String code)
 		{
-			String seoul[] = {"강남구","강동구","강북구","강서구","관악구","광진구","구로구","금천구","노원구","도봉구","동대문구","동작구","마포구","서대문구"
-					,"서초구","성동구","성북구","송파구","양천구","영등포구","용산구","은평구","종로구","중구","중랑구"};
+			String seoul[] = {"종로구","중구","용상구","성동구","동대문구","성북구","도봉구","은평구","서대문구","마포구","강서구","구로구","영등포구","동작구",
+					"관악구","강남구","강동구","송파구","서초구","양천구","중랑구","노원구","광진구","강북구","금천구"};
 			
-			String kyenggi[] = {"가평군","강화군","고양시","과천시","광명시","광주시","구리시","군포시","김포시","남양주군","남양주시","동두천시","부천시","성남시","송탄시","수원시","시흥시","안산시","안성시","안양시","양주시","양펑군","여주시","연천군","오산시","옹진군","용인시","의왕시","의정부시"
-					,"이천시","파주시","평택군","평택시","포천시","하남시","화성시"};
+			String kyenggi[] = {"수원시","성남시", "의정부시","안양시","부천시","안산시","평택시",	"광명시",	"구리시", "양주시",	"남양주군","여주시","평택군","화성시","시흥시","파주시","고양시","광주시",
+					"연천군","포천시","가평군","양평군","이천시","용인시","안성시","김포시","강화군","옹진군","동두천시","송탄시","과천시","군포시","남양주시","오산시","의왕시","하남시"};
+
+			String incheon[] = {"중구","동구","남구","부평구","남동구","서구","연수구","계양구","강화군","옹진군"	};
+		
+			int codeInt = Integer.parseInt(code);
 			
-			String incheon[] = {"강화군","계양구","남구","남동구","동구","부평구","서구","연수구","옹진군","중구"	};
+			if(codeInt >1100 && codeInt <1200 )
+			{
+				return seoul[codeInt-1101];
+			}
+			else if(codeInt >1300 && codeInt <1400)
+			{
+				return kyenggi[codeInt-1302];
+			}
+			else if(codeInt >2300 && codeInt <2400)
+			{
+				return incheon[codeInt-2301];
+			}
+			else
+				return "NULL";
 			
-			if(code.equals("1116"))
-				return seoul[0];
-			else if(code.equals("1117"))
-				return seoul[1];
-			else if(code.equals("1124"))
-				return seoul[2];
-			else if(code.equals("1111"))
-				return seoul[3];
-			else if(code.equals("1115"))
-				return seoul[4];
-			else if(code.equals("1123"))
-				return seoul[5];
-			else if(code.equals("1112"))
-				return seoul[6];
-			else if(code.equals("1125"))
-				return seoul[7];
-			else if(code.equals("1122"))
-				return seoul[8];
-			else if(code.equals("1107"))
-				return seoul[9];
-			else if(code.equals("1105"))
-				return seoul[10];
-			else if(code.equals("1114"))
-				return seoul[11];
-			else if(code.equals("1110"))
-				return seoul[12];
-			else if(code.equals("1109"))
-				return seoul[13];
-			else if(code.equals("1119"))
-				return seoul[14];
-			else if(code.equals("1104"))
-				return seoul[15];
-			else if(code.equals("1106"))
-				return seoul[16];
-			else if(code.equals("1118"))
-				return seoul[17];
-			else if(code.equals("1120"))
-				return seoul[18];
-			else if(code.equals("1113"))
-				return seoul[19];
-			else if(code.equals("1103"))
-				return seoul[20];
-			else if(code.equals("1108"))
-				return seoul[21];
-			else if(code.equals("1101"))  
-				return seoul[22];
-			else if(code.equals("1102"))
-				return seoul[23];
-			else if(code.equals("1121"))
-				return seoul[24];
+		}
+		
+		String findCode(String province, String town)
+		{
+			String seoul[] = {"종로구","중구","용상구","성동구","동대문구","성북구","도봉구","은평구","서대문구","마포구","강서구","구로구","영등포구","동작구",
+					"관악구","강남구","강동구","송파구","서초구","양천구","중랑구","노원구","광진구","강북구","금천구"};
 			
+			String kyenggi[] = {"수원시","성남시", "의정부시","안양시","부천시","안산시",	"평택시",	"광명시",	"구리시",	"양주시",	"남양주군","여주시","평택군","화성시","시흥시","파주시","고양시","광주시",
+					"연천군","포천시","가평군","양평군","이천시","용인시","안성시","김포시","강화군","옹진군","동두천시","송탄시","과천시","군포시","남양주시","오산시","의왕시","하남시"};
+
+			String incheon[] = {"중구","동구","남구","부평구","남동구","서구","연수구","계양구","강화군","옹진군"	};
 			
-			else if(code.equals("1322"))
-				return kyenggi[0];
-			else if(code.equals("1328"))
-				return kyenggi[1];
-			else if(code.equals("1318"))
-				return kyenggi[2];
-			else if(code.equals("1332"))
-				return kyenggi[3];
-			else if(code.equals("1309"))
-				return kyenggi[4];
-			else if(code.equals("1319"))
-				return kyenggi[5];
-			else if(code.equals("1310"))
-				return kyenggi[6];
-			else if(code.equals("1333"))
-				return kyenggi[7];
-			else if(code.equals("1327"))
-				return kyenggi[8];
-			else if(code.equals("1312"))
-				return kyenggi[9];
-			else if(code.equals("1334"))
-				return kyenggi[10];
-			else if(code.equals("1330"))
-				return kyenggi[11];
-			else if(code.equals("1306"))
-				return kyenggi[12];
-			else if(code.equals("1303"))
-				return kyenggi[13];
-			else if(code.equals("1331"))
-				return kyenggi[14];
-			else if(code.equals("1302"))
-				return kyenggi[15];
-			else if(code.equals("1316"))
-				return kyenggi[16];
-			else if(code.equals("1307"))
-				return kyenggi[17];
-			else if(code.equals("1326"))
-				return kyenggi[18];
-			else if(code.equals("1305"))
-				return kyenggi[19];
-			else if(code.equals("1311"))
-				return kyenggi[20];
-			else if(code.equals("1323"))
-				return kyenggi[21];
-			else if(code.equals("1313"))
-				return kyenggi[22];
-			else if(code.equals("1320"))
-				return kyenggi[23];
-			else if(code.equals("1335"))
-				return kyenggi[24];
-			else if(code.equals("1329"))
-				return kyenggi[25];
-			else if(code.equals("1325"))
-				return kyenggi[26];
-			else if(code.equals("1336"))
-				return kyenggi[27];
-			else if(code.equals("1304"))
-				return kyenggi[28];
-			else if(code.equals("1324"))
-				return kyenggi[29];
-			else if(code.equals("1317"))
-				return kyenggi[30];
-			else if(code.equals("1314"))
-				return kyenggi[31];
-			else if(code.equals("1308"))
-				return kyenggi[32];
-			else if(code.equals("1321"))
-				return kyenggi[33];
-			else if(code.equals("1337"))
-				return kyenggi[34];
-			else if(code.equals("1315"))
-				return kyenggi[35];
-			
-			
-			else if(code.equals("2309"))
-				return incheon[0];
-			else if(code.equals("2308"))
-				return incheon[1];
-			else if(code.equals("2303"))
-				return incheon[2];
-			else if(code.equals("2305"))
-				return incheon[3];
-			else if(code.equals("2302"))
-				return incheon[4];
-			else if(code.equals("2304"))
-				return incheon[5];
-			else if(code.equals("2306"))
-				return incheon[6];
-			else if(code.equals("2307"))
-				return incheon[7];
-			else if(code.equals("2310"))
-				return incheon[8];
-			else if(code.equals("2301"))
-				return incheon[9];
+			if(province.equals("서울특별시"))
+			{
+				for(int i = 0; i<seoul.length; i++)
+					if(seoul[i].equals(town))
+						return String.valueOf(i+1101);
+			}
+			else if(province.equals("경기도"))
+			{
+				for(int i = 0; i<kyenggi.length; i++)
+					if(kyenggi[i].equals(town))
+						return String.valueOf(i+1302);
+			}
+			else if(province.equals("인천광역시"))
+			{
+				for(int i = 0; i<incheon.length; i++)
+					if(incheon[i].equals(town))
+						return String.valueOf(i+2301);
+			}
 			
 			return "NULL";
 		}
 		
-		String funcAcctype(String code)
+		
+		String findAcctype(String code)
 		{
 			String acctype[] = {"차대사람","차대차","차량단독"};
 			
@@ -848,8 +750,8 @@ public class AccidentCaseDAO {
 				return acctype[1];
 			else if(code.equals("03"))
 				return acctype[2];
-			
-			return "NULL";
+			else 
+				return "NULL";
 		}
 			
 			
