@@ -186,12 +186,13 @@ public class AppController {
 							tempCase.setLatitude(Double.parseDouble(AppManager.CreateInstance().getAppMain().lati.getText()));
 							tempCase.setLongitude(Double.parseDouble(AppManager.CreateInstance().getAppMain().longi.getText()));
 							
+							int maxIndex = AppManager.CreateInstance().getAccidentCaseDAO().getNewCaseCode();
 							insertFlag = AppManager.CreateInstance().getAccidentCaseDAO().insertCase(tempCase);
 							
 							//가져오는 부분--------------------------------------------------------------------------------
 							if(insertFlag == true)
 							{
-								int maxIndex = AppManager.CreateInstance().getAccidentCaseDAO().getNewCaseCode();
+							
 								AccidentCase outputCase = new AccidentCase();
 								outputCase = AppManager.CreateInstance().getAccidentCaseDAO().getCase(maxIndex);
 								String [] temp = {Integer.toString(outputCase.getCscode()),
@@ -202,6 +203,7 @@ public class AppController {
 							
 								//Table 초기화
 								AppManager.CreateInstance().getAppMain().basicTable.setRowCount(0);
+								
 								//Table 데이터 다시 채우기
 								AppManager.CreateInstance().getAppMain().basicTable.addRow(temp);
 								AppManager.CreateInstance().getAppMain().cardLayout.show(AppManager.CreateInstance().getAppMain().cardPanel, "table");	//table 화면 보여주기.
