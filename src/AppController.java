@@ -107,10 +107,20 @@ public class AppController {
 							//데이터 받아오기
 							String pro = (String)AppManager.CreateInstance().getAppMain().siDo.getSelectedItem();
 							String tow = (String)AppManager.CreateInstance().getAppMain().guGun.getSelectedItem();
+							String year = (String)AppManager.CreateInstance().getAppMain().yearcbSearch.getSelectedItem();
+							String month = (String)AppManager.CreateInstance().getAppMain().monthcbSearch.getSelectedItem();
 							
 							if(pro.equals("전체"))
 							{
-								outputDatas = AppManager.CreateInstance().getAccidentCaseDAO().getAll();					
+								if(year == "년도" || month == "월")
+								{
+									outputDatas = AppManager.CreateInstance().getAccidentCaseDAO().getAll();	
+								}
+								else
+								{
+									outputDatas = AppManager.CreateInstance().getAccidentCaseDAO().searchCaseTime(year,month);
+								}
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------------
 							}
 							else
 							{
@@ -211,7 +221,6 @@ public class AppController {
 							else
 							{
 								JOptionPane.showMessageDialog(AppManager.CreateInstance().getAppMain().diaUpdate, "등록 실패!", "경고", JOptionPane.PLAIN_MESSAGE);
-								
 								AppManager.CreateInstance().getAppMain().dia.dispose();
 							}
 						}		
@@ -224,6 +233,7 @@ public class AppController {
 						// TODO Auto-generated method stub
 						JComboBox tmp = (JComboBox)arg0.getSource();
 						String select = (String)tmp.getSelectedItem();
+						
 						if(select.equals("전체")) {
 							AppManager.CreateInstance().getAppMain().towUpdate.setModel(new DefaultComboBoxModel());
 						}
@@ -266,7 +276,7 @@ public class AppController {
 							}
 							else
 							{
-								JOptionPane.showMessageDialog(AppManager.CreateInstance().getAppMain().diaUpdate, "모든 옵션 값을 지정해주십시오!", "경고", JOptionPane.PLAIN_MESSAGE);
+								JOptionPane.showMessageDialog(AppManager.CreateInstance().getAppMain().diaUpdate, "사고번호를 정확히 입력하시오!", "경고", JOptionPane.PLAIN_MESSAGE);
 							}
 						}
 						
@@ -279,27 +289,29 @@ public class AppController {
 					public void actionPerformed(ActionEvent arg0)
 					{
 						Object obj = arg0.getSource();
+						
 						if(obj == AppManager.CreateInstance().getAppMain().updateButton)
 						{
 							
 							//모든 정보 가져와서 tempCase 에 저장하기.
 							AccidentCase tempCase = new AccidentCase();
 							boolean succFlag;
+							
 							int caseNum = Integer.parseInt(AppManager.CreateInstance().getAppMain().caseNumTxt.getText());
 							
 							tempCase.setCscode(Integer.parseInt(AppManager.CreateInstance().getAppMain().caseNumTxt.getText()));
-							tempCase.setProvince((String)AppManager.CreateInstance().getAppMain().pro.getSelectedItem());
-							tempCase.setTown((String)AppManager.CreateInstance().getAppMain().tow.getSelectedItem());
-							tempCase.setYear((String)AppManager.CreateInstance().getAppMain().yearcb.getSelectedItem());
-							tempCase.setMonth((String)AppManager.CreateInstance().getAppMain().monthcb.getSelectedItem());
-							tempCase.setDay((String)AppManager.CreateInstance().getAppMain().daycb.getSelectedItem());
-							tempCase.setPoliceno((String)AppManager.CreateInstance().getAppMain().polno.getText());
-							tempCase.setDead(Integer.parseInt(AppManager.CreateInstance().getAppMain().dead.getText()));
-							tempCase.setInjured(Integer.parseInt(AppManager.CreateInstance().getAppMain().injured.getText()));
+							tempCase.setProvince((String)AppManager.CreateInstance().getAppMain().proUpdate.getSelectedItem());
+							tempCase.setTown((String)AppManager.CreateInstance().getAppMain().towUpdate.getSelectedItem());
+							tempCase.setYear((String)AppManager.CreateInstance().getAppMain().yearcbUpdate.getSelectedItem());
+							tempCase.setMonth((String)AppManager.CreateInstance().getAppMain().monthcbUpdate.getSelectedItem());
+							tempCase.setDay((String)AppManager.CreateInstance().getAppMain().daycbUpdate.getSelectedItem());
+							tempCase.setPoliceno((String)AppManager.CreateInstance().getAppMain().polnoUpdate.getText());
+							tempCase.setDead(Integer.parseInt(AppManager.CreateInstance().getAppMain().deadUpdate.getText()));
+							tempCase.setInjured(Integer.parseInt(AppManager.CreateInstance().getAppMain().injuredUpdate.getText()));
 							tempCase.setCasulity();
-							tempCase.setActype((String)AppManager.CreateInstance().getAppMain().accType.getSelectedItem());
-							tempCase.setLatitude(Double.parseDouble(AppManager.CreateInstance().getAppMain().lati.getText()));
-							tempCase.setLongitude(Double.parseDouble(AppManager.CreateInstance().getAppMain().longi.getText()));
+							tempCase.setActype((String)AppManager.CreateInstance().getAppMain().accTypeUpdate.getSelectedItem());
+							tempCase.setLatitude(Double.parseDouble(AppManager.CreateInstance().getAppMain().latiUpdate.getText()));
+							tempCase.setLongitude(Double.parseDouble(AppManager.CreateInstance().getAppMain().longiUpdate.getText()));
 							
 							//tempCase 업데이트 실시
 							succFlag = AppManager.CreateInstance().getAccidentCaseDAO().updateCase(tempCase);

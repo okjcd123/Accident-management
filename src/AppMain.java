@@ -77,7 +77,7 @@ public class AppMain extends JFrame{
 	protected JLabel imageLabel = new JLabel(ImageData.mainImage);
 
 	//사고 검색--------------------------------------------------------------------------------
-	protected JDialog diaSearch;
+	protected static JDialog diaSearch;
 	protected JPanel searchUpPanel;
 	protected JPanel searchDownPanel;
 	protected JPanel searchButtonPanel;
@@ -87,10 +87,12 @@ public class AppMain extends JFrame{
 	protected JComboBox siDo = new JComboBox(province);
 	protected JComboBox guGun = new JComboBox();
 	
+	protected JComboBox yearcbSearch = new JComboBox(year);
+	protected JComboBox monthcbSearch  = new JComboBox(month);
 	protected JButton searchButton = new JButton();
 	
 	//사고 등록--------------------------------------------------------------------------------
-	protected JDialog dia;
+	protected static JDialog dia;
 	protected JPanel leftPanel;
 	
 	protected JLabel label1;	//장소
@@ -138,7 +140,7 @@ public class AppMain extends JFrame{
 	protected JButton regBtn = new JButton("등록");
 	
 	//사고 수정/삭제-----------------------------------------------------------------------------------------
-	protected JDialog diaUpdate;
+	protected static JDialog diaUpdate;
 	protected JPanel leftUpdatePanel;
 	protected JLabel caseNum;			//사건 번호
 	
@@ -204,7 +206,9 @@ public class AppMain extends JFrame{
 		setResizable(false);
 		setUndecorated(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		getContentPane().add(introPanel);
+		//getContentPane().add(introPanel);
+		getContentPane().add(primary);
+		
 		
 		primary.setBounds(0,0,Execute.WIDTH,Execute.HEIGHT);
 		primary.setLayout(null);
@@ -349,13 +353,11 @@ public class AppMain extends JFrame{
 	      CalPn.add(calLbl);
 	      searchUpPanel.add(CalPn);
 	      
-	      
 	      //콤보박스 패널관리
 	      searchDownPanel = new JPanel();
 	      searchDownPanel.setBounds(100,0,330,200);
 	      searchDownPanel.setBackground(Color.WHITE);
 	      searchDownPanel.setLayout(new GridLayout(3,1));
-	      
 	      
 	      JPanel sidoCbPn = new JPanel();
 	      sidoCbPn.setLayout(null);
@@ -377,8 +379,8 @@ public class AppMain extends JFrame{
 	      calCbPn.setLayout(null);
 	      calCbPn.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
 	      calCbPn.setBackground(Color.WHITE);
-	      yearcb.setBounds(10,20,120,30);
-	      monthcb.setBounds(170,20,100,30);
+	      yearcbSearch.setBounds(10,20,120,30);
+	      monthcbSearch.setBounds(170,20,100,30);
 	      calCbPn.add(yearcb);calCbPn.add(monthcb);
 	      
 	      searchDownPanel.add(calCbPn);
