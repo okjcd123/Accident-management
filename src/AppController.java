@@ -61,7 +61,10 @@ public class AppController {
 						JComboBox tmp = (JComboBox)arg0.getSource();
 						String select = (String)tmp.getSelectedItem();
 
-						if(select.equals("서울특별시")) {
+						if(select.equals("전체")) {
+							AppManager.CreateInstance().getAppMain().guGun.setModel(new DefaultComboBoxModel());
+						}
+						else if(select.equals("서울특별시")) {
 							AppManager.CreateInstance().getAppMain().guGun.setModel(new DefaultComboBoxModel(sTown));
 						}
 						else if(select.equals("인천광역시")) {
