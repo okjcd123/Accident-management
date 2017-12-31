@@ -274,7 +274,6 @@ public class AppMain extends JFrame{
       	
       	primary.add(cardPanel);
       	
-		add(primary);
 		setVisible(true);
 	}
 	

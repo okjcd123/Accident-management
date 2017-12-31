@@ -186,13 +186,12 @@ public class AppController {
 							tempCase.setLatitude(Double.parseDouble(AppManager.CreateInstance().getAppMain().lati.getText()));
 							tempCase.setLongitude(Double.parseDouble(AppManager.CreateInstance().getAppMain().longi.getText()));
 							
-							int maxIndex = AppManager.CreateInstance().getAccidentCaseDAO().getNewCaseCode();
 							insertFlag = AppManager.CreateInstance().getAccidentCaseDAO().insertCase(tempCase);
 							
 							//가져오는 부분--------------------------------------------------------------------------------
 							if(insertFlag == true)
 							{
-							
+								int maxIndex = AppManager.CreateInstance().getAccidentCaseDAO().getNewCaseCode();
 								AccidentCase outputCase = new AccidentCase();
 								outputCase = AppManager.CreateInstance().getAccidentCaseDAO().getCase(maxIndex);
 								String [] temp = {Integer.toString(outputCase.getCscode()),
@@ -239,6 +238,7 @@ public class AppController {
 						}
 					}
 				});
+		
 		AppManager.CreateInstance().getAppMain().addActionUpdateSearchListener(new ActionListener()
 				{
 					public void actionPerformed(ActionEvent arg0)
@@ -285,7 +285,7 @@ public class AppController {
 							//모든 정보 가져와서 tempCase 에 저장하기.
 							AccidentCase tempCase = new AccidentCase();
 							boolean succFlag;
-							int caseNum = Integer.parseInt(AppManager.CreateInstance().getAppMain().caseNum.getText());
+							int caseNum = Integer.parseInt(AppManager.CreateInstance().getAppMain().caseNumTxt.getText());
 							
 							tempCase.setCscode(Integer.parseInt(AppManager.CreateInstance().getAppMain().caseNum.getText()));
 							tempCase.setProvince((String)AppManager.CreateInstance().getAppMain().pro.getSelectedItem());
@@ -335,7 +335,7 @@ public class AppController {
 						else if(obj == AppManager.CreateInstance().getAppMain().deleteButton)
 						{
 							boolean delSuccess;
-							delSuccess = AppManager.CreateInstance().getAccidentCaseDAO().deleteCase(Integer.parseInt(AppManager.CreateInstance().getAppMain().caseNum.getText()));
+							delSuccess = AppManager.CreateInstance().getAccidentCaseDAO().deleteCase(Integer.parseInt(AppManager.CreateInstance().getAppMain().caseNumTxt.getText()));
 							
 							if(delSuccess == true)
 							{

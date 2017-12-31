@@ -7,12 +7,11 @@ import java.sql.SQLException;
 import java.util.*;
 import javax.swing.JTable;
 public class AccidentCaseDAO {
-
-	String DBid = "heeho";
-	String DBpw = "1234";
 	
-//	String DBid;
-//	String DBpw;
+	int currentCscode = 0 ;
+	
+	String DBid;
+	String DBpw;
 	
 	String jdbcDriver = "com.mysql.jdbc.Driver";
 	String jdbcUrl = "jdbc:mysql://localhost/javadb";//mysql이 연결 안되는 관계로 강의자료값을 넣었습니다.
@@ -48,7 +47,6 @@ public class AccidentCaseDAO {
 		}
 	}
 	
-	
 	//DB연결
 	void connectDB(){
 
@@ -68,7 +66,6 @@ public class AccidentCaseDAO {
 	void closeDB(){
 		try {
 			pstmt.close();
-			rs.close();
 			conn.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -76,125 +73,13 @@ public class AccidentCaseDAO {
 		}
 	}
 
+	
 	int getNewCaseCode() {
-
-		int newCode = 0;
-		connectDB();
-		sql = "select MAX(cscode) FROM accidentcase;";
 		
-		try {
-			pstmt = conn.prepareStatement(sql);
-			rs = pstmt.executeQuery();
-			if(rs.next())
-			{
-				newCode = rs.getInt(1) + 1;
-			}
-			
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		closeDB();
-		return newCode;
+		return currentCscode;
 	}
 	
-	boolean insertCase(AccidentCase accCase) 
-	{
-		connectDB();
-		int chk;
-		boolean flag=false; 
-		sql = "INSERT"+
-			  "INTO accidentcase(province,town,year,month,day,policeno,dead,injured,actype,latitude,longitude)"+
-			  "VALUES(?,?,?,?,?,?,?,?,?,?,?)";
-						
-		try {
-			pstmt = conn.prepareStatement(sql);
-			
-			pstmt.setString(1, accCase.getProvince());
-			pstmt.setString(2, accCase.getTown());
-			pstmt.setString(3, accCase.getYear());
-			pstmt.setString(4, accCase.getMonth());
-			pstmt.setString(5, accCase.getDay());
-			pstmt.setString(6, accCase.getPoliceno());
-			pstmt.setInt(7, accCase.getDead());
-			pstmt.setInt(8, accCase.getInjured());
-			pstmt.setString(9, accCase.getActype());
-			pstmt.setDouble(10, accCase.getLatitude());
-			pstmt.setDouble(11, accCase.getLongitude());
-			
-			chk = pstmt.executeUpdate();
-			
-			if(chk>0)
-				flag = true;
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		closeDB();
-		return flag;
-	}
 	
-	boolean updateCase(AccidentCase accCase) 
-	{
-		connectDB();
-		int chk;
-		boolean flag=false; 
-		
-		sql = "UPDATE accidentcase" + 
-			  "SET province = ? ', town = ?, year = ? , month = ?, day = ?, policeno = ?, dead = ?, injured =? , actype = ?, latitude = ?, longitude = ? " + 
-			  "WHERE cscode = ? ";
-		try {
-			pstmt = conn.prepareStatement(sql);
-			
-			pstmt.setString(1, accCase.getProvince());
-			pstmt.setString(2, accCase.getTown());
-			pstmt.setString(3, accCase.getYear());
-			pstmt.setString(4, accCase.getMonth());
-			pstmt.setString(5, accCase.getDay());
-			pstmt.setString(6, accCase.getPoliceno());
-			pstmt.setInt(7, accCase.getDead());
-			pstmt.setInt(8, accCase.getInjured());
-			pstmt.setString(9, accCase.getActype());
-			pstmt.setDouble(10, accCase.getLatitude());
-			pstmt.setDouble(11, accCase.getLongitude());
-			pstmt.setInt(12, accCase.getCscode());
-			
-			chk = pstmt.executeUpdate();
-			
-			if(chk>0)
-				flag = true;
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		closeDB();
-		return flag;
-	}
-
-	boolean deleteCase(int cscode)
-	{
-		connectDB();
-		sql = "delete from accidentcase where cscode = ?";
-		int chk;
-		boolean flag = false;
-		
-		try {
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, cscode);
-			chk = pstmt.executeUpdate();
-			
-			if(chk>0)
-				flag = true;
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		closeDB();
-		return flag;
-	}
 	
 	AccidentCase getCase(int cscode) 
 	{
@@ -222,6 +107,8 @@ public class AccidentCaseDAO {
 				accCase.setLatitude(rs.getDouble("latitude"));
 				accCase.setLongitude(rs.getDouble("longitude"));
 			}
+			
+			rs.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -262,6 +149,8 @@ public class AccidentCaseDAO {
 				
 				datas.add(accCase);
 			}
+			
+			rs.close();
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -271,6 +160,46 @@ public class AccidentCaseDAO {
 		closeDB();
 		return datas;
 	}	
+	
+	ArrayList<AccidentCase> searchCaseTime(String year, String month)
+	   {
+	      AccidentCase accCase;
+	      datas = new ArrayList<AccidentCase>();
+	      connectDB();
+	      
+	         sql = "select * from accidentcase where (year = ? and month = ?)";
+	         try {
+	            pstmt = conn.prepareStatement(sql);
+	            pstmt.setString(1,year);
+	            pstmt.setString(2,month);
+	            rs = pstmt.executeQuery();
+	            
+	            while(rs.next()) {
+	               accCase = new AccidentCase();
+	               accCase.setCscode(rs.getInt("cscode"));
+	               accCase.setProvince(rs.getString("province"));
+	               accCase.setTown(rs.getString("town"));
+	               accCase.setYear(rs.getString("year"));
+	               accCase.setMonth(rs.getString("month"));
+	               accCase.setDay(rs.getString("day"));
+	               accCase.setPoliceno(rs.getString("policeno"));
+	               accCase.setDead(rs.getInt("dead"));
+	               accCase.setInjured(rs.getInt("injured"));
+	               accCase.setCasulity();
+	               accCase.setActype(rs.getString("actype"));
+	               accCase.setLatitude(rs.getDouble("latitude"));
+	               accCase.setLongitude(rs.getDouble("longitude"));
+	               
+	               datas.add(accCase);
+	            }
+	         } catch (SQLException e) {
+	            // TODO Auto-generated catch block
+	            e.printStackTrace();
+	         }
+	         return datas;
+	         
+	      }
+	
 	
 	ArrayList<AccidentCase> searchCaseTime(String year)
 	{
@@ -303,6 +232,8 @@ public class AccidentCaseDAO {
 					
 					datas.add(accCase);
 	         }
+	         
+	     	rs.close();
 	      } catch (SQLException e) {
 	         // TODO Auto-generated catch block
 	         e.printStackTrace();
@@ -329,9 +260,9 @@ public class AccidentCaseDAO {
 				list.add(rs.getString("policeno"));
 			}
 			
+			rs.close();
 			num = list.size();
 
-			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -374,6 +305,8 @@ public class AccidentCaseDAO {
 				
 				datas.add(accCase);
 			}
+			
+			rs.close();
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -406,6 +339,8 @@ public class AccidentCaseDAO {
 	            pol.setDpcode(rs.getString("dpcode"));
 	         }
 	         
+	         rs.close();
+	         
 	      } catch (SQLException e) {
 	         // TODO Auto-generated catch block
 	         e.printStackTrace();
@@ -415,6 +350,148 @@ public class AccidentCaseDAO {
 	      return pol;
 	   }
 
+	 
+	 boolean insertCase(AccidentCase accCase) 
+		{
+			connectDB();
+			int chk =0;
+			boolean flag=false; 
+			sql = "INSERT "+
+				  "INTO accidentcase(province,town,year,month,day,policeno,dead,injured,actype,latitude,longitude) "+
+				  "VALUES(?,?,?,?,?,?,?,?,?,?,?)" ;
+	
+			try {
+				pstmt = conn.prepareStatement(sql);
+				
+				pstmt.setString(1, accCase.getProvince());
+				pstmt.setString(2, accCase.getTown());
+				pstmt.setString(3, accCase.getYear());
+				pstmt.setString(4, accCase.getMonth());
+				pstmt.setString(5, accCase.getDay());
+				pstmt.setString(6, accCase.getPoliceno());
+				pstmt.setInt(7, accCase.getDead());
+				pstmt.setInt(8, accCase.getInjured());
+				pstmt.setString(9, accCase.getActype());
+				pstmt.setDouble(10, accCase.getLatitude());
+				pstmt.setDouble(11, accCase.getLongitude());
+				
+				rs = pstmt.executeQuery();
+				
+				if(chk >0)
+					flag = true;
+				
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			sql = "select LAST_INSERT_ID()";
+			
+			try {
+				pstmt = conn.prepareStatement(sql);
+				rs = pstmt.executeQuery();
+				currentCscode = rs.getInt(1);
+				
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			closeDB();
+			return flag;
+		}
+		
+		boolean updateCase(AccidentCase accCase) 
+		{
+			connectDB();
+			int chk;
+			boolean flag=false; 
+			
+			sql = "UPDATE accidentcase " + 
+				  "SET province = ? ', town = ?, year = ? , month = ?, day = ?, policeno = ?, dead = ?, injured =? , actype = ?, latitude = ?, longitude = ? " + 
+				  "WHERE cscode = ? ";
+			try {
+				pstmt = conn.prepareStatement(sql);
+				
+				pstmt.setString(1, accCase.getProvince());
+				pstmt.setString(2, accCase.getTown());
+				pstmt.setString(3, accCase.getYear());
+				pstmt.setString(4, accCase.getMonth());
+				pstmt.setString(5, accCase.getDay());
+				pstmt.setString(6, accCase.getPoliceno());
+				pstmt.setInt(7, accCase.getDead());
+				pstmt.setInt(8, accCase.getInjured());
+				pstmt.setString(9, accCase.getActype());
+				pstmt.setDouble(10, accCase.getLatitude());
+				pstmt.setDouble(11, accCase.getLongitude());
+				pstmt.setInt(12, accCase.getCscode());
+				
+				chk = pstmt.executeUpdate();
+				
+				if(chk>0)
+					flag = true;
+				
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			closeDB();
+			return flag;
+		}
+
+		boolean deleteCase(int cscode)
+		{
+			connectDB();
+			sql = "delete from accidentcase where cscode = ?";
+			int chk;
+			boolean flag = false;
+			
+			try {
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, cscode);
+				chk = pstmt.executeUpdate();
+				
+				if(chk>0)
+					flag = true;
+				
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			closeDB();
+			return flag;
+		}
+		
+		boolean deleteAllCase()
+		{
+			connectDB();
+			sql = "TRUNCATE accidentcase;";
+			
+			int chk;
+			boolean flag = false;
+			
+			try {
+				pstmt = conn.prepareStatement(sql);
+				chk = pstmt.executeUpdate();
+				
+				if(chk>0)
+					flag = true;
+				
+				
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			closeDB();
+			return flag;
+		}
+		
+		
+		void ParsingAccidentData()
+		{
+			
+		}
 
 
 

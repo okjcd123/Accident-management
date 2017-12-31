@@ -52,10 +52,11 @@ public class ParsingAccidentData {
 			JSONObject jsonObj;
 			//JSON 형식의 데이터를 문자열을 저장하는 String
 			String jsonStr;
-	
 			JSONArray jsonArr;
-		
+			
 			AccidentCaseDAO dao = new AccidentCaseDAO();
+			
+			dao.deleteAllCase();
 			
 			try
 			{
@@ -105,6 +106,7 @@ public class ParsingAccidentData {
 			 				accCase.setLongitude(Double.parseDouble((String)jObj.get("grd_lo")));
 			 				
 			 				dao.insertCase(accCase);
+			 				
 			 				System.out.println("시도:"+accCase.getProvince());
 			 				System.out.println("군구:"+accCase.getTown());
 			 				System.out.println("year:" +accCase.getYear());

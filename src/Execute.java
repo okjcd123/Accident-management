@@ -1,4 +1,5 @@
 
+
 public class Execute {
 	
 	public final static int WIDTH = 1300;					//프레임 가로 길이
