@@ -76,7 +76,7 @@ public class ParsingAccidentData {
 			 		//파싱한 결과러 JSONobject 여러개를 JSONarray에 저장
 			 		jsonArr = (JSONArray)parser.parse(jsonStr);
 	
-			 		//사고사례를 저장할 객체 생성
+			 		//사고사례를 저장할 객체 생성함
 			 		AccidentCase accCase = new AccidentCase();
 			 		//JSON 배열에서 하나를 꺼내 저장할  JSON 객체
 			 		

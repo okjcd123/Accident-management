@@ -245,13 +245,14 @@ public class AccidentCaseDAO {
 		AccidentCase accCase;
 		datas = new ArrayList<AccidentCase>();
 		connectDB();
-		sql = "select * from accidentcase where province = ? && town = ?";
+		sql = "select * from accidentcase where (province = ? and town = ?)";
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
-			rs = pstmt.executeQuery();
 			pstmt.setString(1, province);
 			pstmt.setString(2, town);
+			rs = pstmt.executeQuery();
+		
 
 			while(rs.next()) {
 				accCase = new AccidentCase();
@@ -287,7 +288,7 @@ public class AccidentCaseDAO {
 		datas = new ArrayList<AccidentCase>();
 		connectDB();
 		
-	      sql = "select * from accidentcase where year = ? and month = ?";
+	      sql = "select * from accidentcase where (year = ? and month = ?)";
 	      try {
 	         pstmt = conn.prepareStatement(sql);
 	         pstmt.setString(1,year);
