@@ -89,9 +89,9 @@ public class AppController {
 							String tow = (String)AppManager.CreateInstance().getAppMain().guGun.getSelectedItem();
 							
 							outputDatas = AppManager.CreateInstance().getAccidentCaseDAO().searchCaseLoca(pro, tow);
+			
 							// 출력 절차
-							AppManager.CreateInstance().getAppMain().cardLayout.show(AppManager.CreateInstance().getAppMain().cardPanel, "table");
-							
+							AppManager.CreateInstance().getAppMain().cardLayout.show(AppManager.CreateInstance().getAppMain().cardPanel, "table");	//table 화면 보여주기.
 							AppManager.CreateInstance().getAppMain().basicTable.setRowCount(0);
 							//Table 데이터 다시 채우기
 							for(AccidentCase outputCase: outputDatas)
@@ -172,6 +172,7 @@ public class AppController {
 							AppManager.CreateInstance().getAppMain().basicTable.setRowCount(0);
 							//Table 데이터 다시 채우기
 							AppManager.CreateInstance().getAppMain().basicTable.addRow(temp);
+							AppManager.CreateInstance().getAppMain().cardLayout.show(AppManager.CreateInstance().getAppMain().cardPanel, "table");	//table 화면 보여주기.
 							AppManager.CreateInstance().getAppMain().dia.dispose();
 						}		
 						
@@ -280,6 +281,8 @@ public class AppController {
 							AppManager.CreateInstance().getAppMain().basicTable.setRowCount(0);
 							//Table 데이터 다시 채우기
 							AppManager.CreateInstance().getAppMain().basicTable.addRow(temp);
+							AppManager.CreateInstance().getAppMain().cardLayout.show(AppManager.CreateInstance().getAppMain().cardPanel, "table");	//table 화면 보여주기.
+							
 							AppManager.CreateInstance().getAppMain().diaUpdate.dispose();
 							searchUpdateFlag = false;					
 						}

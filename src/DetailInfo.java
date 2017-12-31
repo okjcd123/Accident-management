@@ -134,39 +134,34 @@ public class DetailInfo extends JDialog{
 		policePanel = new JPanel();
 		policePanel.setLayout(null);
 		policePanel.setBounds(0,300,300,200);
-		primary.add(policePanel);
 		
 		policeNo = new JLabel();   //경찰 번호
 		policeNo.setText("담당 경찰번호: " + police.getPoliceno());
-		policeNo.setBounds(0,0, 300,200/5);
+		policeNo.setBounds(0,0, 300,300/13);
 		policePanel.add(policeNo);
 		
 		polname = new JLabel();    //경찰 이름
 		polname.setText("담당경찰관: " + police.getPolname());
-		polname.setBounds(0,200/5, 300,200/5);
-		policePanel.add(policeNo);
+		polname.setBounds(0,300/13, 300,300/13);
+		policePanel.add(polname);
 		
 		rank = new JLabel();       //경찰 계급
 		rank.setText("계급: " + police.getRank());
-		rank.setBounds(0, 200/5*2, 300,200/5);
+		rank.setBounds(0, 300/13*2, 300,300/13);
 		policePanel.add(rank);
 		
 		depart = new JLabel();     //소속 부서
 		depart.setText("소속부서: " + police.getDepart());
-		depart.setBounds(0,200/5*3, 300,200/5);
+		depart.setBounds(0,300/13*3, 300,300/13);
 		policePanel.add(depart);
 		
 		dpcode = new JLabel();     //소속 부서 코드
 		dpcode.setText("소속부서코드: "  + police.getDpcode());
-		dpcode.setBounds(0,200/5*4, 300,200/5);
+		dpcode.setBounds(0,300/13*4, 300,300/13);
 		policePanel.add(dpcode);
 		primary.add(policePanel);
 		
 		//지도 관련---------------------------------------------------------------------
-		mapPanel = new JPanel();
-		mapPanel.setBounds(300,0,300,600);
-		mapPanel.setLayout(null);
-		primary.add(mapPanel);
 		
 		
 		NativeInterface.open();			
@@ -188,7 +183,7 @@ public class DetailInfo extends JDialog{
 	public void createContent() {
 		    
 			JPanel webBrowserPanel = new JPanel(new BorderLayout());					//지도를 출력할 패널 생성 및 초기화
-			webBrowserPanel.setBounds(10,10,280,480);									//패널 크기 설정
+			webBrowserPanel.setBounds(10,10,280,430);									//패널 크기 설정
 			
 		    final JWebBrowser webBrowser = new JWebBrowser();							//웹브라우져 객체 생성
 		    webBrowser.setBarsVisible(false);
@@ -237,7 +232,7 @@ public class DetailInfo extends JDialog{
 				}
 		    });				
 		    webBrowserPanel.add(webBrowser);													//웹브라우져를 지도 패널(webBrowserPanel)에 붙이기
-		    mapPanel.add(webBrowserPanel);														//subPanel 에 지도 패널 붙이기
+		    primary.add(webBrowserPanel);														//subPanel 에 지도 패널 붙이기
 		   
 	}
 

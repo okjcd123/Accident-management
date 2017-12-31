@@ -82,7 +82,6 @@ public class AccidentAnalysis extends JDialog{
 	    	  setSize(1000,600);
 	    	  setLayout(null);
 	    	  setResizable(false);
-	  		
 	    	  createContent();
 	    	  add(primary);
 	  		
@@ -94,7 +93,9 @@ public class AccidentAnalysis extends JDialog{
 	}
 	
 	public void createContent() {
-		    
+			//primary.setBounds(0,0,1300,600);
+			//boxPanel.setBounds(0,0,650,50);
+		
 			JPanel webBrowserPanel = new JPanel(new BorderLayout());					//지도를 출력할 패널 생성 및 초기화
 			webBrowserPanel.setBounds(10,60,630,480);									//패널 크기 설정
 			  

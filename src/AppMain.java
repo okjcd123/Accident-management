@@ -49,7 +49,7 @@ public class AppMain extends JFrame{
 	protected Container cardPanel = new JPanel();
 	protected JPanel tablePanel = new JPanel();
 	protected JPanel imagePanel = new JPanel();
-	protected JLabel imageLabel = new JLabel();
+	protected JLabel imageLabel = new JLabel(ImageData.mainImage);
 	
 	//버튼----------------------------------------------------------------------------------
 	protected JPanel bPanel;
@@ -243,7 +243,6 @@ public class AppMain extends JFrame{
 		cardPanel.setLayout(cardLayout);
 		
 		imagePanel.setBounds(0,0,1260,510);
-		//이미지 추가 예정 
 		imageLabel.setBounds(0,0,1260,510);
 		imagePanel.add(imageLabel);
 		
@@ -260,7 +259,6 @@ public class AppMain extends JFrame{
 		}
 		scroll = new JScrollPane();
 		scroll.setViewportView(table);
-      	//scroll.setBounds(20,110,1260, 510);
       	scroll.setBounds(0,0,1260,510);
 		scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS); //가로바정책
       	scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS); //가로바정책
@@ -268,7 +266,7 @@ public class AppMain extends JFrame{
       	
       	cardPanel.add(tablePanel, "table");
       	cardPanel.add(imagePanel, "image");
-      	cardLayout.show(cardPanel,"table");		
+      	cardLayout.show(cardPanel,"image");		
       	
       	primary.add(cardPanel);
       	
@@ -318,189 +316,7 @@ public class AppMain extends JFrame{
 		diaSearch.add(searchButtonPanel);
 		diaSearch.setVisible(true);
 	}
-	/*
-	public void registration() {
-		dia = new JDialog();
-		dia.setTitle("사고 등록");
-		dia.setLayout(null);
-		dia.setResizable(false);
-		dia.setSize(810,600);
-		
-		//leftPanel 관련 사항 --------------------------------------------------
-		leftPanel = new JPanel();
-		leftPanel.setBackground(Color.white);
-		leftPanel.setLayout(new GridLayout(6,1));
-		leftPanel.setBounds(0,0,100,500);
-		dia.add(leftPanel);
-		
-		label1 = new JLabel("장소",JLabel.CENTER);
-		label2 = new JLabel("날짜",JLabel.CENTER);
-		label3 = new JLabel("경찰번호",JLabel.CENTER);
-		label5 = new JLabel("사상자 수",JLabel.CENTER);
-		label6 = new JLabel("사고 타입",JLabel.CENTER);
-		label7 = new JLabel("위도, 경도",JLabel.CENTER);
-		
-		leftPanel.add(label1);
-		leftPanel.add(label2);
-		leftPanel.add(label3);
-		leftPanel.add(label5);
-		leftPanel.add(label6);
-		leftPanel.add(label7);
-		
-		//rightPanel 관련 사항 --------------------------------------------------
-		rightPanel = new JPanel();
-		rightPanel.setLayout(new GridLayout(6,1));
-		rightPanel.setBounds(100,0,700,500);
-		dia.add(rightPanel);
-		
-		polno = new JTextField(10);
-		dead = new JTextField(10);
-		injured = new JTextField(10);
-		lati = new JTextField(10);
-		longi = new JTextField(10);
 
-		//장소입력부분
-		loc = new JPanel();
-		loc.setLayout(new GridLayout(1,2));
-		loc.add(pro);loc.add(tow);
-		rightPanel.add(loc);
-		
-		//날짜입력부분
-		time = new JPanel();
-		time.setLayout(new GridLayout(1,3));
-		time.add(yearcb);time.add(monthcb);time.add(daycb);
-		rightPanel.add(time);
-		
-		//경찰번호 입력부분
-		rightPanel.add(polno);
-		
-		//사상사주 입력 부분
-		casualty = new JPanel();
-		casualty.setLayout(new GridLayout(1,4));
-		tmp1 = new JLabel("사망자 수");
-		tmp2 = new JLabel("부상자 수");
-		casualty.add(tmp1); casualty.add(dead);
-		casualty.add(tmp2); casualty.add(injured);
-		rightPanel.add(casualty);
-		
-		//사고타입 입력부분
-		rightPanel.add(accType);
-		
-		//위도 경도 입력부분
-		locInfo = new JPanel();
-		locInfo.setLayout(new GridLayout(1,4,70,0));
-		laTmp = new JLabel("위도");
-		loTmp = new JLabel("경도");
-		locInfo.add(laTmp);locInfo.add(lati);
-		locInfo.add(loTmp);locInfo.add(longi);
-		rightPanel.add(locInfo);
-
-		//subPanel----------------------------------------------------------------------------
-		subPanel = new JPanel();
-		subPanel.setBounds(0,500,810,100);
-		dia.add(subPanel);
-		
-		regBtn.setBounds(405-20, 0, 40, 30);
-		subPanel.add(regBtn);
-		
-		dia.setVisible(true);
-	}
-	public void modifyDelete() {
-		
-		diaUpdate = new JDialog();
-		diaUpdate.setTitle("사고 수정 / 삭제");
-		diaUpdate.setLayout(null);
-		diaUpdate.setResizable(false);
-		diaUpdate.setSize(810,700);
-		
-		//leftPanel 관련 사항 --------------------------------------------------
-		leftUpdatePanel = new JPanel();
-		leftUpdatePanel.setBackground(Color.white);
-		leftUpdatePanel.setLayout(new GridLayout(7,1));
-		leftUpdatePanel.setBounds(0,0,100,600);
-		diaUpdate.add(leftUpdatePanel);
-		
-		caseNum = new JLabel("사고 번호 입력", JLabel.CENTER);
-		labelUpdate1 = new JLabel("장소",JLabel.CENTER);
-		labelUpdate2 = new JLabel("날짜",JLabel.CENTER);
-		labelUpdate3 = new JLabel("경찰번호",JLabel.CENTER);
-		labelUpdate5 = new JLabel("사상자 수",JLabel.CENTER);
-		labelUpdate6 = new JLabel("사고 타입",JLabel.CENTER);
-		labelUpdate7 = new JLabel("위도, 경도",JLabel.CENTER);
-		
-		leftUpdatePanel.add(caseNum);
-		leftUpdatePanel.add(labelUpdate1);
-		leftUpdatePanel.add(labelUpdate2);
-		leftUpdatePanel.add(labelUpdate3);
-		leftUpdatePanel.add(labelUpdate5);
-		leftUpdatePanel.add(labelUpdate6);
-		leftUpdatePanel.add(labelUpdate7);
-		
-		//rightPanel 관련 사항 --------------------------------------------------
-		rightUpdatePanel = new JPanel();
-		rightUpdatePanel.setLayout(new GridLayout(7,1));
-		rightUpdatePanel.setBounds(100,0,700,600);
-		diaUpdate.add(rightUpdatePanel);
-		
-		//사건 번호 입력 부분
-		searchCaseNumPanel = new JPanel(new GridLayout(1,2));	//케이스 검색 패널
-		
-		searchCaseNumPanel.add(caseNumTxt);
-		searchCaseNumPanel.add(searchUpdateBtn);
-		rightUpdatePanel.add(searchCaseNumPanel);
-		
-		//장소입력부분
-		locUpdate = new JPanel();
-		locUpdate.setLayout(new GridLayout(1,2));
-		locUpdate.add(proUpdate);locUpdate.add(towUpdate);
-		rightUpdatePanel.add(locUpdate);
-		
-		//날짜입력부분
-		timeUpdate = new JPanel();
-		timeUpdate.setLayout(new GridLayout(1,3));
-		timeUpdate.add(yearcbUpdate);timeUpdate.add(monthcbUpdate);timeUpdate.add(daycbUpdate);
-		rightUpdatePanel.add(timeUpdate);
-		
-		//경찰번호 입력부분
-		rightUpdatePanel.add(polnoUpdate);
-		
-		//사상사주 입력 부분
-		casualtyUpdate= new JPanel();
-		casualtyUpdate.setLayout(new GridLayout(1,4));
-		tmp1Update = new JLabel("사망자 수");
-		tmp2Update = new JLabel("부상자 수");
-		casualtyUpdate.add(tmp1Update); casualtyUpdate.add(deadUpdate);
-		casualtyUpdate.add(tmp2Update); casualtyUpdate.add(injuredUpdate);
-		rightUpdatePanel.add(casualtyUpdate);
-		
-		//사고타입 입력부분
-		rightUpdatePanel.add(accTypeUpdate);
-		
-		//위도 경도 입력부분
-		locInfoUpdate = new JPanel();
-		locInfoUpdate.setLayout(new GridLayout(1,4,70,0));
-		laTmpUpdate = new JLabel("위도");
-		loTmpUpdate = new JLabel("경도");
-		locInfoUpdate.add(laTmpUpdate);locInfoUpdate.add(latiUpdate);
-		locInfoUpdate.add(loTmpUpdate);locInfoUpdate.add(longiUpdate);
-		rightUpdatePanel.add(locInfoUpdate);
-
-		//subPanel----------------------------------------------------------------------------
-		//diaUpdate.setSize(810,800);
-		subUpdatePanel = new JPanel();
-		subUpdatePanel.setLayout(null);
-		subUpdatePanel.setBounds(0,600,810,100);
-		
-		updateButton.setBounds(600,0,80,50);
-		subUpdatePanel.add(updateButton);
-		
-		deleteButton.setBounds(690, 0, 80,50);
-		subUpdatePanel.add(deleteButton);
-		
-		diaUpdate.add(subUpdatePanel);
-		diaUpdate.setVisible(true);
-	}
-	*/
 	 public void registration() {
 
 	      dia = new JDialog();
