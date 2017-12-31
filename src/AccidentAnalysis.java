@@ -32,6 +32,7 @@ public class AccidentAnalysis extends JDialog{
 	private JPanel boxPanel;
 	private JLabel yearlbl;
 	private JLabel monthlbl;
+	
 	private JComboBox yearBox;
 	private JComboBox monthBox;
 	
@@ -53,6 +54,7 @@ public class AccidentAnalysis extends JDialog{
 		yearlbl.setBounds(0,0,50,50);
 		boxPanel.add(yearlbl);
 		
+		yearBox = new JComboBox(year);
 		yearBox.setBounds(50,0,200,50);
 		boxPanel.add(yearBox);
 			

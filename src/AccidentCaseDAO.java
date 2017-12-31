@@ -99,55 +99,6 @@ public class AccidentCaseDAO {
 		return newCode;
 	}
 	
-	int entireColNum() 
-	{
-		int colCnt=0;
-		connectDB();
-		sql = "select * from accidentcase";
-		try {
-			pstmt = conn.prepareStatement(sql);
-			rs = pstmt.executeQuery();
-			
-			if(rs.next())
-			{
-				ResultSetMetaData md = rs.getMetaData();
-				colCnt = md.getColumnCount();
-			}
-			
-			
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		closeDB();
-		return colCnt;
-	}
-	
-	int entireRowNum() {
-		int rowCnt=0;
-		connectDB();
-		sql = "select * from accidentcase";
-		try {
-			pstmt = conn.prepareStatement(sql);
-			rs = pstmt.executeQuery();
-			
-			if(rs.next())
-			{
-				rs.last();
-				rowCnt = rs.getRow();
-				rs.beforeFirst();
-			}
-		
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		closeDB();
-		return rowCnt;
-	}
-
 	boolean insertCase(AccidentCase accCase) 
 	{
 		connectDB();
@@ -321,20 +272,20 @@ public class AccidentCaseDAO {
 		return datas;
 	}	
 	
-	ArrayList<AccidentCase> searchCaseTime(String year, String month)
+	ArrayList<AccidentCase> searchCaseTime(String year)
 	{
 		AccidentCase accCase;
 		datas = new ArrayList<AccidentCase>();
 		connectDB();
 		
-	      sql = "select * from accidentcase where (year = ? and month = ?)";
+	      sql = "select * from accidentcase where year = ?";
 	      try {
 	         pstmt = conn.prepareStatement(sql);
 	         pstmt.setString(1,year);
-	         pstmt.setString(2,month);
 	         rs = pstmt.executeQuery();
 	         
-	         while(rs.next()) {
+	         while(rs.next())
+	         {
 					accCase = new AccidentCase();
 					accCase.setCscode(rs.getInt("cscode"));
 					accCase.setProvince(rs.getString("province"));
@@ -358,6 +309,7 @@ public class AccidentCaseDAO {
 	      }
 	      return datas;
 	   }
+	
 	
 	String getPolCode(String dpcode)
 	{
