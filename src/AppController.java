@@ -60,7 +60,7 @@ public class AppController {
 					public void actionPerformed(ActionEvent arg0) {
 						JComboBox tmp = (JComboBox)arg0.getSource();
 						String select = (String)tmp.getSelectedItem();
-
+					
 						if(select.equals("전체")) {
 							AppManager.CreateInstance().getAppMain().guGun.setModel(new DefaultComboBoxModel());
 						}
@@ -90,6 +90,7 @@ public class AppController {
 							
 							outputDatas = AppManager.CreateInstance().getAccidentCaseDAO().searchCaseLoca(pro, tow);
 							// 출력 절차
+							AppManager.CreateInstance().getAppMain().cardLayout.show(AppManager.CreateInstance().getAppMain().cardPanel, "table");
 							
 							AppManager.CreateInstance().getAppMain().basicTable.setRowCount(0);
 							//Table 데이터 다시 채우기
@@ -205,7 +206,6 @@ public class AppController {
 						{
 							AccidentCase temp = new AccidentCase();
 							int accNum = Integer.parseInt(AppManager.CreateInstance().getAppMain().caseNumTxt.getText());
-						
 							temp = AppManager.CreateInstance().getAccidentCaseDAO().getCase(accNum);
 							
 							if(temp != null)
@@ -243,6 +243,8 @@ public class AppController {
 							
 							//모든 정보 가져와서 tempCase 에 저장하기.
 							AccidentCase tempCase = new AccidentCase();
+							boolean succFlag;
+							int caseNum = Integer.parseInt(AppManager.CreateInstance().getAppMain().caseNum.getText());
 							
 							tempCase.setCscode(Integer.parseInt(AppManager.CreateInstance().getAppMain().caseNum.getText()));
 							tempCase.setProvince((String)AppManager.CreateInstance().getAppMain().pro.getSelectedItem());
@@ -259,7 +261,25 @@ public class AppController {
 							tempCase.setLongitude(Double.parseDouble(AppManager.CreateInstance().getAppMain().longi.getText()));
 							
 							//tempCase 업데이트 실시
+							succFlag = AppManager.CreateInstance().getAccidentCaseDAO().updateCase(tempCase);
 							
+							
+							//다시 가져와서 Table에 뿌리기
+							AppManager.CreateInstance().getAppMain().cardLayout.show(AppManager.CreateInstance().getAppMain().cardPanel, "table");
+							
+							AccidentCase outputCase = new AccidentCase();
+							outputCase = AppManager.CreateInstance().getAccidentCaseDAO().getCase(caseNum);
+							
+							String [] temp = {Integer.toString(outputCase.getCscode()),
+									outputCase.getProvince(),outputCase.getTown(), outputCase.getYear(),
+									outputCase.getMonth(), outputCase.getDay(),Integer.toString(outputCase.getCasulity()),
+									Integer.toString(outputCase.getDead()),Integer.toString(outputCase.getInjured()),
+									outputCase.getActype()};
+						
+							//Table 초기화
+							AppManager.CreateInstance().getAppMain().basicTable.setRowCount(0);
+							//Table 데이터 다시 채우기
+							AppManager.CreateInstance().getAppMain().basicTable.addRow(temp);
 							AppManager.CreateInstance().getAppMain().diaUpdate.dispose();
 							searchUpdateFlag = false;					
 						}
@@ -272,6 +292,7 @@ public class AppController {
 							{
 								//화면 CardLayout 으로 사진 으로 전환
 								searchUpdateFlag = false;
+								AppManager.CreateInstance().getAppMain().cardLayout.show(AppManager.CreateInstance().getAppMain().cardPanel, "image");
 								AppManager.CreateInstance().getAppMain().diaUpdate.dispose();	
 							}
 							else
