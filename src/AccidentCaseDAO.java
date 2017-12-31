@@ -135,6 +135,51 @@ public class AccidentCaseDAO {
 		return accCase;
 	}
 	
+	ArrayList<AccidentCase> searchCase(String province, String town, String year, String month)
+	{
+		AccidentCase accCase;
+		datas = new ArrayList<AccidentCase>();
+		connectDB();
+		sql = "select * from accidentcase where (province = ? and town = ? and year = ? and month = ?)";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, province);
+			pstmt.setString(2, town);
+			pstmt.setString(3, year);
+			pstmt.setString(4, month);
+			rs = pstmt.executeQuery();
+
+			while(rs.next()) {
+				accCase = new AccidentCase();
+				accCase.setCscode(rs.getInt("cscode"));
+				accCase.setProvince(rs.getString("province"));
+				accCase.setTown(rs.getString("town"));
+				accCase.setYear(rs.getString("year"));
+				accCase.setMonth(rs.getString("month"));
+				accCase.setDay(rs.getString("day"));
+				accCase.setPoliceno(rs.getString("policeno"));
+				accCase.setDead(rs.getInt("dead"));
+				accCase.setInjured(rs.getInt("injured"));
+				accCase.setCasulity();
+				accCase.setActype(rs.getString("actype"));
+				accCase.setLatitude(rs.getDouble("latitude"));
+				accCase.setLongitude(rs.getDouble("longitude"));
+				
+				datas.add(accCase);
+			}
+			
+			rs.close();
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		closeDB();
+		return datas;
+	}	
+	
 	ArrayList<AccidentCase> searchCaseLoca(String province, String town)
 	{
 		AccidentCase accCase;
