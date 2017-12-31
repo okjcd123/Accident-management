@@ -31,6 +31,8 @@ import javax.swing.table.DefaultTableModel;
 
 public class AppMain extends JFrame{
 
+	public boolean status = false;
+	
 	protected String [] header = {"사고번호", "시/도", "구/군", "발생연", "월", "일", "사상자", "사망자", "부상자", "사고 유형"};
 	protected String contents[][] = {{"1", "서울특별시", "강남구", "2017", "02", "28", "1", "0" ,"1", "차대사람"}
 	,{"1", "서울특별시", "강남구", "2017", "02", "28", "1", "0" ,"1", "차대차"}};
@@ -297,9 +299,12 @@ public class AppMain extends JFrame{
 		}
 		public void paintComponent(Graphics g)
 		{
-			super.paintComponents(g);
-			g.drawImage(ImageData.introImage,0, 0, null);
-
+			if(status == false)
+			{
+				super.paintComponents(g);
+				g.drawImage(ImageData.introImage,0, 0, null);
+				
+			}
 		}
 		public void addActionLoginButtonListener(ActionListener action) {
 			// TODO Auto-generated method stub
@@ -558,7 +563,6 @@ public class AppMain extends JFrame{
 
 	      dia.setVisible(true);
 	   }
-	 
 	   public void modifyDelete() {
 
 	      diaUpdate = new JDialog();
@@ -1083,7 +1087,5 @@ public class AppMain extends JFrame{
 	{
 		table.addMouseListener(mouse);
 	}
-
-
 
 }

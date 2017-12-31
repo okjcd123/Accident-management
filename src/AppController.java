@@ -38,6 +38,8 @@ public class AppController {
 							AppManager.CreateInstance().getAppMain().getContentPane().add(AppManager.CreateInstance().getAppMain().primary);
 							AppManager.CreateInstance().getAppMain().revalidate();
 							AppManager.CreateInstance().getAppMain().primary.requestFocus();
+							AppManager.CreateInstance().getAppMain().status = true;
+							AppManager.CreateInstance().getAppMain().repaint();
 							
 						}
 						else
