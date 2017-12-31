@@ -8,7 +8,9 @@
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Container;
+import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseListener;
@@ -24,6 +26,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.border.EtchedBorder;
 import javax.swing.table.DefaultTableModel;
 
 public class AppMain extends JFrame{
@@ -45,8 +48,6 @@ public class AppMain extends JFrame{
 	protected JPanel[] panels;
 	protected JLabel[] labels;
 	
-	protected CardLayout mainLayout = new CardLayout();
-	protected Container cardMainPanel = new JPanel();
 	protected Intro introPanel = new Intro();
 	protected JPanel primary = new JPanel();
 	
@@ -201,24 +202,11 @@ public class AppMain extends JFrame{
 		setResizable(false);
 		setUndecorated(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	
-		
 		getContentPane().add(introPanel);
 		
-	//	cardMainPanel.setBounds(0,0,Execute.WIDTH,Execute.HEIGHT);
-	//cardMainPanel.setLayout(mainLayout);
-	//	getContentPane().add(cardMainPanel);		
-
+		primary.setBounds(0,0,Execute.WIDTH,Execute.HEIGHT);
+		primary.setLayout(null);
 		
-		//primary.setBounds(0,0,Execute.WIDTH,Execute.HEIGHT);
-		//primary.setLayout(null);
-		
-//		cardMainPanel.add(introPanel, "intro");
-  //  	cardMainPanel.add(primary, "primary");
-//     	mainLayout.show(cardMainPanel,"intro");		
-
-
- 
 		//해당 날짜 사고 정보들 실시간? 띄우기
 		accInfo = new JLabel("해당 날짜 사고 정보");
 		accInfo.setBounds(0, 670, 1200, 30);
@@ -318,7 +306,448 @@ public class AppMain extends JFrame{
 			introPanel.loginBtn.addActionListener(action);
 		}
 	}
+	 public void search() {
+	      diaSearch = new JDialog();
+	      diaSearch.setSize(430,300);
+	      diaSearch.setResizable(false);
+	      diaSearch.setLayout(null);
+	      diaSearch.setTitle("사고 정보 검색");
+
+	      
+	      //라벨패널
+	      searchUpPanel = new JPanel();
+	      searchUpPanel.setBounds(0,0,100,200);
+	      searchUpPanel.setLayout(new GridLayout(3,1));
+	      searchUpPanel.setBackground(Color.LIGHT_GRAY);
+
+	      
+	      JPanel siDoPn = new JPanel();
+	      siDoPn.setLayout(null);
+	      siDoPn.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
+	      siDolbl = new JLabel("시/도");
+	      siDolbl.setBounds(35,10,50,50);
+	      siDoPn.add(siDolbl);
+	      searchUpPanel.add(siDoPn);
+	      
+	      JPanel guGunPn = new JPanel();
+	      guGunPn.setLayout(null);
+	      guGunPn.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
+	      guGunlbl = new JLabel("군/구");
+	      guGunlbl.setBounds(35,10,50,50);
+	      guGunPn.add(guGunlbl);
+	      searchUpPanel.add(guGunPn);
+	      
+	      JPanel CalPn = new JPanel();
+	      CalPn.setLayout(null);
+	      CalPn.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
+	      JLabel calLbl = new JLabel("년/월");
+	      calLbl.setBounds(35,10,50,50);
+	      CalPn.add(calLbl);
+	      searchUpPanel.add(CalPn);
+	      
+	      
+	      //콤보박스 패널관리
+	      searchDownPanel = new JPanel();
+	      searchDownPanel.setBounds(100,0,330,200);
+	      searchDownPanel.setBackground(Color.WHITE);
+	      searchDownPanel.setLayout(new GridLayout(3,1));
+	      
+	      
+	      JPanel sidoCbPn = new JPanel();
+	      sidoCbPn.setLayout(null);
+	      sidoCbPn.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
+	      sidoCbPn.setBackground(Color.WHITE);
+	      siDo.setBounds(10,20,120,30);
+	      sidoCbPn.add(siDo);
+	      searchDownPanel.add(sidoCbPn);
+
+	      JPanel gunguCbPn = new JPanel();
+	      gunguCbPn.setLayout(null);
+	      gunguCbPn.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
+	      gunguCbPn.setBackground(Color.WHITE);
+	      guGun.setBounds(10,20,120,30);
+	      gunguCbPn.add(guGun);
+	      searchDownPanel.add(gunguCbPn);
+	      
+	      JPanel calCbPn = new JPanel();
+	      calCbPn.setLayout(null);
+	      calCbPn.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
+	      calCbPn.setBackground(Color.WHITE);
+	      yearcb.setBounds(10,20,120,30);
+	      monthcb.setBounds(170,20,100,30);
+	      calCbPn.add(yearcb);calCbPn.add(monthcb);
+	      
+	      searchDownPanel.add(calCbPn);
+
+	      
+	      //버튼패널관리
+	      searchButtonPanel = new JPanel();
+	      searchButtonPanel.setLayout(null);
+	      searchButtonPanel.setBounds(0,200,400,100);
+	      searchButton.setBounds(135, 5, 150, 50);
+	      searchButtonPanel.add(searchButton);
+
+	      
+	      diaSearch.add(searchUpPanel);
+	      diaSearch.add(searchDownPanel);
+	      diaSearch.add(searchButtonPanel);
+	      diaSearch.setVisible(true);
+	   }
+	 
+	 public void registration() {
+
+	      dia = new JDialog();
+	      dia.setTitle("사고 등록");
+	      dia.setLayout(null);
+	      dia.setResizable(false);
+	      dia.setSize(550,550);
+
+	      //leftPanel 관련 사항 --------------------------------------------------
+	      leftPanel = new JPanel();
+	      leftPanel.setBackground(Color.LIGHT_GRAY);
+	      //leftPanel.setLayout(null);
+	      leftPanel.setLayout(new GridLayout(6,1));
+	      leftPanel.setBounds(0,0,100,430);
+
+	      JPanel lap1 = new JPanel();
+	      JPanel lap2 = new JPanel();
+	      JPanel lap3 = new JPanel();
+	      JPanel lap5 = new JPanel();
+	      JPanel lap6 = new JPanel();
+	      JPanel lap7 = new JPanel();
+	      lap1.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
+	      lap2.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
+	      lap3.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
+	      lap5.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
+	      lap6.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
+	      lap7.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
+
+	      lap1.setLayout(null);lap2.setLayout(null);lap3.setLayout(null);
+	      lap5.setLayout(null);lap6.setLayout(null);lap7.setLayout(null);
+
+	      label1 = new JLabel("장소",JLabel.CENTER);
+	      label2 = new JLabel("날짜",JLabel.CENTER);
+	      label3 = new JLabel("경찰번호",JLabel.CENTER);
+	      label5 = new JLabel("사상자 수",JLabel.CENTER);
+	      label6 = new JLabel("사고 타입",JLabel.CENTER);
+	      label7 = new JLabel("위도, 경도",JLabel.CENTER);
+
+
+	      label1.setBounds(35,20,30,30);
+	      label2.setBounds(35,20,30,30);
+	      label3.setBounds(20,20,60,30);
+	      label5.setBounds(20,20,60,30);
+	      label6.setBounds(20,20,60,30);
+	      label7.setBounds(20,20,60,30);
+	      lap1.add(label1);lap2.add(label2);lap3.add(label3);
+	      lap5.add(label5);lap6.add(label6);lap7.add(label7);
+
+
+	      leftPanel.add(lap1);
+	      leftPanel.add(lap2);
+	      leftPanel.add(lap3);
+	      leftPanel.add(lap5);
+	      leftPanel.add(lap6);
+	      leftPanel.add(lap7);
+
+	      dia.add(leftPanel);
+
+	      //rightPanel 관련 사항 --------------------------------------------------
+
+	      rightPanel = new JPanel();
+	      rightPanel.setBounds(100,0,700,430);
+	      rightPanel.setLayout(new GridLayout(6,1));
+	      rightPanel.setBackground(Color.WHITE);
+
+	      dia.add(rightPanel);
+
+
+	      //장소입력부분
+	      loc = new JPanel();
+	      loc.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
+	      loc.setLayout(null);
+	      loc.setBackground(Color.WHITE);
+	      pro.setBounds(10,15,120,40);
+	      tow.setBounds(140,15,100,40);
+
+	      loc.add(pro);
+	      loc.add(tow);
+	      rightPanel.add(loc);
+
+	      //날짜입력부분
+	      time = new JPanel();
+	      time.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
+	      time.setLayout(null);
+	      time.setBackground(Color.WHITE);
+
+	      yearcb.setBounds(10,15,120,40);
+	      monthcb.setBounds(140,15,100,40);
+	      daycb.setBounds(260,15,100,40);
+
+	      time.add(yearcb);
+	      time.add(monthcb);
+	      time.add(daycb);
+	      rightPanel.add(time);
+
+	      //경찰번호 입력부분
+	      JPanel tm = new JPanel();
+	      tm.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
+	      tm.setLayout(null);
+	      tm.setBackground(Color.WHITE);
+	      polno.setFont(new Font("돋움",Font.PLAIN,20));
+	      polno.setBounds(10,15,120,40);
+	      tm.add(polno);
+	      rightPanel.add(tm);
+
+	      //사상사주 입력 부분
+	      casualty = new JPanel();
+	      casualty.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
+	      casualty.setLayout(null);
+	      casualty.setBackground(Color.WHITE);
+
+	      tmp1 = new JLabel("사망자 수");
+	      tmp2 = new JLabel("부상자 수");
+
+	      tmp1.setBounds(10,15,60,40);
+	      dead.setBounds(80,15,50,40);
+	      dead.setFont(new Font("돋움",Font.PLAIN,15));
+	      tmp2.setBounds(140,15,60,40);
+	      injured.setBounds(210,15,50,40);
+	      injured.setFont(new Font("돋움",Font.PLAIN,15));
+
+	      casualty.add(tmp1); casualty.add(dead);
+	      casualty.add(tmp2); casualty.add(injured);
+	      rightPanel.add(casualty);
+
+	      //사고타입 입력부분
+	      JPanel typeTmp = new JPanel();
+	      typeTmp.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
+	      typeTmp.setLayout(null);
+	      accType.setBounds(10,15,120,40);
+	      typeTmp.setBackground(Color.WHITE);
+	      typeTmp.add(accType);
+	      rightPanel.add(typeTmp);
+
+	      //위도 경도 입력부분
+	      locInfo = new JPanel();
+	      locInfo.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
+	      locInfo.setLayout(null);
+	      locInfo.setBackground(Color.WHITE);
+	      laTmp = new JLabel("위도");
+	      loTmp = new JLabel("경도");
+
+	      laTmp.setBounds(10,15,60,40);
+	      lati.setBounds(80,15,50,40);
+	      lati.setFont(new Font("돋움",Font.PLAIN,15));
+	      loTmp.setBounds(140,15,60,40);
+	      longi.setBounds(210,15,50,40);
+	      longi.setFont(new Font("돋움",Font.PLAIN,15));
+	      locInfo.add(laTmp);locInfo.add(lati);
+	      locInfo.add(loTmp);locInfo.add(longi);
+	      rightPanel.add(locInfo);
+
+	      //subPanel----------------------------------------------------------------------------
+	      subPanel = new JPanel();
+	      subPanel.setLayout(null);
+	      subPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
+	      subPanel.setBounds(0,430,550,120);
+	      regBtn.setBounds(230, 20, 60, 40);
+	      subPanel.add(regBtn);
+	      dia.add(subPanel);
+
+
+	      dia.setVisible(true);
+	   }
+	 
+	   public void modifyDelete() {
+
+	      diaUpdate = new JDialog();
+	      diaUpdate.setTitle("사고 수정 / 삭제");
+	      diaUpdate.setLayout(null);
+	      diaUpdate.setResizable(false);
+	      diaUpdate.setSize(550,550);
+
+	      //leftPanel 관련 사항 --------------------------------------------------
+	      leftUpdatePanel = new JPanel();
+	      leftUpdatePanel.setBackground(Color.LIGHT_GRAY);
+	      leftUpdatePanel.setLayout(new GridLayout(7,1));
+	      leftUpdatePanel.setBounds(0,0,100+20,430);
+
+	      JPanel caseLap = new JPanel();
+	      JPanel lapUpdate1 = new JPanel();
+	      JPanel lapUpdate2 = new JPanel();
+	      JPanel lapUpdate3 = new JPanel();
+	      JPanel lapUpdate5 = new JPanel();
+	      JPanel lapUpdate6 = new JPanel();
+	      JPanel lapUpdate7 = new JPanel();
+
+	      caseLap.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
+	      lapUpdate1.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
+	      lapUpdate2.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
+	      lapUpdate3.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
+	      lapUpdate5.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
+	      lapUpdate6.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
+	      lapUpdate7.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
+
+	      caseLap.setLayout(null);
+	      lapUpdate1.setLayout(null);lapUpdate2.setLayout(null);lapUpdate3.setLayout(null);
+	      lapUpdate5.setLayout(null);lapUpdate6.setLayout(null);lapUpdate7.setLayout(null);
+
+
+	      caseNum = new JLabel("사고번호 입력",JLabel.CENTER);
+	      labelUpdate1 = new JLabel("장소",JLabel.CENTER);
+	      labelUpdate2 = new JLabel("날짜",JLabel.CENTER);
+	      labelUpdate3 = new JLabel("경찰번호",JLabel.CENTER);
+	      labelUpdate5 = new JLabel("사상자 수",JLabel.CENTER);
+	      labelUpdate6 = new JLabel("사고 타입",JLabel.CENTER);
+	      labelUpdate7 = new JLabel("위도, 경도",JLabel.CENTER);
+
+	      caseNum.setBounds(15, 15, 90, 30);
+	      labelUpdate1.setBounds(43,18,30,30);
+	      labelUpdate2.setBounds(43,18,30,30);
+	      labelUpdate3.setBounds(28,18,60,30);
+	      labelUpdate5.setBounds(28,18,60,30);
+	      labelUpdate6.setBounds(28,18,60,30);
+	      labelUpdate7.setBounds(28,18,60,30);
+
+	      caseLap.add(caseNum);
+	      lapUpdate1.add(labelUpdate1);lapUpdate2.add(labelUpdate2);lapUpdate3.add(labelUpdate3);
+	      lapUpdate5.add(labelUpdate5);lapUpdate6.add(labelUpdate6);lapUpdate7.add(labelUpdate7);
+
+
+	      leftUpdatePanel.add(caseLap);
+	      leftUpdatePanel.add(lapUpdate1);
+	      leftUpdatePanel.add(lapUpdate2);
+	      leftUpdatePanel.add(lapUpdate3);
+	      leftUpdatePanel.add(lapUpdate5);
+	      leftUpdatePanel.add(lapUpdate6);
+	      leftUpdatePanel.add(lapUpdate7);
+
+	      diaUpdate.add(leftUpdatePanel);
+
+	      //rightPanel 관련 사항 --------------------------------------------------
+
+	      rightUpdatePanel = new JPanel();
+	      rightUpdatePanel.setBounds(100+20,0,700-20,430);
+	      rightUpdatePanel.setLayout(new GridLayout(7,1));
+	      rightUpdatePanel.setBackground(Color.WHITE);
+
+	      diaUpdate.add(rightUpdatePanel);
+
+	      //사건 번호 입력 부분
+	      searchCaseNumPanel = new JPanel();//케이스 검색 패널
+	      searchCaseNumPanel.setLayout(null);
+	      searchCaseNumPanel.setBackground(Color.WHITE);
+	      searchCaseNumPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
+	      caseNumTxt = new JTextField(10);      //사건 번호 입력란
+	      caseNumTxt.setFont(new Font("돋움",Font.PLAIN,20));
+	      caseNumTxt.setBounds(10,7,70,50);
+	      searchUpdateBtn.setBounds(90,7,70,50);
+	      searchCaseNumPanel.add(caseNumTxt);
+	      searchCaseNumPanel.add(searchUpdateBtn);
+	      rightUpdatePanel.add(searchCaseNumPanel);
+
+	      //장소입력부분
+	      locUpdate = new JPanel();
+	      locUpdate.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
+	      locUpdate.setLayout(null);
+	      locUpdate.setBackground(Color.WHITE);
+	      proUpdate.setBounds(10,10,120,40);
+	      towUpdate.setBounds(140,10,100,40);
+
+	      locUpdate.add(proUpdate);
+	      locUpdate.add(towUpdate);
+	      rightUpdatePanel.add(locUpdate);
+
+	      //날짜입력부분
+	      timeUpdate = new JPanel();
+	      timeUpdate.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
+	      timeUpdate.setLayout(null);
+	      timeUpdate.setBackground(Color.WHITE);
+
+	      yearcbUpdate.setBounds(10,10,120,40);
+	      monthcbUpdate.setBounds(140,10,100,40);
+	      daycbUpdate.setBounds(260,10,100,40);
+
+	      timeUpdate.add(yearcbUpdate);
+	      timeUpdate.add(monthcbUpdate);
+	      timeUpdate.add(daycbUpdate);
+	      rightUpdatePanel.add(timeUpdate);
+
+	      //경찰번호 입력부분
+	      JPanel tmUpdate = new JPanel();
+	      tmUpdate.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
+	      tmUpdate.setLayout(null);
+	      tmUpdate.setBackground(Color.WHITE);
+	      polnoUpdate.setFont(new Font("돋움",Font.PLAIN,20));
+	      polnoUpdate.setBounds(10,10,120,40);
+	      tmUpdate.add(polnoUpdate);
+	      rightUpdatePanel.add(tmUpdate);
+
+	      //사상사주 입력 부분
+	      casualtyUpdate = new JPanel();
+	      casualtyUpdate.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
+	      casualtyUpdate.setLayout(null);
+	      casualtyUpdate.setBackground(Color.WHITE);
+
+	      tmp1Update = new JLabel("사망자 수");
+	      tmp2Update = new JLabel("부상자 수");
+
+	      tmp1Update.setBounds(10,10,60,40);
+	      deadUpdate.setBounds(80,10,50,40);
+	      deadUpdate.setFont(new Font("돋움",Font.PLAIN,15));
+	      tmp2Update.setBounds(140,10,60,40);
+	      injuredUpdate.setBounds(210,10,50,40);
+	      injuredUpdate.setFont(new Font("돋움",Font.PLAIN,15));
+
+	      casualtyUpdate.add(tmp1Update); casualtyUpdate.add(deadUpdate);
+	      casualtyUpdate.add(tmp2Update); casualtyUpdate.add(injuredUpdate);
+	      rightUpdatePanel.add(casualtyUpdate);
+
+	      //사고타입 입력부분
+	      JPanel typeTmpUpdate = new JPanel();
+	      typeTmpUpdate.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
+	      typeTmpUpdate.setLayout(null);
+	      accTypeUpdate.setBounds(10,10,120,40);
+	      typeTmpUpdate.setBackground(Color.WHITE);
+	      typeTmpUpdate.add(accTypeUpdate);
+	      rightUpdatePanel.add(typeTmpUpdate);
+
+	      //위도 경도 입력부분
+	      locInfoUpdate = new JPanel();
+	      locInfoUpdate.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
+	      locInfoUpdate.setLayout(null);
+	      locInfoUpdate.setBackground(Color.WHITE);
+	      laTmpUpdate = new JLabel("위도");
+	      loTmpUpdate = new JLabel("경도");
+
+	      laTmpUpdate.setBounds(10,10,60,40);
+	      latiUpdate.setBounds(80,10,50,40);
+	      latiUpdate.setFont(new Font("돋움",Font.PLAIN,15));
+	      loTmpUpdate.setBounds(140,10,60,40);
+	      longiUpdate.setBounds(210,10,50,40);
+	      longiUpdate.setFont(new Font("돋움",Font.PLAIN,15));
+	      locInfoUpdate.add(laTmpUpdate);locInfoUpdate.add(latiUpdate);
+	      locInfoUpdate.add(loTmpUpdate);locInfoUpdate.add(longiUpdate);
+	      rightUpdatePanel.add(locInfoUpdate);
+
+	      //subPanel----------------------------------------------------------------------------
+	      subUpdatePanel = new JPanel();
+	      subUpdatePanel.setLayout(null);
+	      subUpdatePanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
+	      subUpdatePanel.setBounds(0,430,550,120);
+	      updateButton.setBounds(180,10,70,40);
+	      deleteButton.setBounds(280,10,70,40);
+	      subUpdatePanel.add(updateButton);subUpdatePanel.add(deleteButton);
+	      diaUpdate.add(subUpdatePanel);
+
+
+	      diaUpdate.setVisible(true);
+	   }
+
 	
+	
+	/*
 	public void search() {
 		diaSearch = new JDialog();
 		diaSearch.setSize(400,300);
@@ -592,6 +1021,7 @@ public class AppMain extends JFrame{
 	      diaUpdate.add(subUpdatePanel);
 	      diaUpdate.setVisible(true);
 	   }
+	*/
 	
 	public void analysis()
 	{
