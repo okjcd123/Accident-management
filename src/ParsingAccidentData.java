@@ -56,8 +56,6 @@ public class ParsingAccidentData {
 			
 			AccidentCaseDAO dao = new AccidentCaseDAO();
 			
-			dao.deleteAllCase();
-			
 			try
 			{
 				for(int i =0 ; i<9; i++)
