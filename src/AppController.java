@@ -287,7 +287,7 @@ public class AppController {
 							boolean succFlag;
 							int caseNum = Integer.parseInt(AppManager.CreateInstance().getAppMain().caseNumTxt.getText());
 							
-							tempCase.setCscode(Integer.parseInt(AppManager.CreateInstance().getAppMain().caseNum.getText()));
+							tempCase.setCscode(Integer.parseInt(AppManager.CreateInstance().getAppMain().caseNumTxt.getText()));
 							tempCase.setProvince((String)AppManager.CreateInstance().getAppMain().pro.getSelectedItem());
 							tempCase.setTown((String)AppManager.CreateInstance().getAppMain().tow.getSelectedItem());
 							tempCase.setYear((String)AppManager.CreateInstance().getAppMain().yearcb.getSelectedItem());
