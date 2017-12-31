@@ -148,26 +148,67 @@ public class AccidentCaseDAO {
 		return rowCnt;
 	}
 
-	boolean insertCase(AccidentCase info) 
+	boolean insertCase(AccidentCase accCase) 
 	{
 		connectDB();
 		int chk;
 		boolean flag=false; 
-		sql = "insert into accidentcase(province,town,year,month,day,policeno,dead,injured,actype,latitude,longitude) values(?,?,?,?,?,?,?,?,?,?,?)";
+		sql = "INSERT"+
+			  "INTO accidentcase(province,town,year,month,day,policeno,dead,injured,actype,latitude,longitude)"+
+			  "VALUES(?,?,?,?,?,?,?,?,?,?,?)";
+						
 		try {
 			pstmt = conn.prepareStatement(sql);
 			
-			pstmt.setString(1, info.getProvince());
-			pstmt.setString(2, info.getTown());
-			pstmt.setString(3, info.getYear());
-			pstmt.setString(4, info.getMonth());
-			pstmt.setString(5, info.getDay());
-			pstmt.setString(6, info.getPoliceno());
-			pstmt.setInt(7, info.getDead());
-			pstmt.setInt(8, info.getInjured());
-			pstmt.setString(9, info.getActype());
-			pstmt.setDouble(10, info.getLatitude());
-			pstmt.setDouble(11, info.getLongitude());
+			pstmt.setString(1, accCase.getProvince());
+			pstmt.setString(2, accCase.getTown());
+			pstmt.setString(3, accCase.getYear());
+			pstmt.setString(4, accCase.getMonth());
+			pstmt.setString(5, accCase.getDay());
+			pstmt.setString(6, accCase.getPoliceno());
+			pstmt.setInt(7, accCase.getDead());
+			pstmt.setInt(8, accCase.getInjured());
+			pstmt.setString(9, accCase.getActype());
+			pstmt.setDouble(10, accCase.getLatitude());
+			pstmt.setDouble(11, accCase.getLongitude());
+			
+			chk = pstmt.executeUpdate();
+			
+			if(chk>0)
+				flag = true;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		closeDB();
+		return flag;
+	}
+	
+	boolean updateCase(AccidentCase accCase) 
+	{
+		connectDB();
+		int chk;
+		boolean flag=false; 
+		
+		sql = "UPDATE accidentcase" + 
+			  "SET province = ? ', town = ?, year = ? , month = ?, day = ?, policeno = ?, dead = ?, injured =? , actype = ?, latitude = ?, longitude = ? " + 
+			  "WHERE cscode = ? ";
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, accCase.getProvince());
+			pstmt.setString(2, accCase.getTown());
+			pstmt.setString(3, accCase.getYear());
+			pstmt.setString(4, accCase.getMonth());
+			pstmt.setString(5, accCase.getDay());
+			pstmt.setString(6, accCase.getPoliceno());
+			pstmt.setInt(7, accCase.getDead());
+			pstmt.setInt(8, accCase.getInjured());
+			pstmt.setString(9, accCase.getActype());
+			pstmt.setDouble(10, accCase.getLatitude());
+			pstmt.setDouble(11, accCase.getLongitude());
+			pstmt.setInt(12, accCase.getCscode());
 			
 			chk = pstmt.executeUpdate();
 			
@@ -203,8 +244,6 @@ public class AccidentCaseDAO {
 		closeDB();
 		return flag;
 	}
-
-	
 	
 	AccidentCase getCase(int cscode) 
 	{
