@@ -723,8 +723,8 @@ public class AppMain extends JFrame{
        searchCaseNumPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
        caseNumTxt = new JTextField(10);      //사건 번호 입력란
        caseNumTxt.setFont(new Font("돋움",Font.PLAIN,20));
-       caseNumTxt.setBounds(10,7,70,50);
-       searchUpdateBtn.setBounds(90,7,70,50);
+       caseNumTxt.setBounds(10,10,70,40);
+       searchUpdateBtn.setBounds(90,10,70,40);
        searchCaseNumPanel.add(caseNumTxt);
        searchCaseNumPanel.add(searchUpdateBtn);
        rightUpdatePanel.add(searchCaseNumPanel);

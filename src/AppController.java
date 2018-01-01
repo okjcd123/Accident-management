@@ -497,10 +497,11 @@ public class AppController {
 								insertFlag = AppManager.CreateInstance().getAccidentCaseDAO().insertCase(tempCase);		
 							
 							
-							
 							//가져오는 부분--------------------------------------------------------------------------------
 							if(insertFlag == true)
 							{
+								JOptionPane.showMessageDialog(AppManager.CreateInstance().getAppMain().regBtn, "등록되었습니다.");
+								
 								int maxIndex = AppManager.CreateInstance().getAccidentCaseDAO().getNewCaseCode();
 								AccidentCase outputCase = new AccidentCase();
 								outputCase = AppManager.CreateInstance().getAccidentCaseDAO().getCase(maxIndex);
@@ -642,6 +643,7 @@ public class AppController {
 							
 							if(succFlag == true)
 							{
+								JOptionPane.showMessageDialog(AppManager.CreateInstance().getAppMain().deleteButton, "수정되었습니다.");
 								//다시 가져와서 Table에 뿌리기
 								AppManager.CreateInstance().getAppMain().cardLayout.show(AppManager.CreateInstance().getAppMain().cardPanel, "table");
 								
@@ -694,6 +696,7 @@ public class AppController {
 							
 							if(delSuccess == true)
 							{
+								JOptionPane.showMessageDialog(AppManager.CreateInstance().getAppMain().deleteButton, "삭제되었습니다.");
 								//화면 CardLayout 으로 사진 으로 전환
 								AppManager.CreateInstance().getAppMain().cardLayout.show(AppManager.CreateInstance().getAppMain().cardPanel, "image");
 								AppManager.CreateInstance().getAppMain().diaUpdate.dispose();

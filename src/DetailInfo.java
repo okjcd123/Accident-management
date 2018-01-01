@@ -98,72 +98,72 @@ public class DetailInfo extends JDialog{
       //AccidentCase Panel-----------------------------------------------------------------------------
       infoPanel = new JPanel();
       infoPanel.setLayout(null);
-      infoPanel.setBounds(0,0,200,300);
+      infoPanel.setBounds(0,10,200,300);
       primary.add(infoPanel);
       
       cscode = new JLabel();
       cscode.setText("사고번호: " +detailCase.getCscode());
-      cscode.setBounds(10,0,200,300/13);
+      cscode.setBounds(10,0,210,300/13);
       infoPanel.add(cscode);
       
       province = new JLabel();
       province.setText("시/도: " + detailCase.getProvince());
-      province.setBounds(10, 300/13, 200, 300/13);
+      province.setBounds(10, 300/13 + 10, 200, 300/13);
       infoPanel.add(province);
       
       town = new JLabel();
       town.setText("구/군: " + detailCase.getTown());
-      town.setBounds(10, 300/13*2, 200, 300/13);
+      town.setBounds(10, 300/13*2 + 10, 200, 300/13);
       infoPanel.add(town);
       
       year = new JLabel();
       year.setText("발생 날짜: " + detailCase.getYear() + "년 " + detailCase.getMonth() + "월 " + detailCase.getDay() + "일");
-      year.setBounds(10, 300/13*3, 200, 300/13);
+      year.setBounds(10, 300/13*3 + 10, 200, 300/13);
       infoPanel.add(year);
       
       policeno = new JLabel();
       policeno.setText("담당 경찰번호: "+ detailCase.getPoliceno());
-      policeno.setBounds(10, 300/13*4, 200, 300/13);
+      policeno.setBounds(10, 300/13*4 + 10, 200, 300/13);
       infoPanel.add(policeno);
       
       casulity = new JLabel();
       casulity.setText("사상자수: " + detailCase.getCasulity());
-      casulity.setBounds(10,300/13*5, 200, 300/13);
+      casulity.setBounds(10,300/13*5 + 10, 200, 300/13);
       infoPanel.add(casulity);
       
       dead = new JLabel();
       dead.setText("사망자수: " + detailCase.getDead());
-      dead.setBounds(10,300/13*6, 200, 300/13);
+      dead.setBounds(10,300/13*6 + 10, 200, 300/13);
       infoPanel.add(dead);
       
       injured = new JLabel();
       injured.setText("부상자수: " + detailCase.getInjured());
-      injured.setBounds(10, 300/13*7, 200, 300/13);
+      injured.setBounds(10, 300/13*7 + 10, 200, 300/13);
       infoPanel.add(injured);
       
       actype = new JLabel();
       actype.setText("사고유형: " + detailCase.getActype());
-      actype.setBounds(10, 300/13*8,  200, 300/13);
+      actype.setBounds(10, 300/13*8 + 10,  200, 300/13);
       infoPanel.add(actype);
       
       latitude = new JLabel();
       latitude.setText("위도: " + detailCase.getLatitude());
-      latitude.setBounds(10,300/13*9, 200,300/13);
+      latitude.setBounds(10,300/13*9 + 10, 200,300/13);
       infoPanel.add(latitude);
       
       longitude = new JLabel();
       longitude.setText("경도: " + detailCase.getLongitude());
-      longitude.setBounds(10, 300/13*10, 200, 300/13);
+      longitude.setBounds(10, 300/13*10 +10, 200, 300/13);
       infoPanel.add(longitude);
       
       //경찰 패널---------------------------------------------------------------------------------
       policePanel = new JPanel();
       policePanel.setLayout(null);
-      policePanel.setBounds(0,300,200,200);
+      policePanel.setBounds(0,310,200,200);
       
       policeNo = new JLabel();   //경찰 번호
       policeNo.setText("담당 경찰번호: " + police.getPoliceno());
-      policeNo.setBounds(10,0, 200,300/13);
+      policeNo.setBounds(10,0, 210,300/13);
       policePanel.add(policeNo);
       
       polname = new JLabel();    //경찰 이름

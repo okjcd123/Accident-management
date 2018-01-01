@@ -14,6 +14,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -165,11 +166,11 @@ public class AccidentAnalysis extends JDialog{
 		boxPanel.setBounds(0,0,650,50);
 		
 		yearBox = new JComboBox(year);
-		yearBox.setBounds(5,10,140,40);
+		yearBox.setBounds(10,10,140,40);
 		boxPanel.add(yearBox);
 		
 		monthBox = new JComboBox(month);
-		monthBox.setBounds(160,10, 140,40);
+		monthBox.setBounds(165,10, 140,40);
 		boxPanel.add(monthBox);
 		
 		searchDateBtn.setBounds(320, 10, 100,40);
@@ -183,6 +184,18 @@ public class AccidentAnalysis extends JDialog{
 	
 		primary.add(boxPanel);
 		 
+		// Table
+	    for(int i =0; i<header.length; i++)
+	    {
+	         basic.addColumn(header[i]);   
+	    }
+
+	    scroll = new JScrollPane();
+	    scroll.setViewportView(table);
+	    scroll.setBounds(690,450,600,100);
+	    
+	    primary.add(scroll);
+	    
 		// 차트
 		chart = new JFreeChart(new CategoryPlot());
   	  	chartPanel = new ChartPanel(chart);
@@ -208,16 +221,7 @@ public class AccidentAnalysis extends JDialog{
 	    incheon.setFont(new Font("Gothic", Font.BOLD, 11));
 	    primary.add(incheon);
 	    
-	    for(int i =0; i<header.length; i++)
-	    {
-	         basic.addColumn(header[i]);   
-	    }
-
-	    scroll = new JScrollPane();
-	    scroll.setViewportView(table);
-	    scroll.setBounds(690,450,600,100);
-	    
-	    primary.add(scroll);
+	
 	    
 		NativeInterface.open();			
 	    SwingUtilities.invokeLater(new Runnable() {
@@ -371,11 +375,33 @@ public class AccidentAnalysis extends JDialog{
 			else if(obj == parsingButton)
 			{
 				selectedYear = (String) yearBox.getSelectedItem();
-		    	AppManager.CreateInstance().getAccidentCaseDAO().ParsingAccidentData(selectedYear);
+				
+				if(selectedYear.equals("전체"))
+				{
+					JOptionPane.showMessageDialog(parsingButton, "Parsing 할 년도를 선택해주세요.");
+				}
+				else
+				{
+					//Parsing 할 것인지를 확인
+					int result = JOptionPane.showConfirmDialog(parsingButton, selectedYear+"년도 데이터를 Parsing 하시겠습니까?"); 
+					
+					if(result == JOptionPane.YES_OPTION)     //Yes 버튼(초기화 함)
+					{
+				    	if(AppManager.CreateInstance().getAccidentCaseDAO().ParsingAccidentData(selectedYear))
+				    		JOptionPane.showMessageDialog(parsingButton, selectedYear+"년도 데이터를 Parsing 완료");
+					}
+				}
+				
 			}
 			else if(obj == deleteButton)
 			{
-		    	AppManager.CreateInstance().getAccidentCaseDAO().deleteAllCase();
+				//정말로 초기화 할 것인지를 확인
+				int result = JOptionPane.showConfirmDialog(deleteButton, "DB를 초기화 하시겠습니까?"); 
+				
+				if(result == JOptionPane.YES_OPTION)     //Yes 버튼(초기화 함)
+				{
+					AppManager.CreateInstance().getAccidentCaseDAO().deleteAllCase();
+				}
 			}
 
 			searchDateBtn.setIcon(ImageData.viewChartBasic);
@@ -426,6 +452,7 @@ public class AccidentAnalysis extends JDialog{
 			    basic.setRowCount(0);
 			    for(int i =0; i<times.length; i++)
 			    {
+			    	System.out.println();
 			    	basic.addRow(times[i]);	
 			    }
 			    
@@ -554,7 +581,7 @@ public class AccidentAnalysis extends JDialog{
 	        if(selectedYear.equals("All"))
 	        	chart.setTitle("전체 사망 교통 사고 월별 발생 건수"); // 차트 타이틀
 	    	else
-	    		chart.setTitle(selectedYear+ "년" + "사망 교통 사고 월별 발생 건수"); // 차트 타이틀
+	    		chart.setTitle(selectedYear+ "년" + " 사망 교통 사고 월별 발생 건수"); // 차트 타이틀
 	        
 	        return chart;
 	    }

@@ -541,7 +541,7 @@ public class AccidentCaseDAO {
 		}
 		
 		
-		void ParsingAccidentData(String year)
+		boolean ParsingAccidentData(String year)
 		{
 			// JSON 데이터가 저장된 url 주소를 저장하는 String 배열
 			String url[] = new String[3];
@@ -565,7 +565,7 @@ public class AccidentCaseDAO {
 			String jsonStr;
 			JSONArray jsonArr;
 				
-						
+			boolean flag = false;
 			try
 			{
 				for(int i =0 ; i<3; i++)
@@ -629,12 +629,16 @@ public class AccidentCaseDAO {
 			                System.out.println("위도:" + accCase.getLatitude());
 			   
 			 			}
+			 		
+			 		flag = true;
 				}
 				} catch (Exception e) {
 	
 	 			e.printStackTrace();
 	
 	 		}
+			
+			return flag;
 						
 		}
 		
