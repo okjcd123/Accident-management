@@ -105,8 +105,6 @@ public class AccidentCaseDAO {
 		return newCsCode;
 	}
 	
-	
-	
 	AccidentCase getCase(int cscode) 
 	{
 		connectDB();

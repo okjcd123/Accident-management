@@ -51,29 +51,9 @@ public class Javascript {
 		    	"	animation: google.maps.Animation.DROP," +
 				"   	position: h,\r\n" + 														//위도 경도 위치 설정
 				"       map: map\r\n" + 															//맵에 붙여넣기
-				"   });\n" +
-				//"   var h = {lat: "+Double.toString(GuideToSeoul.myLat) +", lng: "+ Double.toString(GuideToSeoul.myLng)+"};\r\n" + //사용자 위도 경도 설정
-		    	"   var marker = new google.maps.Marker({\r\n" +									//사용자 위치 마커 설정 
-		    	"	animation: google.maps.Animation.DROP," +	
-				"   	position: h,\r\n" + 
-				"   	icon: 'http://maps.google.com/mapfiles/kml/shapes/man.png',\r\n" +			//사용자 마커 커스텀
-				"       map: map\r\n" + 
 				"   });\n"
 				);
 		others = new String(
-				"  var flightPlanCoordinates = [\r\n" + 											//사용자 위치와 목적지 위치 직선 긋기
-				"          {lat: "+dstLat+", lng: "+ dstLng+"},\r\n" + 
-			//	"          {lat: "+Double.toString(GuideToSeoul.myLat) +", lng: "+ Double.toString(GuideToSeoul.myLng)+"}\r\n" + 
-				"        ];\r\n" + 
-				"        var flightPath = new google.maps.Polyline({\r\n" + 
-				"          path: flightPlanCoordinates,\r\n" + 
-				"          geodesic: true,\r\n" + 
-				"          strokeColor: '#FF0000',\r\n" + 
-				"          strokeOpacity: 1.0,\r\n" + 
-				"          strokeWeight: 2\r\n" + 
-				"        });\r\n" + 
-				"\r\n" + 
-				"        flightPath.setMap(map);" +													//직선 세팅
 				"}"
 				);
 		src = new String("function includeJs(jsFilePath)\r\n" + 									//googleAPI의 javascript 코드를 원격으로 사용할수 있는 권한 설정
@@ -100,27 +80,32 @@ public class Javascript {
   	            "var seoul = {lat: 37.566294 , lng: 126.977423};\r\n" + 
   	            "function initMap() {\r\n" + 
   	            "	map = new google.maps.Map(document.getElementById('map'), {\r\n" + 
-  	            "       zoom: 13," + 
+  	            "       zoom: 8," + 
   	            "       center: seoul"+
-  	            "   });\r\n"
+  	            "   });\r\n" +
+	  	        "var icon1 = {\r\n" +                                           //병원 아이콘 옵션 지정
+	            "    url:'https://cdn.pixabay.com/photo/2014/04/02/10/45/location-304467_640.png',\r\n" + 
+	            "    scaledSize: new google.maps.Size(13, 16) \r\n" + 
+	            "};"
   	            );
 		
 		for(int i =0; i<temp.size(); i++)
 		{
 			String dstLat = Double.toString(temp.get(i).getLatitude());
 			String dstLng = Double.toString(temp.get(i).getLongitude());
-			
+			System.out.println(dstLat + dstLng);
 			markers +=
 					"   var h = {lat: "+dstLat+", lng: "+ dstLng+"};\r\n" + 							//목적지 위도 경도  설정
 			    	"   var marker = new google.maps.Marker({\r\n" + 
 			    	"	animation: google.maps.Animation.DROP," +
-					"   	position: h,\r\n" + 														//위도 경도 위치 설정
+					"   	position: h,\r\n" + 
+			    	"		icon: icon1,\r\n"+
 					"       map: map\r\n" + 															//맵에 붙여넣기
 					"   });"+ 
-					"}\n";
+					"\n";
 		}
 		
-		others = new String("");
+		others = new String("}");
 		src = new String("function includeJs(jsFilePath)\r\n" + 									//googleAPI의 javascript 코드를 원격으로 사용할수 있는 권한 설정
                 "{ var js = document.createElement(\"script\")\r\n" + 
                 "\r\n" + 

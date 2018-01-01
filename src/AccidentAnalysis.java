@@ -223,7 +223,8 @@ public class AccidentAnalysis extends JDialog{
 				}
 				public void locationChanged(WebBrowserNavigationEvent arg0) {						//웹브라우져 현재 위치가 바뀌었을 때
 					script.resetScript();
-					script.setAnalysisMain(accList);
+					//script.setAnalysisMain(accList);
+					script.setDetailMain(Double.toString(37.566542),Double.toString(126.977874));
 					webBrowser.executeJavascript(script.getScript());	
 				}
 				public void locationChanging(WebBrowserNavigationEvent arg0) {
@@ -270,6 +271,7 @@ public class AccidentAnalysis extends JDialog{
 					script.resetScript();
 					script.setAnalysisMain(accList);
 					webBrowser.executeJavascript(script.getScript());					//지도 설정	
+					repaint();
 				}
 					
 			    chartPanel.setChart(chart);
