@@ -23,9 +23,9 @@ public class AppController {
 	protected String[] iTown = {"중구","동구","남구","연수구","남동구","부평구","계양구","서구","강화군","옹진군"};
 	protected String[] gyTown = {"수원시","성남시","의정부시","안양시","부천시","광명시","평택시","동두천시","안산시","고양시","과천시","구리시","남양주시","오산시","시흥시",
 			"군포시","의왕시","하남시","용인시","파주시","이천시","김포시","화성시","광주시","양주시","포천시","여주군","연천군","가평군","양평군"};
-	protected String[] month = {"월","1","2","3","4","5","6","7","8","9","10","11","12"};
+	protected String[] month = {"월","01","02","03","04","05","06","07","08","09","10","11","12"};
 	
-	protected String[] day = {"일","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15",
+	protected String[] day = {"일","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15",
 			"16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31"};
 	
 
@@ -464,7 +464,15 @@ public class AppController {
 							tempCase.setLatitude(Double.parseDouble(AppManager.CreateInstance().getAppMain().lati.getText()));
 							tempCase.setLongitude(Double.parseDouble(AppManager.CreateInstance().getAppMain().longi.getText()));
 							
-							insertFlag = AppManager.CreateInstance().getAccidentCaseDAO().insertCase(tempCase);
+							if(tempCase.getProvince().equals("전체")|| tempCase.getYear().equals("년도") || 
+									tempCase.getMonth().equals("월") || tempCase.getDay().equals("일"))
+							{
+								insertFlag = false;
+							}
+							else
+							{
+								insertFlag = AppManager.CreateInstance().getAccidentCaseDAO().insertCase(tempCase);		
+							}
 							
 							//가져오는 부분--------------------------------------------------------------------------------
 							if(insertFlag == true)
@@ -494,7 +502,7 @@ public class AppController {
 							}
 							else
 							{
-								JOptionPane.showMessageDialog(AppManager.CreateInstance().getAppMain().diaUpdate, "등록 실패!", "경고", JOptionPane.PLAIN_MESSAGE);
+								JOptionPane.showMessageDialog(AppManager.CreateInstance().getAppMain().diaUpdate, "등록 실패!\n정보 정확히 입력하십시오!", "경고", JOptionPane.PLAIN_MESSAGE);
 								AppManager.CreateInstance().getAppMain().dia.dispose();
 								AppManager.CreateInstance().getAppMain().btns[0].setEnabled(true);
 								AppManager.CreateInstance().getAppMain().btns[1].setEnabled(true);
@@ -594,7 +602,16 @@ public class AppController {
 							tempCase.setLongitude(Double.parseDouble(AppManager.CreateInstance().getAppMain().longiUpdate.getText()));
 							
 							//tempCase 업데이트 실시
-							succFlag = AppManager.CreateInstance().getAccidentCaseDAO().updateCase(tempCase);
+							if(tempCase.getProvince().equals("전체") || tempCase.getYear().equals("년도") ||
+									tempCase.getMonth().equals("월") || tempCase.getDay().equals("일"))
+							{
+								succFlag = false;
+							}
+							else
+							{
+								succFlag = AppManager.CreateInstance().getAccidentCaseDAO().updateCase(tempCase);		
+							}
+							
 							
 							if(succFlag == true)
 							{

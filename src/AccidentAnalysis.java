@@ -45,6 +45,7 @@ public class AccidentAnalysis extends JDialog{
 
 	protected static final String LS = System.getProperty("line.separator");		//html 문서 개행 명령어 
 	private	String[] year = {"전체", "2012","2013","2014","2015","2016"};
+	protected String[] month = {"월","01","02","03","04","05","06","07","08","09","10","11","12"};
 	
 	private ArrayList <AccidentCase> accList = new ArrayList<AccidentCase>();
 	
@@ -54,9 +55,11 @@ public class AccidentAnalysis extends JDialog{
 	
 	private JPanel primary;
 	private JPanel boxPanel;
-	private JLabel yearlbl;
+	
 	
 	private JComboBox yearBox;
+	private JComboBox monthBox;
+	
 	private JButton searchDateBtn;
 	private JButton parsingButton;
 	private JButton deleteButton;
@@ -69,8 +72,7 @@ public class AccidentAnalysis extends JDialog{
 	private ChartPanel chartPanel;
 	
 	final JWebBrowser webBrowser = new JWebBrowser();							//웹브라우져 객체 생성
-    ;
-	
+    
 	public AccidentAnalysis()
 	{
 		setUndecorated(true);
@@ -142,14 +144,14 @@ public class AccidentAnalysis extends JDialog{
 		boxPanel.setLayout(null);
 		boxPanel.setBounds(0,0,650,50);
 		
-		yearlbl = new JLabel("년", JLabel.CENTER);
-		yearlbl.setBounds(5,10,40,40);
-		boxPanel.add(yearlbl);
-		
 		yearBox = new JComboBox(year);
-		yearBox.setBounds(50,10,250,40);
+		yearBox.setBounds(5,10,140,40);
 		boxPanel.add(yearBox);
-			
+		
+		monthBox = new JComboBox(month);
+		monthBox.setBounds(160,10, 140,40);
+		boxPanel.add(monthBox);
+		
 		searchDateBtn = new JButton("차트 보기");
 		searchDateBtn.setBounds(320, 10, 100,40);
 		boxPanel.add(searchDateBtn);
@@ -186,7 +188,6 @@ public class AccidentAnalysis extends JDialog{
 	    deleteButton.addActionListener(new YearSearch()); 
 
 	    setVisible(true);
-		
 	}
 	
 	public void createContent() {
@@ -223,7 +224,6 @@ public class AccidentAnalysis extends JDialog{
 				}
 				public void locationChanged(WebBrowserNavigationEvent arg0) {						//웹브라우져 현재 위치가 바뀌었을 때
 					script.resetScript();
-					//script.setAnalysisMain(accList);
 					script.setDetailMain(Double.toString(37.566542),Double.toString(126.977874));
 					webBrowser.executeJavascript(script.getScript());	
 				}
@@ -239,6 +239,7 @@ public class AccidentAnalysis extends JDialog{
 				}
 				public void windowWillOpen(WebBrowserWindowWillOpenEvent arg0) {
 				}
+				
 		    });				
 		    webBrowserPanel.add(webBrowser);													//웹브라우져를 지도 패널(webBrowserPanel)에 붙이기
 		    primary.add(webBrowserPanel);														//subPanel 에 지도 패널 붙이기
@@ -251,23 +252,25 @@ public class AccidentAnalysis extends JDialog{
 		{
 			Object obj = e.getSource();
 			String selectedYear;
+			String selectedMonth;
 			
 			if(obj == searchDateBtn)
 			{
-				
 				selectedYear = (String) yearBox.getSelectedItem();
+				selectedMonth = (String) monthBox.getSelectedItem();
+				
 				if(selectedYear.equals("전체"))
 				{
 					chart = getChart("All");	
-					accList = AppManager.CreateInstance().getAccidentCaseDAO().getAll(); 
+					 accList = AppManager.CreateInstance().getAccidentCaseDAO().getAll(); 
 					script.resetScript();
 					script.setAnalysisMain(accList);
 					webBrowser.executeJavascript(script.getScript());					//지도 설정	
 				}
-				else
+				else if(selectedYear != "전체" && selectedMonth != "월")
 				{
 					chart = getChart(selectedYear);
-					accList = AppManager.CreateInstance().getAccidentCaseDAO().searchCaseTime(selectedYear);
+					accList = AppManager.CreateInstance().getAccidentCaseDAO().searchCaseTime(selectedYear, selectedMonth);
 					script.resetScript();
 					script.setAnalysisMain(accList);
 					webBrowser.executeJavascript(script.getScript());					//지도 설정	
@@ -423,7 +426,6 @@ public class AccidentAnalysis extends JDialog{
 	        plot.setRenderer(2, iRender);
 
 	        // plot 기본 설정
-
 	        plot.setOrientation(PlotOrientation.VERTICAL);             // 그래프 표시 방향
 	        plot.setRangeGridlinesVisible(true);                       // X축 가이드 라인 표시여부
 	        plot.setDomainGridlinesVisible(true);                      // Y축 가이드 라인 표시여부
@@ -439,13 +441,11 @@ public class AccidentAnalysis extends JDialog{
 	        plot.getDomainAxis().setCategoryLabelPositions(CategoryLabelPositions.STANDARD);       // 카테고리 라벨 위치 조정
 
 	        // Y축 세팅
-
 	        plot.setRangeAxis(new NumberAxis());                 // Y축 종류 설정
 	        plot.getRangeAxis().setTickLabelFont(axisF);        // Y축 눈금라벨 폰트 조정
 
 
 	        // 세팅된 plot을 바탕으로 chart 생성
-
 	        JFreeChart chart = new JFreeChart(plot);
 	        
 	        if(selectedYear.equals("All"))
