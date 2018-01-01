@@ -68,6 +68,8 @@ public class AccidentAnalysis extends JDialog{
 	private JFreeChart chart;
 	private ChartPanel chartPanel;
 	
+	final JWebBrowser webBrowser = new JWebBrowser();							//웹브라우져 객체 생성
+    ;
 	
 	public AccidentAnalysis()
 	{
@@ -192,7 +194,6 @@ public class AccidentAnalysis extends JDialog{
 			JPanel webBrowserPanel = new JPanel(new BorderLayout());					//지도를 출력할 패널 생성 및 초기화
 			webBrowserPanel.setBounds(10,60,630,480);									//패널 크기 설정
 			  
-		    final JWebBrowser webBrowser = new JWebBrowser();							//웹브라우져 객체 생성
 		    webBrowser.setBarsVisible(false);
 		    webBrowser.setStatusBarVisible(true);
 		    final String htmlContent =
@@ -221,7 +222,8 @@ public class AccidentAnalysis extends JDialog{
 				public void locationChangeCanceled(WebBrowserNavigationEvent arg0) {
 				}
 				public void locationChanged(WebBrowserNavigationEvent arg0) {						//웹브라우져 현재 위치가 바뀌었을 때
-					script.setMain();
+					script.resetScript();
+					script.setAnalysisMain(accList);
 					webBrowser.executeJavascript(script.getScript());	
 				}
 				public void locationChanging(WebBrowserNavigationEvent arg0) {
@@ -251,22 +253,31 @@ public class AccidentAnalysis extends JDialog{
 			
 			if(obj == searchDateBtn)
 			{
-				//script.setMarker();
-				selectedYear = (String) yearBox.getSelectedItem();
 				
+				selectedYear = (String) yearBox.getSelectedItem();
 				if(selectedYear.equals("전체"))
-					 chart = getChart("All");
+				{
+					chart = getChart("All");	
+					accList = AppManager.CreateInstance().getAccidentCaseDAO().getAll(); 
+					script.resetScript();
+					script.setAnalysisMain(accList);
+					webBrowser.executeJavascript(script.getScript());					//지도 설정	
+				}
 				else
+				{
 					chart = getChart(selectedYear);
-			      
+					accList = AppManager.CreateInstance().getAccidentCaseDAO().searchCaseTime(selectedYear);
+					script.resetScript();
+					script.setAnalysisMain(accList);
+					webBrowser.executeJavascript(script.getScript());					//지도 설정	
+				}
+					
 			    chartPanel.setChart(chart);
 			}
 			else if(obj == parsingButton)
 			{
 				selectedYear = (String) yearBox.getSelectedItem();
-				
-		    	AppManager.CreateInstance().getAccidentCaseDAO().ParsingAccidentData(selectedYear); 
-		    	
+		    	AppManager.CreateInstance().getAccidentCaseDAO().ParsingAccidentData(selectedYear);
 			}
 			else if(obj == deleteButton)
 			{
@@ -439,8 +450,6 @@ public class AccidentAnalysis extends JDialog{
 	        	chart.setTitle("전체 사망 교통 사고 월별 발생 건수"); // 차트 타이틀
 	    	else
 	    		chart.setTitle(selectedYear+ "년" + "사망 교통 사고 월별 발생 건수"); // 차트 타이틀
-
-	       
 	        
 	        return chart;
 	    }

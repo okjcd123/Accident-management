@@ -23,11 +23,22 @@ public class ImageData {
 	public static ImageIcon menuBarDetail = new ImageIcon(Execute.class.getResource("images/menuBarDetail.png"));
 	public static ImageIcon menuBarRegist = new ImageIcon(Execute.class.getResource("images/menuBarRegist.png"));
 	public static ImageIcon menuBarSearch = new ImageIcon(Execute.class.getResource("images/menuBarSearch.png"));
-	public static ImageIcon menuBarUpdate = new ImageIcon(Execute.class.getResource("images/menuBarUpdate.png"));
-	
-	
-	
+	public static ImageIcon menuBarUpdate = new ImageIcon(Execute.class.getResource("images/menuBarUpdate.png"));	
 	public static ImageIcon exitButtonBasic = new ImageIcon(Execute.class.getResource("images/exitButtonBasic.png"));
 	public static ImageIcon exitButtonEntered = new ImageIcon(Execute.class.getResource("images/exitButtonEntered.png"));
 	
+	
+	public static ImageIcon searchDialogBtnBasic = new ImageIcon(Execute.class.getResource("images/searchDialogBtnBasic.png"));
+	   
+	public static ImageIcon regDialogBtnBasic = new ImageIcon(Execute.class.getResource("images/regDialogBtnBasic.png"));
+	public static ImageIcon regDialogBtnEntered = new ImageIcon(Execute.class.getResource("images/regDialogBtnEntered.png"));
+   
+	public static ImageIcon updateSearchBtnBasic = new ImageIcon(Execute.class.getResource("images/updateSearchBtnBasic.png"));
+	public static ImageIcon updateSearchBtnEntered = new ImageIcon(Execute.class.getResource("images/updateSearchBtnEntered.png"));
+   
+	public static ImageIcon updateDialogBtnBasic = new ImageIcon(Execute.class.getResource("images/updateDialogBtnBasic.png"));
+	public static ImageIcon updateDialogBtnEntered = new ImageIcon(Execute.class.getResource("images/updateDialogBtnEntered.png"));
+   
+	public static ImageIcon deleteDialogBtnBasic = new ImageIcon(Execute.class.getResource("images/deleteDialogBtnBasic.png"));
+	public static ImageIcon deleteDialogBtnEntered = new ImageIcon(Execute.class.getResource("images/deleteDialogBtnEntered.png"));
 }
