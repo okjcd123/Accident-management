@@ -44,7 +44,7 @@ import chrriis.dj.nativeswing.swtimpl.components.WebBrowserWindowWillOpenEvent;
 public class AccidentAnalysis extends JDialog{
 
 	protected static final String LS = System.getProperty("line.separator");		//html 문서 개행 명령어 
-	private	String[] year = {"년도", "2014","2015","2016"};
+	private	String[] year = {"년도", "2012","2013","2014","2015","2016"};
 	
 	private ArrayList <AccidentCase> accList = new ArrayList<AccidentCase>();
 	
@@ -75,6 +75,10 @@ public class AccidentAnalysis extends JDialog{
 		setSize(1300,640);
   	  	setLayout(null);
   	  	setResizable(false);
+
+ 
+  	  	chart = new JFreeChart(new CategoryPlot());
+  	  	chartPanel = new ChartPanel(chart);
   	  
 	    JPanel upPanel = new JPanel();
 	    upPanel.setBounds(0,0,1300,40);
@@ -238,9 +242,9 @@ public class AccidentAnalysis extends JDialog{
 				String selectedYear = (String) yearBox.getSelectedItem();
 				
 				//차트 패널
-			    chart = getChart(selectedYear); 
-			    chartPanel = new ChartPanel(chart);
+			    chart = getChart(selectedYear);
 			    
+			    chartPanel.setChart(chart);
 			    chartPanel.setLayout(null);
 			    chartPanel.setBounds(650,60,610,400);
 			    primary.add(chartPanel);	
