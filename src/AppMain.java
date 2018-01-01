@@ -170,6 +170,7 @@ public class AppMain extends JFrame{
    protected JPanel rightUpdatePanel;
    
    protected JPanel searchCaseNumPanel;   //케이스 검색 패널
+   
    protected JTextField caseNumTxt = new JTextField();      //사건 번호 입력란
    protected JButton searchUpdateBtn = new JButton("검색");   //사건 번호 검색;      //사건 번호 검색
    
@@ -244,17 +245,21 @@ public class AppMain extends JFrame{
       btns = new JButton[4];
       btns[0] = new JButton(ImageData.searchBasic);
       btns[0].setBounds(20,45,311,60);
+      btns[0].setBorder(null);
       bPanel.add(btns[0]);
       
       btns[1] = new JButton(ImageData.regBasic);
       btns[1].setBounds(20+311 + 5,45,311,60);
+      btns[1].setBorder(null);
       bPanel.add(btns[1]);
       
       btns[2] = new JButton(ImageData.updateBasic);
       btns[2].setBounds(20 + 311 + 5 + 311 + 5,45,311,60);
+      btns[2].setBorder(null);
       bPanel.add(btns[2]);
       
       btns[3] = new JButton(ImageData.analysisBasic);
+      btns[3].setBorder(null);
       btns[3].setBounds(20 +311 + 5+ 311 + 5 + 311 +5,45,311,60);
       
       //1300
@@ -791,13 +796,13 @@ public class AppMain extends JFrame{
          loTmpUpdate = new JLabel("경도");
 
          
-         laTmp.setBounds(10,15,40,40);
-         lati.setBounds(60,15,70,40);
-         lati.setFont(new Font("돋움",Font.PLAIN,15));
-         loTmp.setBounds(140,15,40,40);
-         longi.setBounds(190,15,70,40);
+         laTmpUpdate.setBounds(10,15,40,40);
+         latiUpdate.setBounds(60,15,70,40);
+         latiUpdate.setFont(new Font("돋움",Font.PLAIN,15));
+         loTmpUpdate.setBounds(140,15,40,40);
+         longiUpdate.setBounds(190,15,70,40);
          
-         longi.setFont(new Font("돋움",Font.PLAIN,15));
+         longiUpdate.setFont(new Font("돋움",Font.PLAIN,15));
          laTmpUpdate.setBounds(10,10,40,40);
          latiUpdate.setBounds(60,10,70,40);
          latiUpdate.setFont(new Font("돋움",Font.PLAIN,15));
@@ -874,6 +879,14 @@ public class AppMain extends JFrame{
    {
       updateButton.addActionListener(action);
       deleteButton.addActionListener(action);
+   }
+   
+   public void addMouseAdapterHoverListener(MouseAdapter mouse)
+   {
+	   btns[0].addMouseListener(mouse);
+	   btns[1].addMouseListener(mouse);
+	   btns[2].addMouseListener(mouse);
+	   btns[3].addMouseListener(mouse);
    }
    
    public void addMouseAdapterButtonListener(MouseAdapter mouse)

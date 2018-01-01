@@ -13,6 +13,11 @@ import javax.swing.JOptionPane;
 
 public class AppController {
 	
+	public static boolean searchOpenedFlag;
+	public static boolean registerOpenedFlag;
+	public static boolean updateOpenedFlag;
+	public static boolean analysisOpenedFlag;
+	
 	protected String[] sTown = {"노원구","도봉구","강남구","서초구","강서구","강동구","종로구","중구","중랑구","성북구","금천구","영등포구",
 			"서대문구","은평구","동작구","마포구","송파구","광진구","용산구","양천구","구로구","성동구","관악구","동대문구","강북구"};
 	protected String[] iTown = {"중구","동구","남구","연수구","남동구","부평구","계양구","서구","강화군","옹진군"};
@@ -26,6 +31,11 @@ public class AppController {
 
 	public AppController()
 	{
+		searchOpenedFlag = false;
+		registerOpenedFlag = false;
+		updateOpenedFlag = false;
+		analysisOpenedFlag = false;
+		
 		AppManager.CreateInstance().setAppController(this);
 		
 		AppManager.CreateInstance().getAppMain().introPanel.addActionLoginButtonListener(new ActionListener()
@@ -42,7 +52,6 @@ public class AppController {
 							AppManager.CreateInstance().getAppMain().primary.requestFocus();
 							AppManager.CreateInstance().getAppMain().status = true;
 							AppManager.CreateInstance().getAppMain().repaint();
-							
 						}
 						else
 						{
@@ -59,24 +68,125 @@ public class AppController {
 						JButton btn = (JButton)arg0.getSource();
 						for(int i=0;i<AppManager.CreateInstance().getAppMain().btns.length;i++) {
 							if(AppManager.CreateInstance().getAppMain().btns[i]==btn) {
-								if(i==0) {
+								if(i==0 && searchOpenedFlag == false) {
 									AppManager.CreateInstance().getAppMain().search();
+									AppManager.CreateInstance().getAppMain().searchExit.setIcon(ImageData.exitButtonBasic);
+									AppManager.CreateInstance().getAppMain().btns[0].setEnabled(false);
+									AppManager.CreateInstance().getAppMain().btns[1].setEnabled(false);
+									AppManager.CreateInstance().getAppMain().btns[2].setEnabled(false);
+									AppManager.CreateInstance().getAppMain().btns[3].setEnabled(false);
+									
+									AppManager.CreateInstance().getAppMain().siDo.setSelectedItem("전체");
+									AppManager.CreateInstance().getAppMain().guGun.setSelectedItem("");
+									AppManager.CreateInstance().getAppMain().yearcbSearch.setSelectedItem("년도");
+									AppManager.CreateInstance().getAppMain().monthcbSearch.setSelectedItem("월");
+									searchOpenedFlag =true;
 								}
-								else if(i==1) {
+								else if(i==1 && registerOpenedFlag == false) {
 									AppManager.CreateInstance().getAppMain().registration();
+									AppManager.CreateInstance().getAppMain().registerExit.setIcon(ImageData.exitButtonBasic);
+									AppManager.CreateInstance().getAppMain().btns[0].setEnabled(false);
+									AppManager.CreateInstance().getAppMain().btns[1].setEnabled(false);
+									AppManager.CreateInstance().getAppMain().btns[2].setEnabled(false);
+									AppManager.CreateInstance().getAppMain().btns[3].setEnabled(false);
+									
+									AppManager.CreateInstance().getAppMain().pro.setSelectedItem("전체");
+									AppManager.CreateInstance().getAppMain().tow.setSelectedItem("");
+									AppManager.CreateInstance().getAppMain().yearcb.setSelectedItem("년도");
+									AppManager.CreateInstance().getAppMain().monthcb.setSelectedItem("월");
+									AppManager.CreateInstance().getAppMain().daycb.setSelectedItem("일");
+									AppManager.CreateInstance().getAppMain().polno.setText("");
+									AppManager.CreateInstance().getAppMain().dead.setText("");
+									AppManager.CreateInstance().getAppMain().injured.setText("");
+									AppManager.CreateInstance().getAppMain().accType.setSelectedItem("차대차");
+									AppManager.CreateInstance().getAppMain().lati.setText("");
+									AppManager.CreateInstance().getAppMain().longi.setText("");
+									
+									registerOpenedFlag =true;
 								}
-								else if(i==2) {
+								else if(i==2 && updateOpenedFlag == false) {
 									AppManager.CreateInstance().getAppMain().modifyDelete();
+									AppManager.CreateInstance().getAppMain().updateExit.setIcon(ImageData.exitButtonBasic);
+									AppManager.CreateInstance().getAppMain().btns[0].setEnabled(false);
+									AppManager.CreateInstance().getAppMain().btns[1].setEnabled(false);
+									AppManager.CreateInstance().getAppMain().btns[2].setEnabled(false);
+									AppManager.CreateInstance().getAppMain().btns[3].setEnabled(false);
+									
+									AppManager.CreateInstance().getAppMain().caseNumTxt.setText("");
+									AppManager.CreateInstance().getAppMain().proUpdate.setSelectedItem("전체");
+									AppManager.CreateInstance().getAppMain().towUpdate.setSelectedItem("");
+									AppManager.CreateInstance().getAppMain().yearcbUpdate.setSelectedItem("년도");
+									AppManager.CreateInstance().getAppMain().monthcbUpdate.setSelectedItem("월");
+									AppManager.CreateInstance().getAppMain().daycbUpdate.setSelectedItem("일");
+									AppManager.CreateInstance().getAppMain().polnoUpdate.setText("");
+									AppManager.CreateInstance().getAppMain().deadUpdate.setText("");
+									AppManager.CreateInstance().getAppMain().injuredUpdate.setText("");
+									AppManager.CreateInstance().getAppMain().accTypeUpdate.setSelectedItem("차대차");
+									AppManager.CreateInstance().getAppMain().latiUpdate.setText("");
+									AppManager.CreateInstance().getAppMain().longiUpdate.setText("");
+									
+									updateOpenedFlag =true;
 								}
-								else
+								else if(i == 3 && analysisOpenedFlag == false)
 								{
 									AppManager.CreateInstance().getAppMain().analysis();
+									
+									AppManager.CreateInstance().getAppMain().btns[0].setEnabled(false);
+									AppManager.CreateInstance().getAppMain().btns[1].setEnabled(false);
+									AppManager.CreateInstance().getAppMain().btns[2].setEnabled(false);
+									AppManager.CreateInstance().getAppMain().btns[3].setEnabled(false);
+									analysisOpenedFlag = true;
 								}
 							}
 						}
 					}			
 				});
-		
+		AppManager.CreateInstance().getAppMain().addMouseAdapterHoverListener(new MouseAdapter()
+				{
+					public void mouseEntered(MouseEvent e)
+					{
+						Object obj = e.getSource();
+						if(obj == AppManager.CreateInstance().getAppMain().btns[0])
+						{
+							AppManager.CreateInstance().getAppMain().btns[0].setIcon(ImageData.searchEntered);
+						}
+						else if(obj == AppManager.CreateInstance().getAppMain().btns[1])
+						{
+							AppManager.CreateInstance().getAppMain().btns[1].setIcon(ImageData.regEntered);
+						}
+						else if(obj == AppManager.CreateInstance().getAppMain().btns[2])
+						{
+							AppManager.CreateInstance().getAppMain().btns[2].setIcon(ImageData.updateEntered);
+						}
+						else if(obj == AppManager.CreateInstance().getAppMain().btns[3])
+						{
+							AppManager.CreateInstance().getAppMain().btns[3].setIcon(ImageData.analysisEntered);
+						}
+					}
+					@Override
+					public void mouseExited(MouseEvent e)
+					{
+						Object obj = e.getSource();
+						if(obj == AppManager.CreateInstance().getAppMain().btns[0])
+						{
+							AppManager.CreateInstance().getAppMain().btns[0].setIcon(ImageData.searchBasic);
+						}
+						else if(obj == AppManager.CreateInstance().getAppMain().btns[1])
+						{
+							AppManager.CreateInstance().getAppMain().btns[1].setIcon(ImageData.regBasic);
+						}
+						else if(obj == AppManager.CreateInstance().getAppMain().btns[2])
+						{
+							AppManager.CreateInstance().getAppMain().btns[2].setIcon(ImageData.updateBasic);
+						}
+						else if(obj == AppManager.CreateInstance().getAppMain().btns[3])
+						{
+							AppManager.CreateInstance().getAppMain().btns[3].setIcon(ImageData.analysisBasic);
+						}
+					}
+					
+			
+				});
 		AppManager.CreateInstance().getAppMain().addMouseAdapterButtonListener(new MouseAdapter()
 				{
 						public void mousePressed(MouseEvent e)							//메뉴바를 잡았을 떄 절대좌표를 받아옴
@@ -198,14 +308,30 @@ public class AppController {
 						else if(obj == AppManager.CreateInstance().getAppMain().searchExit)
 						{
 							AppManager.CreateInstance().getAppMain().diaSearch.dispose();
+							AppManager.CreateInstance().getAppMain().btns[0].setEnabled(true);
+							AppManager.CreateInstance().getAppMain().btns[1].setEnabled(true);
+							AppManager.CreateInstance().getAppMain().btns[2].setEnabled(true);
+							AppManager.CreateInstance().getAppMain().btns[3].setEnabled(true);
+							searchOpenedFlag = false;
 						}
 						else if(obj == AppManager.CreateInstance().getAppMain().registerExit)
 						{
 							AppManager.CreateInstance().getAppMain().dia.dispose();
+							AppManager.CreateInstance().getAppMain().btns[0].setEnabled(true);
+							AppManager.CreateInstance().getAppMain().btns[1].setEnabled(true);
+							AppManager.CreateInstance().getAppMain().btns[2].setEnabled(true);
+							AppManager.CreateInstance().getAppMain().btns[3].setEnabled(true);
+	
+							registerOpenedFlag = false;
 						}
 						else if(obj == AppManager.CreateInstance().getAppMain().updateExit)
 						{
 							AppManager.CreateInstance().getAppMain().diaUpdate.dispose();
+							AppManager.CreateInstance().getAppMain().btns[0].setEnabled(true);
+							AppManager.CreateInstance().getAppMain().btns[1].setEnabled(true);
+							AppManager.CreateInstance().getAppMain().btns[2].setEnabled(true);
+							AppManager.CreateInstance().getAppMain().btns[3].setEnabled(true);
+							updateOpenedFlag = false;
 						}
 					}
 				});
@@ -246,21 +372,27 @@ public class AppController {
 							String year = (String)AppManager.CreateInstance().getAppMain().yearcbSearch.getSelectedItem();
 							String month = (String)AppManager.CreateInstance().getAppMain().monthcbSearch.getSelectedItem();
 							
-							if(pro.equals("전체"))
+							if(pro.equals("전체"))//장소가 전체 일경우
 							{
-								if(year == "년도" || month == "월")
+								if(year == "년도" || month == "월")		//장소가 전체 이면서 날짜도 없는 경우 모두 가져오기.
 								{
 									outputDatas = AppManager.CreateInstance().getAccidentCaseDAO().getAll();	
 								}
-								else
+								else									//장소가 전체 이면서 특정날짜가 설정되어있는 경우
 								{
 									outputDatas = AppManager.CreateInstance().getAccidentCaseDAO().searchCaseTime(year,month);
 								}
-//--------------------------------------------------------------------------------------------------------------------------------------------------------------------
 							}
-							else
+							else					//장소가 전체가 아닌 경우
 							{
-								outputDatas = AppManager.CreateInstance().getAccidentCaseDAO().searchCaseLoca(pro, tow);					
+								if(year == "년도" || month == "월")	//특정 장소 + 날짜 비설정 
+								{
+									outputDatas = AppManager.CreateInstance().getAccidentCaseDAO().searchCaseLoca(pro, tow);							
+								}
+								else								//특정 장소 + 날짜 설정
+								{
+									outputDatas = AppManager.CreateInstance().getAccidentCaseDAO().searchCase(pro, tow, year, month);
+								}
 							}
 							// 출력 절차
 							AppManager.CreateInstance().getAppMain().cardLayout.show(AppManager.CreateInstance().getAppMain().cardPanel, "table");	//table 화면 보여주기.
@@ -275,11 +407,13 @@ public class AppController {
 										outputCase.getActype()};
 								AppManager.CreateInstance().getAppMain().basicTable.addRow(temp);				
 							}
-							AppManager.CreateInstance().getAppMain().diaSearch.dispose();			
-						}
-						else
-						{
-							
+							AppManager.CreateInstance().getAppMain().btns[0].setEnabled(true);
+							AppManager.CreateInstance().getAppMain().btns[1].setEnabled(true);
+							AppManager.CreateInstance().getAppMain().btns[2].setEnabled(true);
+							AppManager.CreateInstance().getAppMain().btns[3].setEnabled(true);
+	
+							AppManager.CreateInstance().getAppMain().diaSearch.dispose();
+							searchOpenedFlag = false;
 						}
 					}
 			
@@ -307,7 +441,6 @@ public class AppController {
 					}
 				});
 
-
 		AppManager.CreateInstance().getAppMain().addActionRegisterListener(new ActionListener()
 				{
 					public void actionPerformed(ActionEvent arg0) {
@@ -317,7 +450,6 @@ public class AppController {
 						{
 							//데이터
 							boolean insertFlag;
-							
 							AccidentCase tempCase = new AccidentCase();
 							tempCase.setProvince((String)AppManager.CreateInstance().getAppMain().pro.getSelectedItem());
 							tempCase.setTown((String)AppManager.CreateInstance().getAppMain().tow.getSelectedItem());
@@ -352,12 +484,24 @@ public class AppController {
 								//Table 데이터 다시 채우기
 								AppManager.CreateInstance().getAppMain().basicTable.addRow(temp);
 								AppManager.CreateInstance().getAppMain().cardLayout.show(AppManager.CreateInstance().getAppMain().cardPanel, "table");	//table 화면 보여주기.
-								AppManager.CreateInstance().getAppMain().dia.dispose();		
+								AppManager.CreateInstance().getAppMain().dia.dispose();
+								AppManager.CreateInstance().getAppMain().btns[0].setEnabled(true);
+								AppManager.CreateInstance().getAppMain().btns[1].setEnabled(true);
+								AppManager.CreateInstance().getAppMain().btns[2].setEnabled(true);
+								AppManager.CreateInstance().getAppMain().btns[3].setEnabled(true);
+		
+								registerOpenedFlag = false;
 							}
 							else
 							{
 								JOptionPane.showMessageDialog(AppManager.CreateInstance().getAppMain().diaUpdate, "등록 실패!", "경고", JOptionPane.PLAIN_MESSAGE);
 								AppManager.CreateInstance().getAppMain().dia.dispose();
+								AppManager.CreateInstance().getAppMain().btns[0].setEnabled(true);
+								AppManager.CreateInstance().getAppMain().btns[1].setEnabled(true);
+								AppManager.CreateInstance().getAppMain().btns[2].setEnabled(true);
+								AppManager.CreateInstance().getAppMain().btns[3].setEnabled(true);
+		
+								registerOpenedFlag = false;
 							}
 						}		
 						
@@ -472,12 +616,23 @@ public class AppController {
 								AppManager.CreateInstance().getAppMain().basicTable.addRow(temp);
 								AppManager.CreateInstance().getAppMain().cardLayout.show(AppManager.CreateInstance().getAppMain().cardPanel, "table");	//table 화면 보여주기.
 								AppManager.CreateInstance().getAppMain().diaUpdate.dispose();
-										
+								AppManager.CreateInstance().getAppMain().btns[0].setEnabled(true);
+								AppManager.CreateInstance().getAppMain().btns[1].setEnabled(true);
+								AppManager.CreateInstance().getAppMain().btns[2].setEnabled(true);
+								AppManager.CreateInstance().getAppMain().btns[3].setEnabled(true);
+		
+								updateOpenedFlag = false;
 							}
 							else
 							{
 								JOptionPane.showMessageDialog(AppManager.CreateInstance().getAppMain().diaUpdate, "수정 실패!!", "경고", JOptionPane.PLAIN_MESSAGE);
 								AppManager.CreateInstance().getAppMain().diaUpdate.dispose();
+								AppManager.CreateInstance().getAppMain().btns[0].setEnabled(true);
+								AppManager.CreateInstance().getAppMain().btns[1].setEnabled(true);
+								AppManager.CreateInstance().getAppMain().btns[2].setEnabled(true);
+								AppManager.CreateInstance().getAppMain().btns[3].setEnabled(true);
+		
+								updateOpenedFlag = false;
 							}
 						}
 						else if(obj == AppManager.CreateInstance().getAppMain().deleteButton)
@@ -489,12 +644,24 @@ public class AppController {
 							{
 								//화면 CardLayout 으로 사진 으로 전환
 								AppManager.CreateInstance().getAppMain().cardLayout.show(AppManager.CreateInstance().getAppMain().cardPanel, "image");
-								AppManager.CreateInstance().getAppMain().diaUpdate.dispose();				
+								AppManager.CreateInstance().getAppMain().diaUpdate.dispose();
+								AppManager.CreateInstance().getAppMain().btns[0].setEnabled(true);
+								AppManager.CreateInstance().getAppMain().btns[1].setEnabled(true);
+								AppManager.CreateInstance().getAppMain().btns[2].setEnabled(true);
+								AppManager.CreateInstance().getAppMain().btns[3].setEnabled(true);
+		
+								updateOpenedFlag = false;
 							}
 							else
 							{	
 								JOptionPane.showMessageDialog(AppManager.CreateInstance().getAppMain().diaUpdate, "삭제 실패!!", "경고", JOptionPane.PLAIN_MESSAGE);
 								AppManager.CreateInstance().getAppMain().diaUpdate.dispose();
+								AppManager.CreateInstance().getAppMain().btns[0].setEnabled(true);
+								AppManager.CreateInstance().getAppMain().btns[1].setEnabled(true);
+								AppManager.CreateInstance().getAppMain().btns[2].setEnabled(true);
+								AppManager.CreateInstance().getAppMain().btns[3].setEnabled(true);
+		
+								updateOpenedFlag = false;
 							}
 							
 						}
@@ -520,7 +687,64 @@ public class AppController {
 							Police pol =new Police();
 							pol = AppManager.CreateInstance().getAccidentCaseDAO().getPolice(polNum);
 							
-							new DetailInfo(tempCase, pol);
+							DetailInfo accDetailInfo = new DetailInfo(tempCase, pol);
+							accDetailInfo.addMouseDetailMenuBarListener(new MouseAdapter()
+							{
+								@Override
+								public void mousePressed(MouseEvent e)							//메뉴바를 잡았을 떄 절대좌표를 받아옴
+								{
+									Object obj = e.getSource();
+									if(obj == accDetailInfo.menuBarDetail)
+									{
+										accDetailInfo.mouseX = e.getX();
+										accDetailInfo.mouseY = e.getY();				
+									}
+								}
+							});
+							accDetailInfo.addMouseDetailMenuBarMotionListener(new MouseMotionAdapter()
+							{
+								@Override
+								public void mouseDragged(MouseEvent e)
+								{
+									Object obj = e.getSource();
+									if(obj == accDetailInfo.menuBarDetail)
+									{
+										int x = e.getXOnScreen();
+										int y = e.getYOnScreen();
+										accDetailInfo.setLocation(x - accDetailInfo.mouseX, y - accDetailInfo.mouseY);							//메뉴바를 잡고 움직였을 때 전체 프레임도 움직이게 만듦		
+									}
+								}
+							});
+							accDetailInfo.addMouseDetailExitListener(new MouseAdapter()
+							{
+								@Override
+								public void mouseEntered(MouseEvent e)
+								{
+									Object obj = e.getSource();
+									if(obj == accDetailInfo.detailExit)
+									{
+										accDetailInfo.detailExit.setIcon(ImageData.exitButtonEntered);			
+									}
+								}
+								@Override
+								public void mouseExited(MouseEvent e)
+								{
+									Object obj = e.getSource();
+									if(obj == accDetailInfo.detailExit)
+									{
+										accDetailInfo.detailExit.setIcon(ImageData.exitButtonBasic);			
+									}
+								}
+								@Override
+								public void mouseReleased(MouseEvent e)
+								{
+									Object obj = e.getSource();
+									if(obj == accDetailInfo.detailExit)
+									{
+										accDetailInfo.dispose();			
+									}
+								}
+							});
 						}
 						if(e.getButton() == 3)
 						{
@@ -530,13 +754,6 @@ public class AppController {
 					
 				});
 		}
-	public class detailInfoAction implements ActionListener
-	{
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			
-		}
-	}
 }
 
 

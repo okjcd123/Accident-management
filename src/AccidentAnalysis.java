@@ -100,6 +100,11 @@ public class AccidentAnalysis extends JDialog{
 					public void mouseReleased(MouseEvent e)
 					{
 						dispose();
+						AppManager.CreateInstance().getAppMain().btns[0].setEnabled(true);
+						AppManager.CreateInstance().getAppMain().btns[1].setEnabled(true);
+						AppManager.CreateInstance().getAppMain().btns[2].setEnabled(true);
+						AppManager.CreateInstance().getAppMain().btns[3].setEnabled(true);
+						AppManager.CreateInstance().getAppController().analysisOpenedFlag = false;
 					}
 				});
 	    upPanel.add(analysisExit);

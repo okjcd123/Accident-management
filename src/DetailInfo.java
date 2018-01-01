@@ -79,45 +79,9 @@ public class DetailInfo extends JDialog{
 	  detailExit.setBorderPainted(false);
 	  detailExit.setContentAreaFilled(false);
 	  detailExit.setFocusPainted(false);
-	  detailExit.addMouseListener(new MouseAdapter(){
-			
-			@Override
-			public void mouseEntered(MouseEvent e)
-			{
-				detailExit.setIcon(ImageData.exitButtonEntered);
-			}
-			@Override
-			public void mouseExited(MouseEvent e)
-			{
-				detailExit.setIcon(ImageData.exitButtonBasic);
-			}
-			@Override
-			public void mouseReleased(MouseEvent e)
-			{
-				dispose();
-			}
-		});
 	  upPanel.add(detailExit);
 	  
 	  menuBarDetail.setBounds(0,0,940, 40);
-	  menuBarDetail.addMouseListener(new MouseAdapter()
-		{	@Override
-				public void mousePressed(MouseEvent e)							//메뉴바를 잡았을 떄 절대좌표를 받아옴
-				{
-					mouseX = e.getX();
-					mouseY = e.getY();
-				}
-		});
-	  menuBarDetail.addMouseMotionListener(new MouseMotionAdapter()	
-		{
-			@Override
-			public void mouseDragged(MouseEvent e)
-			{
-				int x = e.getXOnScreen();
-				int y = e.getYOnScreen();
-				setLocation(x - mouseX, y - mouseY);							//메뉴바를 잡고 움직였을 때 전체 프레임도 움직이게 만듦
-			}
-		});
 	  upPanel.add(menuBarDetail);
 	  add(upPanel);
 	 
@@ -296,6 +260,19 @@ public class DetailInfo extends JDialog{
          
    }
 
+   public void addMouseDetailMenuBarListener(MouseAdapter mouse)
+   {
+	   menuBarDetail.addMouseListener(mouse);
+   }
+   public void addMouseDetailMenuBarMotionListener(MouseMotionAdapter mouse)
+   {
+	   menuBarDetail.addMouseMotionListener(mouse);
+   }
+   public void addMouseDetailExitListener(MouseAdapter mouse)
+   {
+	   detailExit.addMouseListener(mouse);
+   }
+   
    public void paint(Graphics g)
    {
       super.paintComponents(g);
