@@ -60,6 +60,28 @@ public class AppController {
 						}
 					}
 				});
+		AppManager.CreateInstance().getAppMain().introPanel.addMouseLoginButtonListener(new MouseAdapter()
+				{
+					public void mouseEntered(MouseEvent e)
+					{
+						Object obj = e.getSource();	
+						if(obj == AppManager.CreateInstance().getAppMain().introPanel.loginBtn)
+						{
+							AppManager.CreateInstance().getAppMain().introPanel.loginBtn.setIcon(ImageData.loginEnteredImage);
+						}
+					}
+					@Override
+					public void mouseExited(MouseEvent e)
+					{
+						Object obj = e.getSource();
+						if(obj == AppManager.CreateInstance().getAppMain().introPanel.loginBtn)
+						{
+							AppManager.CreateInstance().getAppMain().introPanel.loginBtn.setIcon(ImageData.loginBaiscImage);
+						}
+						
+					}
+				});
+		
 		
 		AppManager.CreateInstance().getAppMain().addActionButtonListener(new ActionListener()
 				{
@@ -184,8 +206,6 @@ public class AppController {
 							AppManager.CreateInstance().getAppMain().btns[3].setIcon(ImageData.analysisBasic);
 						}
 					}
-					
-			
 				});
 		AppManager.CreateInstance().getAppMain().addMouseAdapterButtonListener(new MouseAdapter()
 				{
@@ -414,6 +434,8 @@ public class AppController {
 	
 							AppManager.CreateInstance().getAppMain().diaSearch.dispose();
 							searchOpenedFlag = false;
+							AppManager.CreateInstance().getAppMain().searchButton.setIcon(ImageData.searchDialogBtnBasic);
+							
 						}
 					}
 			
@@ -464,15 +486,17 @@ public class AppController {
 							tempCase.setLatitude(Double.parseDouble(AppManager.CreateInstance().getAppMain().lati.getText()));
 							tempCase.setLongitude(Double.parseDouble(AppManager.CreateInstance().getAppMain().longi.getText()));
 							
-							if(tempCase.getProvince().equals("전체")|| tempCase.getYear().equals("년도") || 
-									tempCase.getMonth().equals("월") || tempCase.getDay().equals("일"))
+							if(tempCase.getPoliceno().equals(""))
 							{
+								String code = AppManager.CreateInstance().getAccidentCaseDAO().findCode(tempCase.getProvince(),tempCase.getTown());
+								tempCase.setPoliceno(AppManager.CreateInstance().getAccidentCaseDAO().getPolCode(code));
+							}
+							if(tempCase.getProvince().equals("전체")|| tempCase.getYear().equals("년도") || tempCase.getMonth().equals("월") || tempCase.getDay().equals("일"))
 								insertFlag = false;
-							}
 							else
-							{
 								insertFlag = AppManager.CreateInstance().getAccidentCaseDAO().insertCase(tempCase);		
-							}
+							
+							
 							
 							//가져오는 부분--------------------------------------------------------------------------------
 							if(insertFlag == true)
@@ -499,6 +523,7 @@ public class AppController {
 								AppManager.CreateInstance().getAppMain().btns[3].setEnabled(true);
 		
 								registerOpenedFlag = false;
+								AppManager.CreateInstance().getAppMain().regBtn.setIcon(ImageData.regDialogBtnBasic);
 							}
 							else
 							{
@@ -510,6 +535,8 @@ public class AppController {
 								AppManager.CreateInstance().getAppMain().btns[3].setEnabled(true);
 		
 								registerOpenedFlag = false;
+								AppManager.CreateInstance().getAppMain().regBtn.setIcon(ImageData.regDialogBtnBasic);
+								
 							}
 						}		
 						
@@ -639,6 +666,10 @@ public class AppController {
 								AppManager.CreateInstance().getAppMain().btns[3].setEnabled(true);
 		
 								updateOpenedFlag = false;
+								AppManager.CreateInstance().getAppMain().searchUpdateBtn.setIcon(ImageData.updateSearchBtnBasic);
+								AppManager.CreateInstance().getAppMain().updateButton.setIcon(ImageData.updateDialogBtnBasic);
+								AppManager.CreateInstance().getAppMain().deleteButton.setIcon(ImageData.deleteDialogBtnBasic);
+								
 							}
 							else
 							{
@@ -650,6 +681,10 @@ public class AppController {
 								AppManager.CreateInstance().getAppMain().btns[3].setEnabled(true);
 		
 								updateOpenedFlag = false;
+								AppManager.CreateInstance().getAppMain().searchUpdateBtn.setIcon(ImageData.updateSearchBtnBasic);
+								AppManager.CreateInstance().getAppMain().updateButton.setIcon(ImageData.updateDialogBtnBasic);
+								AppManager.CreateInstance().getAppMain().deleteButton.setIcon(ImageData.deleteDialogBtnBasic);
+							
 							}
 						}
 						else if(obj == AppManager.CreateInstance().getAppMain().deleteButton)
@@ -668,6 +703,7 @@ public class AppController {
 								AppManager.CreateInstance().getAppMain().btns[3].setEnabled(true);
 		
 								updateOpenedFlag = false;
+								
 							}
 							else
 							{	
@@ -770,7 +806,63 @@ public class AppController {
 					}
 					
 				});
-		}
+		AppManager.CreateInstance().getAppMain().addInsideMouseListener(new MouseAdapter()
+		{
+				public void mouseEntered(MouseEvent e)
+				{
+					Object obj = e.getSource();	
+					if(obj == AppManager.CreateInstance().getAppMain().searchButton)
+					{
+						AppManager.CreateInstance().getAppMain().searchButton.setIcon(ImageData.searchDialogBtnEntered);
+					}
+					else if(obj == AppManager.CreateInstance().getAppMain().regBtn)
+					{
+						AppManager.CreateInstance().getAppMain().regBtn.setIcon(ImageData.regDialogBtnEntered);
+					}
+					else if(obj == AppManager.CreateInstance().getAppMain().searchUpdateBtn)
+					{
+						 AppManager.CreateInstance().getAppMain().searchUpdateBtn.setIcon(ImageData.updateSearchBtnEntered);
+					}
+					else if(obj == AppManager.CreateInstance().getAppMain().updateButton)
+					{
+						AppManager.CreateInstance().getAppMain().updateButton.setIcon(ImageData.updateDialogBtnEntered);
+					}
+					else if(obj == AppManager.CreateInstance().getAppMain().deleteButton)
+					{
+						AppManager.CreateInstance().getAppMain().deleteButton.setIcon(ImageData.deleteDialogBtnEntered);
+					}
+					
+				}
+				@Override
+				public void mouseExited(MouseEvent e)
+				{
+					Object obj = e.getSource();	
+					if(obj == AppManager.CreateInstance().getAppMain().searchButton)
+					{
+						AppManager.CreateInstance().getAppMain().searchButton.setIcon(ImageData.searchDialogBtnBasic);
+					}
+					else if(obj == AppManager.CreateInstance().getAppMain().regBtn)
+					{
+						AppManager.CreateInstance().getAppMain().regBtn.setIcon(ImageData.regDialogBtnBasic);
+					}
+					else if(obj == AppManager.CreateInstance().getAppMain().searchUpdateBtn)
+					{
+						 AppManager.CreateInstance().getAppMain().searchUpdateBtn.setIcon(ImageData.updateSearchBtnBasic);
+					}
+					else if(obj == AppManager.CreateInstance().getAppMain().updateButton)
+					{
+						AppManager.CreateInstance().getAppMain().updateButton.setIcon(ImageData.updateDialogBtnBasic);
+					}
+					else if(obj == AppManager.CreateInstance().getAppMain().deleteButton)
+					{
+						AppManager.CreateInstance().getAppMain().deleteButton.setIcon(ImageData.deleteDialogBtnBasic);
+					}
+
+					
+				}
+		});
+
+	}
 }
 
 

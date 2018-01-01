@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionAdapter;
 import java.util.ArrayList;
 
@@ -14,7 +15,10 @@ import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableModel;
 
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -44,7 +48,7 @@ import chrriis.dj.nativeswing.swtimpl.components.WebBrowserWindowWillOpenEvent;
 public class AccidentAnalysis extends JDialog{
 
 	protected static final String LS = System.getProperty("line.separator");		//html 문서 개행 명령어 
-	private	String[] year = {"전체", "2012","2013","2014","2015","2016"};
+	private	String[] year = {"전체", "2012","2013","2014","2015","2016","2017","2018"};
 	protected String[] month = {"월","01","02","03","04","05","06","07","08","09","10","11","12"};
 	
 	private ArrayList <AccidentCase> accList = new ArrayList<AccidentCase>();
@@ -56,13 +60,12 @@ public class AccidentAnalysis extends JDialog{
 	private JPanel primary;
 	private JPanel boxPanel;
 	
-	
 	private JComboBox yearBox;
 	private JComboBox monthBox;
 	
-	private JButton searchDateBtn;
-	private JButton parsingButton;
-	private JButton deleteButton;
+	private JButton searchDateBtn = new JButton(ImageData.viewChartBasic);
+	private JButton parsingButton = new JButton(ImageData.parsingBasic);
+	private JButton deleteButton = new JButton(ImageData.resetBasic);
 	
 	private Javascript script = new Javascript();
 	private JPanel infoPanel;
@@ -71,12 +74,30 @@ public class AccidentAnalysis extends JDialog{
 	private JFreeChart chart;
 	private ChartPanel chartPanel;
 	
+	
+    protected String [] header = {"1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월","11월","12월","평균"};
+	
+	private JLabel seoul;
+	private JLabel kyeongki;
+	private JLabel incheon;
+	
+	private JScrollPane scroll;
+	DefaultTableModel basic =new DefaultTableModel();
+	protected JTable table = new JTable(basic)
+	{
+	       public boolean isCellEditable(int row, int column)
+	       {
+	          return false;
+	       }
+	};
+	
+	
 	final JWebBrowser webBrowser = new JWebBrowser();							//웹브라우져 객체 생성
     
 	public AccidentAnalysis()
 	{
 		setUndecorated(true);
-		setSize(1300,640);
+		setSize(1300,600);
   	  	setLayout(null);
   	  	setResizable(false);
  
@@ -136,7 +157,6 @@ public class AccidentAnalysis extends JDialog{
 	    add(upPanel);
       
 		primary = new JPanel();
-		primary.setBackground(Color.LIGHT_GRAY);
 		primary.setLayout(null);
 		primary.setBounds(0,40,1300,600);
 		
@@ -152,28 +172,53 @@ public class AccidentAnalysis extends JDialog{
 		monthBox.setBounds(160,10, 140,40);
 		boxPanel.add(monthBox);
 		
-		searchDateBtn = new JButton("차트 보기");
 		searchDateBtn.setBounds(320, 10, 100,40);
 		boxPanel.add(searchDateBtn);
 		
-		parsingButton = new JButton("파싱");
 		parsingButton.setBounds(430,10,100,40);
 		boxPanel.add(parsingButton);
 		
-		deleteButton = new JButton("초기화");
 		deleteButton.setBounds(540,10,100,40);
 		boxPanel.add(deleteButton);
 	
 		primary.add(boxPanel);
-		
+		 
+		// 차트
 		chart = new JFreeChart(new CategoryPlot());
   	  	chartPanel = new ChartPanel(chart);
   	  	
 	    chartPanel.setChart(getChart("All"));
 	    chartPanel.setLayout(null);
-	    chartPanel.setBounds(650,60,640,400);
+	    chartPanel.setBounds(650,30,640,400);
 	    primary.add(chartPanel);	
 		
+	  
+	    seoul = new JLabel("서울", JLabel.CENTER);
+	    seoul.setBounds(650,470,40,20);
+	    seoul.setFont(new Font("Gothic", Font.BOLD, 11));
+	    primary.add(seoul);
+	    
+	    kyeongki = new JLabel("경기",JLabel.CENTER);
+		kyeongki.setBounds(650,487,40,20);
+		kyeongki.setFont(new Font("Gothic", Font.BOLD, 11));
+		primary.add(kyeongki);
+		
+	    incheon = new JLabel("인천",JLabel.CENTER);
+	    incheon.setBounds(650,504,40,20);
+	    incheon.setFont(new Font("Gothic", Font.BOLD, 11));
+	    primary.add(incheon);
+	    
+	    for(int i =0; i<header.length; i++)
+	    {
+	         basic.addColumn(header[i]);   
+	    }
+
+	    scroll = new JScrollPane();
+	    scroll.setViewportView(table);
+	    scroll.setBounds(690,450,600,100);
+	    
+	    primary.add(scroll);
+	    
 		NativeInterface.open();			
 	    SwingUtilities.invokeLater(new Runnable() {
 	      public void run() {
@@ -184,9 +229,41 @@ public class AccidentAnalysis extends JDialog{
 	    });
 	    
 	    searchDateBtn.addActionListener(new YearSearch());    //버튼 이벤트 추가
+	    searchDateBtn.addMouseListener(new MouseAdapter()
+	    		{
+			    	public void mouseEntered(MouseEvent e)
+					{
+			    		searchDateBtn.setIcon(ImageData.viewChartEntered);
+					}
+					public void mouseExited(MouseEvent e)
+					{
+			    		searchDateBtn.setIcon(ImageData.viewChartBasic);
+					}
+	    		});
 	    parsingButton.addActionListener(new YearSearch()); 
+	    parsingButton.addMouseListener(new MouseAdapter()
+		{
+	    	public void mouseEntered(MouseEvent e)
+			{
+	    		parsingButton.setIcon(ImageData.parsingEntered);
+			}
+			public void mouseExited(MouseEvent e)
+			{
+				parsingButton.setIcon(ImageData.parsingBasic);
+			}
+		});
 	    deleteButton.addActionListener(new YearSearch()); 
-
+	    deleteButton.addMouseListener(new MouseAdapter()
+		{
+	    	public void mouseEntered(MouseEvent e)
+			{
+	    		deleteButton.setIcon(ImageData.resetEntered);
+			}
+			public void mouseExited(MouseEvent e)
+			{
+				deleteButton.setIcon(ImageData.resetBasic);
+			}
+		});
 	    setVisible(true);
 	}
 	
@@ -262,21 +339,33 @@ public class AccidentAnalysis extends JDialog{
 				if(selectedYear.equals("전체"))
 				{
 					chart = getChart("All");	
-					 accList = AppManager.CreateInstance().getAccidentCaseDAO().getAll(); 
+					accList = AppManager.CreateInstance().getAccidentCaseDAO().getAll(); 
 					script.resetScript();
 					script.setAnalysisMain(accList);
 					webBrowser.executeJavascript(script.getScript());					//지도 설정	
 				}
-				else if(selectedYear != "전체" && selectedMonth != "월")
+				else if(selectedYear != "전체")
 				{
-					chart = getChart(selectedYear);
-					accList = AppManager.CreateInstance().getAccidentCaseDAO().searchCaseTime(selectedYear, selectedMonth);
-					script.resetScript();
-					script.setAnalysisMain(accList);
-					webBrowser.executeJavascript(script.getScript());					//지도 설정	
-					repaint();
+					if(selectedYear != "전체" && selectedMonth != "월")
+					{
+						chart = getChart(selectedYear);
+						accList = AppManager.CreateInstance().getAccidentCaseDAO().searchCaseTime(selectedYear, selectedMonth);
+						script.resetScript();
+						script.setAnalysisMain(accList);
+						webBrowser.executeJavascript(script.getScript());					//지도 설정	
+						repaint();
+					}
+					else
+					{
+						chart = getChart(selectedYear);
+						accList = AppManager.CreateInstance().getAccidentCaseDAO().searchCaseTime(selectedYear);
+						script.resetScript();
+						script.setAnalysisMain(accList);
+						webBrowser.executeJavascript(script.getScript());					//지도 설정	
+						repaint();		
+					}
 				}
-					
+				
 			    chartPanel.setChart(chart);
 			}
 			else if(obj == parsingButton)
@@ -288,9 +377,13 @@ public class AccidentAnalysis extends JDialog{
 			{
 		    	AppManager.CreateInstance().getAccidentCaseDAO().deleteAllCase();
 			}
+
+			searchDateBtn.setIcon(ImageData.viewChartBasic);
+			parsingButton.setIcon(ImageData.parsingBasic);
+			deleteButton.setIcon(ImageData.resetBasic);
 		}
 	}
-
+	
 	
 	public void paint(Graphics g)
 	{
@@ -326,6 +419,16 @@ public class AccidentAnalysis extends JDialog{
 	    				iNum[Integer.parseInt(datas.get(iter).getMonth())]++;
 	    			}
 	    		}
+	    	
+	    	 String [][] times = {{Integer.toString(sNum[1]),Integer.toString(sNum[2]),Integer.toString(sNum[3]),Integer.toString(sNum[4]),Integer.toString(sNum[5]),Integer.toString(sNum[6]),Integer.toString(sNum[7]),Integer.toString(sNum[8]),Integer.toString(sNum[9]),Integer.toString(sNum[10]),Integer.toString(sNum[11]),Integer.toString(sNum[12]), Integer.toString(average(sNum))},
+			    		{Integer.toString(kNum[1]),Integer.toString(kNum[2]),Integer.toString(kNum[3]),Integer.toString(kNum[4]),Integer.toString(kNum[5]),Integer.toString(kNum[6]),Integer.toString(kNum[7]),Integer.toString(kNum[8]),Integer.toString(kNum[9]),Integer.toString(kNum[10]),Integer.toString(kNum[11]),Integer.toString(kNum[12]), Integer.toString(average(kNum)) },
+			    		{Integer.toString(iNum[1]),Integer.toString(iNum[2]),Integer.toString(iNum[3]),Integer.toString(iNum[4]),Integer.toString(iNum[5]),Integer.toString(iNum[6]),Integer.toString(iNum[7]),Integer.toString(iNum[8]),Integer.toString(iNum[9]),Integer.toString(iNum[10]),Integer.toString(iNum[11]),Integer.toString(iNum[12]), Integer.toString(average(iNum)) }};
+			    basic.setRowCount(0);
+			    for(int i =0; i<times.length; i++)
+			    {
+			    	basic.addRow(times[i]);	
+			    }
+			    
 	    	
 	        // 데이터 생성
 	        DefaultCategoryDataset sDataSet = new DefaultCategoryDataset();                // bar chart 
@@ -455,7 +558,17 @@ public class AccidentAnalysis extends JDialog{
 	        
 	        return chart;
 	    }
-
+	
+	public int average(int [] t)
+	{
+		int sum = 0;
+		for(int i = 1; i<=12 ; i++)
+		{
+			sum += t[i];
+		}
+		
+		return sum/12;
+	}
 
 
 }

@@ -66,7 +66,7 @@ public class DetailInfo extends JDialog{
    
    public DetailInfo(AccidentCase tempCase, Police tempPolice)
    {
-       setSize(940,540);
+       setSize(930,505);
        setLayout(null);
        setResizable(false);
        setUndecorated(true);

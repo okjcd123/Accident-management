@@ -34,12 +34,12 @@ import javax.swing.table.DefaultTableModel;
 public class AppMain extends JFrame{
 
    public boolean status = false;
-   protected String [] header = {"사고번호", "시/도", "구/군", "발생연", "월", "일", "사상자", "사망자", "부상자", "사고 유형"};
+   
+   protected String [] header = {"사고번호", "시/도", "구/군", "발생 년도", "월", "일", "사상자", "사망자", "부상자", "사고 유형"};
    protected String contents[][] = {{"1", "서울특별시", "강남구", "2017", "02", "28", "1", "0" ,"1", "차대사람"}
    ,{"1", "서울특별시", "강남구", "2017", "02", "28", "1", "0" ,"1", "차대차"}};
    
-   protected   String[] year = {"년도","2000","2001","2002","2003","2004","2005","2006","2007","2008",
-         "2009","2010","2011","2012","2013","2014","2015","2016","2017", "2018"};
+   protected   String[] year = {"년도","2012","2013","2014","2015","2016","2017","2018"};
    protected String[] month = {"월","01","02","03","04","05","06","07","08","09","10","11","12",};
    protected String[] day = {"일","01","02","03","04","05","06","07","08","09","10","11","12","13",
          "14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31"};
@@ -219,12 +219,13 @@ public class AppMain extends JFrame{
       
       AppManager.CreateInstance().setAppMain(this);
       setTitle("교통 사고 관리 시스템");
-      setSize(Execute.WIDTH,Execute.HEIGHT-40);
+      setSize(Execute.WIDTH,Execute.HEIGHT-60);
       setResizable(false);
       setUndecorated(true);
+      setLocation(250,250);
       setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-      //getContentPane().add(introPanel);
-      getContentPane().add(primary);
+      getContentPane().add(introPanel);
+     
       //------------------------------------------------------------------------
       exit.setBounds(1260, 5, 30, 30);
       exit.setBorderPainted(false);
@@ -235,7 +236,7 @@ public class AppMain extends JFrame{
       menuBar.setBounds(0,0,1300, 40);
       primary.add(menuBar);
       
-      primary.setBounds(0,0,Execute.WIDTH,Execute.HEIGHT);
+      primary.setBounds(0,0,Execute.WIDTH,Execute.HEIGHT-60);
       primary.setLayout(null);
    
       bPanel = new JPanel();
@@ -298,7 +299,7 @@ public class AppMain extends JFrame{
          cardPanel.add(imagePanel, "image");
          cardLayout.show(cardPanel,"image");      
          
-         primary.add(cardPanel);
+        primary.add(cardPanel);
          
       setVisible(true);
    }
@@ -307,19 +308,19 @@ public class AppMain extends JFrame{
    {
       //intro관련 요소들------------------------------------------------------------------------
       JTextField idField = new JTextField();
-       JPasswordField pwField = new JPasswordField();
-        JButton loginBtn = new JButton(ImageData.loginBaiscImage);
+      JPasswordField pwField = new JPasswordField();
+      JButton loginBtn = new JButton(ImageData.loginBaiscImage);
         
       public Intro()
       {
          setBounds(0,0,Execute.WIDTH,Execute.HEIGHT);
          setLayout(null);
          idField.setBounds(980, 500, 140, 30);
-            pwField.setBounds(980, 540, 140,30);
-           loginBtn.setBounds(1130,500,70,70);
+         pwField.setBounds(980, 540, 140,30);
+         loginBtn.setBounds(1130,500,70,70);
            
-           add(idField);
-          add(pwField);
+         add(idField);
+         add(pwField);
          add(loginBtn);
       }
       public void paintComponent(Graphics g)
@@ -328,15 +329,22 @@ public class AppMain extends JFrame{
          {
             super.paintComponents(g);
             g.drawImage(ImageData.introImage,0, 0, null);
-            
          }
       }
       public void addActionLoginButtonListener(ActionListener action) {
          // TODO Auto-generated method stub
          introPanel.loginBtn.addActionListener(action);
       }
+      
+      public void addMouseLoginButtonListener(MouseAdapter mouse)
+      {
+    	  introPanel.loginBtn.addMouseListener(mouse);
+      }
+
    }
-   public void search() {
+   
+   public void search() 
+   {
        diaSearch = new JDialog();
        diaSearch.setSize(430,300);
        diaSearch.setResizable(false);
@@ -833,7 +841,6 @@ public class AppMain extends JFrame{
       new AccidentAnalysis();
    }
    
-   
    public void addActionButtonListener(ActionListener action)
    {
       for(int i=0;i<btns.length;i++)
@@ -841,6 +848,7 @@ public class AppMain extends JFrame{
          btns[i].addActionListener(action);
       }
    }
+   
    
    //Search 내부 버튼 관련---------------------------------------------------------------------
    public void addActionSearchProListener(ActionListener action)
@@ -915,6 +923,16 @@ public class AppMain extends JFrame{
    public void addTableListener(MouseAdapter mouse)
    {
       table.addMouseListener(mouse);
+   }
+   
+   public void addInsideMouseListener(MouseAdapter mouse)
+   {
+	   searchButton.addMouseListener(mouse);
+	   regBtn.addMouseListener(mouse);
+	   searchUpdateBtn.addMouseListener(mouse);
+	   updateButton.addMouseListener(mouse);
+	   deleteButton.addMouseListener(mouse);
+	   
    }
 
 }

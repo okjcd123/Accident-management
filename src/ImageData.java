@@ -27,9 +27,10 @@ public class ImageData {
 	public static ImageIcon exitButtonBasic = new ImageIcon(Execute.class.getResource("images/exitButtonBasic.png"));
 	public static ImageIcon exitButtonEntered = new ImageIcon(Execute.class.getResource("images/exitButtonEntered.png"));
 	
-	
+	//-----------------------------------------------------------------------------------------------------------------------------
 	public static ImageIcon searchDialogBtnBasic = new ImageIcon(Execute.class.getResource("images/searchDialogBtnBasic.png"));
-	   
+	public static ImageIcon searchDialogBtnEntered = new ImageIcon(Execute.class.getResource("images/searchDialogBtnEntered.png"));
+	 
 	public static ImageIcon regDialogBtnBasic = new ImageIcon(Execute.class.getResource("images/regDialogBtnBasic.png"));
 	public static ImageIcon regDialogBtnEntered = new ImageIcon(Execute.class.getResource("images/regDialogBtnEntered.png"));
    
@@ -41,4 +42,17 @@ public class ImageData {
    
 	public static ImageIcon deleteDialogBtnBasic = new ImageIcon(Execute.class.getResource("images/deleteDialogBtnBasic.png"));
 	public static ImageIcon deleteDialogBtnEntered = new ImageIcon(Execute.class.getResource("images/deleteDialogBtnEntered.png"));
+
+	
+	//----------------------------------------------------------------------------------------------------------------
+	public static ImageIcon viewChartBasic = new ImageIcon(Execute.class.getResource("images/viewChartBasic.png"));
+	public static ImageIcon viewChartEntered = new ImageIcon(Execute.class.getResource("images/viewChartEntered.png"));
+
+	public static ImageIcon parsingBasic = new ImageIcon(Execute.class.getResource("images/parsingBtnBasic.png"));
+	public static ImageIcon parsingEntered = new ImageIcon(Execute.class.getResource("images/parsingBtnEntered.png"));
+
+	public static ImageIcon resetBasic = new ImageIcon(Execute.class.getResource("images/resetBtnBasic.png"));
+	public static ImageIcon resetEntered = new ImageIcon(Execute.class.getResource("images/resetBtnEntered.png"));
+
+
 }

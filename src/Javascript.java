@@ -78,13 +78,13 @@ public class Javascript {
   	            "maps.style.width = '100%';\r\n" + 
   	            "maps.style.height = '100%';" +     
   	            "var seoul = {lat: 37.566294 , lng: 126.977423};\r\n" + 
-  	            "function initMap() {\r\n" + 
+  	            "function initMap() {\r\n" +
   	            "	map = new google.maps.Map(document.getElementById('map'), {\r\n" + 
   	            "       zoom: 8," + 
   	            "       center: seoul"+
   	            "   });\r\n" +
 	  	        "var icon1 = {\r\n" +                                           //병원 아이콘 옵션 지정
-	            "    url:'https://cdn.pixabay.com/photo/2014/04/02/10/45/location-304467_640.png',\r\n" + 
+	            "    url:'https://cdn.pixabay.com/photo/2013/07/13/11/42/map-158493_960_720.png',\r\n" + 
 	            "    scaledSize: new google.maps.Size(13, 16) \r\n" + 
 	            "};"
   	            );

@@ -16,8 +16,8 @@ import org.json.simple.JSONValue;
 import org.json.simple.parser.JSONParser;
 public class AccidentCaseDAO {
 	
-	String DBid = "heeho";
-	String DBpw = "1234";
+	String DBid;
+	String DBpw;
 	
 	String jdbcDriver = "com.mysql.jdbc.Driver";
 	String jdbcUrl = "jdbc:mysql://localhost/javadb";//mysql이 연결 안되는 관계로 강의자료값을 넣었습니다.
