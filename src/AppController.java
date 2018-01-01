@@ -55,7 +55,8 @@ public class AppController {
 						}
 						else
 						{
-							AppManager.CreateInstance().getAppMain().introPanel.idField.setText("오류");
+							JOptionPane.showMessageDialog(AppManager.CreateInstance().getAppMain().introPanel.idField, "DB 접속 오류");
+							AppManager.CreateInstance().getAppMain().introPanel.idField.setText("");
 							AppManager.CreateInstance().getAppMain().introPanel.pwField.setText("");
 						}
 					}
