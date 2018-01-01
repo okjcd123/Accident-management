@@ -44,7 +44,7 @@ import chrriis.dj.nativeswing.swtimpl.components.WebBrowserWindowWillOpenEvent;
 public class AccidentAnalysis extends JDialog{
 
 	protected static final String LS = System.getProperty("line.separator");		//html 문서 개행 명령어 
-	private	String[] year = {"년도", "2014","2015","2016"};
+	private	String[] year = {"전체", "2012","2013","2014","2015","2016"};
 	
 	private ArrayList <AccidentCase> accList = new ArrayList<AccidentCase>();
 	
@@ -58,8 +58,8 @@ public class AccidentAnalysis extends JDialog{
 	
 	private JComboBox yearBox;
 	private JButton searchDateBtn;
-	
 	private JButton parsingButton;
+	private JButton deleteButton;
 	
 	private Javascript script = new Javascript();
 	private JPanel infoPanel;
@@ -75,7 +75,7 @@ public class AccidentAnalysis extends JDialog{
 		setSize(1300,640);
   	  	setLayout(null);
   	  	setResizable(false);
-  	  
+ 
 	    JPanel upPanel = new JPanel();
 	    upPanel.setBounds(0,0,1300,40);
 	    upPanel.setLayout(null);
@@ -148,16 +148,27 @@ public class AccidentAnalysis extends JDialog{
 		yearBox.setBounds(50,10,250,40);
 		boxPanel.add(yearBox);
 			
-		searchDateBtn = new JButton("검색");
+		searchDateBtn = new JButton("차트 보기");
 		searchDateBtn.setBounds(320, 10, 100,40);
 		boxPanel.add(searchDateBtn);
 		
-		parsingButton = new JButton("System Update");
-		parsingButton.setBounds(430,10,210,40);
+		parsingButton = new JButton("파싱");
+		parsingButton.setBounds(430,10,100,40);
 		boxPanel.add(parsingButton);
+		
+		deleteButton = new JButton("초기화");
+		deleteButton.setBounds(540,10,100,40);
+		boxPanel.add(deleteButton);
 	
 		primary.add(boxPanel);
 		
+		chart = new JFreeChart(new CategoryPlot());
+  	  	chartPanel = new ChartPanel(chart);
+  	  	
+	    chartPanel.setChart(getChart("All"));
+	    chartPanel.setLayout(null);
+	    chartPanel.setBounds(650,60,640,400);
+	    primary.add(chartPanel);	
 		
 		NativeInterface.open();			
 	    SwingUtilities.invokeLater(new Runnable() {
@@ -170,7 +181,7 @@ public class AccidentAnalysis extends JDialog{
 	    
 	    searchDateBtn.addActionListener(new YearSearch());    //버튼 이벤트 추가
 	    parsingButton.addActionListener(new YearSearch()); 
-	    
+	    deleteButton.addActionListener(new YearSearch()); 
 
 	    setVisible(true);
 		
@@ -236,24 +247,30 @@ public class AccidentAnalysis extends JDialog{
 		public void actionPerformed(ActionEvent e)
 		{
 			Object obj = e.getSource();
+			String selectedYear;
 			
 			if(obj == searchDateBtn)
 			{
 				//script.setMarker();
-				String selectedYear = (String) yearBox.getSelectedItem();
+				selectedYear = (String) yearBox.getSelectedItem();
 				
-				//차트 패널
-			    chart = getChart(selectedYear); 
-			    chartPanel = new ChartPanel(chart);
-			    
-			    chartPanel.setLayout(null);
-			    chartPanel.setBounds(650,60,610,400);
-			    primary.add(chartPanel);	
-			    
+				if(selectedYear.equals("전체"))
+					 chart = getChart("All");
+				else
+					chart = getChart(selectedYear);
+			      
+			    chartPanel.setChart(chart);
 			}
 			else if(obj == parsingButton)
 			{
-		    	AppManager.CreateInstance().getAccidentCaseDAO().ParsingAccidentData(); 
+				selectedYear = (String) yearBox.getSelectedItem();
+				
+		    	AppManager.CreateInstance().getAccidentCaseDAO().ParsingAccidentData(selectedYear); 
+		    	
+			}
+			else if(obj == deleteButton)
+			{
+		    	AppManager.CreateInstance().getAccidentCaseDAO().deleteAllCase();
 			}
 		}
 	}
@@ -271,10 +288,13 @@ public class AccidentAnalysis extends JDialog{
 	    	int sNum[] = new int[13];
 	    	int kNum[] = new int[13];
 	    	int iNum[] = new int[13];
-	    	
 	    	ArrayList<AccidentCase> datas = new ArrayList<AccidentCase>();
-	    	datas = AppManager.CreateInstance().getAccidentCaseDAO().searchCaseTime(selectedYear);
 	    	
+	    	if(selectedYear.equals("All"))
+	    		datas = AppManager.CreateInstance().getAccidentCaseDAO().getAll();
+	    	else
+	    		datas = AppManager.CreateInstance().getAccidentCaseDAO().searchCaseTime(selectedYear);
+
 	    	for(int iter = 0 ; iter < datas.size(); iter++)
 	    		{
 	    			if(datas.get(iter).getProvince().equals("서울특별시"))
@@ -414,11 +434,17 @@ public class AccidentAnalysis extends JDialog{
 	        // 세팅된 plot을 바탕으로 chart 생성
 
 	        JFreeChart chart = new JFreeChart(plot);
-	        chart.setTitle(selectedYear+ "년" + "사망 교통 사고 월별 발생 건수"); // 차트 타이틀
+	        
+	        if(selectedYear.equals("All"))
+	        	chart.setTitle("전체 사망 교통 사고 월별 발생 건수"); // 차트 타이틀
+	    	else
+	    		chart.setTitle(selectedYear+ "년" + "사망 교통 사고 월별 발생 건수"); // 차트 타이틀
+
+	       
 	        
 	        return chart;
 	    }
-	
+
 
 
 }

@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.*;
 import javax.swing.JTable;
 
@@ -521,61 +522,36 @@ public class AccidentCaseDAO {
 			return flag;
 		}
 		
-//		boolean deleteAllCase()
-//		{
-//			connectDB();
-//			sql = "TRUNCATE accidentcase;";
-//			
-//			int chk;
-//			boolean flag = false;
-//			
-//			try {
-//				pstmt = conn.prepareStatement(sql);
-//				chk = pstmt.executeUpdate();
-//				
-//				if(chk>0)
-//					flag = true;
-//				
-//				
-//			} catch (SQLException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//			closeDB();
-//			return flag;
-//		}
-//		
+		void deleteAllCase()
+		{
+			connectDB();
+			sql = "TRUNCATE accidentcase;";
+			
+			try {
+				Statement stmt = conn.createStatement();
+				stmt.executeUpdate(sql);
+
+				
+			} catch (SQLException e) 
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			closeDB();
+
+		}
 		
-		void ParsingAccidentData()
+		
+		void ParsingAccidentData(String year)
 		{
 			// JSON 데이터가 저장된 url 주소를 저장하는 String 배열
-			String url[] = new String[9];
+			String url[] = new String[3];
 			
-			//2016 년도
-			url[0] = new String();  //서울
-			url[0] = "http://apis.data.go.kr/B552061/trafficAccidentDeath/getRestTrafficAccidentDeath?servicekey=2%2BbS76NE8TFgiPqTxDyXneu97RYUJJxFo3c1K5FHwD5tja3W8etlkdp6jXOr9zHl6xAZJB9LUaLrcEudogq5iQ%3D%3D&searchYear=2016&siDo=1100&guGun=";
-			url[1] = new String();  //경기도
-			url[1] = "http://apis.data.go.kr/B552061/trafficAccidentDeath/getRestTrafficAccidentDeath?servicekey=2%2BbS76NE8TFgiPqTxDyXneu97RYUJJxFo3c1K5FHwD5tja3W8etlkdp6jXOr9zHl6xAZJB9LUaLrcEudogq5iQ%3D%3D&searchYear=2016&siDo=1300&guGun=";
-			url[2] = new String();  //인천광역시
-			url[2] = "http://apis.data.go.kr/B552061/trafficAccidentDeath/getRestTrafficAccidentDeath?servicekey=2%2BbS76NE8TFgiPqTxDyXneu97RYUJJxFo3c1K5FHwD5tja3W8etlkdp6jXOr9zHl6xAZJB9LUaLrcEudogq5iQ%3D%3D&searchYear=2016&siDo=2300&guGun=";
-	
-			//2015
-			url[3] = new String();  //서울
-			url[3] = "http://apis.data.go.kr/B552061/trafficAccidentDeath/getRestTrafficAccidentDeath?servicekey=2%2BbS76NE8TFgiPqTxDyXneu97RYUJJxFo3c1K5FHwD5tja3W8etlkdp6jXOr9zHl6xAZJB9LUaLrcEudogq5iQ%3D%3D&searchYear=2015&siDo=1100&guGun=";
-			url[4] = new String();  //경기도
-			url[4] = "http://apis.data.go.kr/B552061/trafficAccidentDeath/getRestTrafficAccidentDeath?servicekey=2%2BbS76NE8TFgiPqTxDyXneu97RYUJJxFo3c1K5FHwD5tja3W8etlkdp6jXOr9zHl6xAZJB9LUaLrcEudogq5iQ%3D%3D&searchYear=2015&siDo=1300&guGun=";
-			url[5] = new String();  //인천광역시
-			url[5] = "http://apis.data.go.kr/B552061/trafficAccidentDeath/getRestTrafficAccidentDeath?servicekey=2%2BbS76NE8TFgiPqTxDyXneu97RYUJJxFo3c1K5FHwD5tja3W8etlkdp6jXOr9zHl6xAZJB9LUaLrcEudogq5iQ%3D%3D&searchYear=2015&siDo=2300&guGun=";
-	
-			//2014
-			url[6] = new String();   //서울
-			url[6] = "http://apis.data.go.kr/B552061/trafficAccidentDeath/getRestTrafficAccidentDeath?servicekey=2%2BbS76NE8TFgiPqTxDyXneu97RYUJJxFo3c1K5FHwD5tja3W8etlkdp6jXOr9zHl6xAZJB9LUaLrcEudogq5iQ%3D%3D&searchYear=2014&siDo=1100&guGun=";
-			url[7] = new String();   //경기도
-			url[7] = "http://apis.data.go.kr/B552061/trafficAccidentDeath/getRestTrafficAccidentDeath?servicekey=2%2BbS76NE8TFgiPqTxDyXneu97RYUJJxFo3c1K5FHwD5tja3W8etlkdp6jXOr9zHl6xAZJB9LUaLrcEudogq5iQ%3D%3D&searchYear=2014&siDo=1300&guGun=";
-			url[8] = new String();   //인천광역시
-			url[8] = "http://apis.data.go.kr/B552061/trafficAccidentDeath/getRestTrafficAccidentDeath?servicekey=2%2BbS76NE8TFgiPqTxDyXneu97RYUJJxFo3c1K5FHwD5tja3W8etlkdp6jXOr9zHl6xAZJB9LUaLrcEudogq5iQ%3D%3D&searchYear=2014&siDo=2300&guGun=";
-	
-			
+			url[0] = "http://apis.data.go.kr/B552061/trafficAccidentDeath/getRestTrafficAccidentDeath?servicekey=2%2BbS76NE8TFgiPqTxDyXneu97RYUJJxFo3c1K5FHwD5tja3W8etlkdp6jXOr9zHl6xAZJB9LUaLrcEudogq5iQ%3D%3D&searchYear="+year+"&siDo=1100&guGun=";
+			url[1] = "http://apis.data.go.kr/B552061/trafficAccidentDeath/getRestTrafficAccidentDeath?servicekey=2%2BbS76NE8TFgiPqTxDyXneu97RYUJJxFo3c1K5FHwD5tja3W8etlkdp6jXOr9zHl6xAZJB9LUaLrcEudogq5iQ%3D%3D&searchYear="+year+"&siDo=1300&guGun=";
+			url[2] = "http://apis.data.go.kr/B552061/trafficAccidentDeath/getRestTrafficAccidentDeath?servicekey=2%2BbS76NE8TFgiPqTxDyXneu97RYUJJxFo3c1K5FHwD5tja3W8etlkdp6jXOr9zHl6xAZJB9LUaLrcEudogq5iQ%3D%3D&searchYear="+year+"&siDo=2300&guGun=";
+
 			// Parsing을 진행할 Parser 생성
 			JSONParser parser = new JSONParser(); 
 			
@@ -594,7 +570,7 @@ public class AccidentCaseDAO {
 						
 			try
 			{
-				for(int i =0 ; i<9; i++)
+				for(int i =0 ; i<3; i++)
 				{
 					// url[i] 주소를 갖는 웹을 가리키는 postUrl
 					postUrl = new URL(url[i]);
