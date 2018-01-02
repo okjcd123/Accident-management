@@ -75,7 +75,6 @@ public class AccidentAnalysis extends JDialog{
 	private JFreeChart chart;
 	private ChartPanel chartPanel;
 	
-	
     protected String [] header = {"1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월","11월","12월","평균"};
 	
 	private JLabel seoul;
@@ -382,14 +381,14 @@ public class AccidentAnalysis extends JDialog{
 				}
 				else
 				{
-					//Parsing 할 것인지를 확인
-					int result = JOptionPane.showConfirmDialog(parsingButton, selectedYear+"년도 데이터를 Parsing 하시겠습니까?"); 
-					
-					if(result == JOptionPane.YES_OPTION)     //Yes 버튼(초기화 함)
-					{
-				    	if(AppManager.CreateInstance().getAccidentCaseDAO().ParsingAccidentData(selectedYear))
-				    		JOptionPane.showMessageDialog(parsingButton, selectedYear+"년도 데이터를 Parsing 완료");
-					}
+						//Parsing 할 것인지를 확인
+						int result = JOptionPane.showConfirmDialog(parsingButton, selectedYear+"년도 데이터를 Parsing 하시겠습니까?"); 
+						
+						if(result == JOptionPane.YES_OPTION)     //Yes 버튼(초기화 함)
+						{
+					    	if(AppManager.CreateInstance().getAccidentCaseDAO().ParsingAccidentData(selectedYear))
+					    		JOptionPane.showMessageDialog(parsingButton, selectedYear+"년도 데이터를 Parsing 완료");
+						}
 				}
 				
 			}
@@ -559,7 +558,6 @@ public class AccidentAnalysis extends JDialog{
 	        plot.setOrientation(PlotOrientation.VERTICAL);             // 그래프 표시 방향
 	        plot.setRangeGridlinesVisible(true);                       // X축 가이드 라인 표시여부
 	        plot.setDomainGridlinesVisible(true);                      // Y축 가이드 라인 표시여부
-
 
 	        // 렌더링 순서 정의 : dataset 등록 순서대로 렌더링 ( 즉, 먼저 등록한게 아래로 깔림 )
 	        plot.setDatasetRenderingOrder(DatasetRenderingOrder.FORWARD);

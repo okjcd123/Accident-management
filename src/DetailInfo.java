@@ -29,7 +29,6 @@ public class DetailInfo extends JDialog{
    protected int mouseX; int mouseY;
    
    private AccidentCase detailCase = new AccidentCase();
-   private Police police = new Police();
    
    private String lat;
    private String lng;
@@ -64,7 +63,7 @@ public class DetailInfo extends JDialog{
    
    private JPanel mapPanel;
    
-   public DetailInfo(AccidentCase tempCase, Police tempPolice)
+   public DetailInfo(AccidentCase tempCase)
    {
        setSize(930,505);
        setLayout(null);
@@ -86,7 +85,6 @@ public class DetailInfo extends JDialog{
 	  add(upPanel);
 	 
       detailCase = tempCase;
-      police = tempPolice;
       
       this.lat = lat;
       this.lng = lng;
@@ -121,11 +119,6 @@ public class DetailInfo extends JDialog{
       year.setBounds(10, 300/13*3 + 10, 200, 300/13);
       infoPanel.add(year);
       
-      policeno = new JLabel();
-      policeno.setText("담당 경찰번호: "+ detailCase.getPoliceno());
-      policeno.setBounds(10, 300/13*4 + 10, 200, 300/13);
-      infoPanel.add(policeno);
-      
       casulity = new JLabel();
       casulity.setText("사상자수: " + detailCase.getCasulity());
       casulity.setBounds(10,300/13*5 + 10, 200, 300/13);
@@ -155,37 +148,6 @@ public class DetailInfo extends JDialog{
       longitude.setText("경도: " + detailCase.getLongitude());
       longitude.setBounds(10, 300/13*10 +10, 200, 300/13);
       infoPanel.add(longitude);
-      
-      //경찰 패널---------------------------------------------------------------------------------
-      policePanel = new JPanel();
-      policePanel.setLayout(null);
-      policePanel.setBounds(0,310,200,200);
-      
-      policeNo = new JLabel();   //경찰 번호
-      policeNo.setText("담당 경찰번호: " + police.getPoliceno());
-      policeNo.setBounds(10,0, 210,300/13);
-      policePanel.add(policeNo);
-      
-      polname = new JLabel();    //경찰 이름
-      polname.setText("담당경찰관: " + police.getPolname());
-      polname.setBounds(10,300/13, 200,300/13);
-      policePanel.add(polname);
-      
-      rank = new JLabel();       //경찰 계급
-      rank.setText("계급: " + police.getRank());
-      rank.setBounds(10, 300/13*2, 200,300/13);
-      policePanel.add(rank);
-      
-      depart = new JLabel();     //소속 부서
-      depart.setText("소속부서: " + police.getDepart());
-      depart.setBounds(10,300/13*3, 200,300/13);
-      policePanel.add(depart);
-      
-      dpcode = new JLabel();     //소속 부서 코드
-      dpcode.setText("소속부서코드: "  + police.getDpcode());
-      dpcode.setBounds(10,300/13*4, 200,300/13);
-      policePanel.add(dpcode);
-      primary.add(policePanel);
       
       //지도 관련---------------------------------------------------------------------
       

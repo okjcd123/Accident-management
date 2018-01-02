@@ -479,19 +479,13 @@ public class AppController {
 							tempCase.setYear((String)AppManager.CreateInstance().getAppMain().yearcb.getSelectedItem());
 							tempCase.setMonth((String)AppManager.CreateInstance().getAppMain().monthcb.getSelectedItem());
 							tempCase.setDay((String)AppManager.CreateInstance().getAppMain().daycb.getSelectedItem());
-							tempCase.setPoliceno((String)AppManager.CreateInstance().getAppMain().polno.getText());
 							tempCase.setDead(Integer.parseInt(AppManager.CreateInstance().getAppMain().dead.getText()));
 							tempCase.setInjured(Integer.parseInt(AppManager.CreateInstance().getAppMain().injured.getText()));
 							tempCase.setCasulity();
 							tempCase.setActype((String)AppManager.CreateInstance().getAppMain().accType.getSelectedItem());
 							tempCase.setLatitude(Double.parseDouble(AppManager.CreateInstance().getAppMain().lati.getText()));
 							tempCase.setLongitude(Double.parseDouble(AppManager.CreateInstance().getAppMain().longi.getText()));
-							
-							if(tempCase.getPoliceno().equals(""))
-							{
-								String code = AppManager.CreateInstance().getAccidentCaseDAO().findCode(tempCase.getProvince(),tempCase.getTown());
-								tempCase.setPoliceno(AppManager.CreateInstance().getAccidentCaseDAO().getPolCode(code));
-							}
+						
 							if(tempCase.getProvince().equals("전체")|| tempCase.getYear().equals("년도") || tempCase.getMonth().equals("월") || tempCase.getDay().equals("일"))
 								insertFlag = false;
 							else
@@ -584,7 +578,6 @@ public class AppController {
 								AppManager.CreateInstance().getAppMain().yearcbUpdate.setSelectedItem(temp.getYear());
 								AppManager.CreateInstance().getAppMain().monthcbUpdate.setSelectedItem(temp.getMonth());
 								AppManager.CreateInstance().getAppMain().daycbUpdate.setSelectedItem(temp.getDay());
-								AppManager.CreateInstance().getAppMain().polnoUpdate.setText(temp.getPoliceno());
 								AppManager.CreateInstance().getAppMain().deadUpdate.setText(Integer.toString(temp.getDead()));
 								AppManager.CreateInstance().getAppMain().injuredUpdate.setText(Integer.toString(temp.getInjured()));
 								AppManager.CreateInstance().getAppMain().accTypeUpdate.setSelectedItem(temp.getActype());
@@ -622,7 +615,6 @@ public class AppController {
 							tempCase.setYear((String)AppManager.CreateInstance().getAppMain().yearcbUpdate.getSelectedItem());
 							tempCase.setMonth((String)AppManager.CreateInstance().getAppMain().monthcbUpdate.getSelectedItem());
 							tempCase.setDay((String)AppManager.CreateInstance().getAppMain().daycbUpdate.getSelectedItem());
-							tempCase.setPoliceno((String)AppManager.CreateInstance().getAppMain().polnoUpdate.getText());
 							tempCase.setDead(Integer.parseInt(AppManager.CreateInstance().getAppMain().deadUpdate.getText()));
 							tempCase.setInjured(Integer.parseInt(AppManager.CreateInstance().getAppMain().injuredUpdate.getText()));
 							tempCase.setCasulity();
@@ -740,11 +732,9 @@ public class AppController {
 			
 							AccidentCase tempCase = new AccidentCase();
 							tempCase = AppManager.CreateInstance().getAccidentCaseDAO().getCase(accNum);
-							String polNum = tempCase.getPoliceno();
-							Police pol =new Police();
-							pol = AppManager.CreateInstance().getAccidentCaseDAO().getPolice(polNum);
+				
 							
-							DetailInfo accDetailInfo = new DetailInfo(tempCase, pol);
+							DetailInfo accDetailInfo = new DetailInfo(tempCase);
 							accDetailInfo.addMouseDetailMenuBarListener(new MouseAdapter()
 							{
 								@Override

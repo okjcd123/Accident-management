@@ -20,7 +20,7 @@ public class AccidentCaseDAO {
 	String DBpw;
 	
 	String jdbcDriver = "com.mysql.jdbc.Driver";
-	String jdbcUrl = "jdbc:mysql://localhost/javadb";//mysql이 연결 안되는 관계로 강의자료값을 넣었습니다.
+	String jdbcUrl = "jdbc:mysql://localhost/javadb2";//mysql이 연결 안되는 관계로 강의자료값을 넣었습니다.
 	
 	Connection conn;
 
@@ -123,7 +123,6 @@ public class AccidentCaseDAO {
 				accCase.setYear(rs.getString("year"));
 				accCase.setMonth(rs.getString("month"));
 				accCase.setDay(rs.getString("day"));
-				accCase.setPoliceno(rs.getString("policeno"));
 				accCase.setDead(rs.getInt("dead"));
 				accCase.setInjured(rs.getInt("injured"));
 				accCase.setCasulity();
@@ -164,7 +163,6 @@ public class AccidentCaseDAO {
 				accCase.setYear(rs.getString("year"));
 				accCase.setMonth(rs.getString("month"));
 				accCase.setDay(rs.getString("day"));
-				accCase.setPoliceno(rs.getString("policeno"));
 				accCase.setDead(rs.getInt("dead"));
 				accCase.setInjured(rs.getInt("injured"));
 				accCase.setCasulity();
@@ -208,7 +206,6 @@ public class AccidentCaseDAO {
 				accCase.setYear(rs.getString("year"));
 				accCase.setMonth(rs.getString("month"));
 				accCase.setDay(rs.getString("day"));
-				accCase.setPoliceno(rs.getString("policeno"));
 				accCase.setDead(rs.getInt("dead"));
 				accCase.setInjured(rs.getInt("injured"));
 				accCase.setCasulity();
@@ -251,7 +248,6 @@ public class AccidentCaseDAO {
 	               accCase.setYear(rs.getString("year"));
 	               accCase.setMonth(rs.getString("month"));
 	               accCase.setDay(rs.getString("day"));
-	               accCase.setPoliceno(rs.getString("policeno"));
 	               accCase.setDead(rs.getInt("dead"));
 	               accCase.setInjured(rs.getInt("injured"));
 	               accCase.setCasulity();
@@ -291,7 +287,6 @@ public class AccidentCaseDAO {
 					accCase.setYear(rs.getString("year"));
 					accCase.setMonth(rs.getString("month"));
 					accCase.setDay(rs.getString("day"));
-					accCase.setPoliceno(rs.getString("policeno"));
 					accCase.setDead(rs.getInt("dead"));
 					accCase.setInjured(rs.getInt("injured"));
 					accCase.setCasulity();
@@ -311,40 +306,40 @@ public class AccidentCaseDAO {
 	   }
 	
 	
-	String getPolCode(String dpcode)
-	{
-		int num = 0;
-		Vector<String> list = new Vector<String>();
-		
-		connectDB();
-		sql = "select * from police where dpcode = ? ";
-		
-		try {
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, dpcode);
-			rs = pstmt.executeQuery();
-				
-			while(rs.next())
-			{
-				list.add(rs.getString("policeno"));
-			}
-			
-			rs.close();
-			num = list.size();
-
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		closeDB();
-		
-		if(num>0)
-			return list.get((int) (Math.random()*num));
-		else
-		{
-			return "NULL";
-		}
-	}
+//	String getPolCode(String dpcode)
+//	{
+//		int num = 0;
+//		Vector<String> list = new Vector<String>();
+//		
+//		connectDB();
+//		sql = "select * from police where dpcode = ? ";
+//		
+//		try {
+//			pstmt = conn.prepareStatement(sql);
+//			pstmt.setString(1, dpcode);
+//			rs = pstmt.executeQuery();
+//				
+//			while(rs.next())
+//			{
+//				list.add(rs.getString("policeno"));
+//			}
+//			
+//			rs.close();
+//			num = list.size();
+//
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		closeDB();
+//		
+//		if(num>0)
+//			return list.get((int) (Math.random()*num));
+//		else
+//		{
+//			return "NULL";
+//		}
+//	}
 
 	ArrayList<AccidentCase> getAll() {
 		
@@ -364,7 +359,6 @@ public class AccidentCaseDAO {
 				accCase.setYear(rs.getString("year"));
 				accCase.setMonth(rs.getString("month"));
 				accCase.setDay(rs.getString("day"));
-				accCase.setPoliceno(rs.getString("policeno"));
 				accCase.setDead(rs.getInt("dead"));
 				accCase.setInjured(rs.getInt("injured"));
 				accCase.setCasulity();
@@ -386,38 +380,38 @@ public class AccidentCaseDAO {
 		return datas;
 	}
 	
-	 Police getPolice (String polno)
-	   {
-	      int num = 0;
-	      Police pol = new Police();
-	      
-	      connectDB();
-	      sql = "select * from police where policeno = ? ";
-	      
-	      try {
-	         pstmt = conn.prepareStatement(sql);
-	         pstmt.setString(1, polno);
-	         rs = pstmt.executeQuery();
-	            
-	         if(rs.next())
-	         {
-	            pol.setPoliceno(polno);
-	            pol.setPolname(rs.getString("polname"));
-	            pol.setRank(rs.getString("rank"));
-	            pol.setDepart(rs.getString("depart"));
-	            pol.setDpcode(rs.getString("dpcode"));
-	         }
-	         
-	         rs.close();
-	         
-	      } catch (SQLException e) {
-	         // TODO Auto-generated catch block
-	         e.printStackTrace();
-	      }
-	      closeDB();
-	      
-	      return pol;
-	   }
+//	 Police getPolice (String polno)
+//	   {
+//	      int num = 0;
+//	      Police pol = new Police();
+//	      
+//	      connectDB();
+//	      sql = "select * from police where policeno = ? ";
+//	      
+//	      try {
+//	         pstmt = conn.prepareStatement(sql);
+//	         pstmt.setString(1, polno);
+//	         rs = pstmt.executeQuery();
+//	            
+//	         if(rs.next())
+//	         {
+//	            pol.setPoliceno(polno);
+//	            pol.setPolname(rs.getString("polname"));
+//	            pol.setRank(rs.getString("rank"));
+//	            pol.setDepart(rs.getString("depart"));
+//	            pol.setDpcode(rs.getString("dpcode"));
+//	         }
+//	         
+//	         rs.close();
+//	         
+//	      } catch (SQLException e) {
+//	         // TODO Auto-generated catch block
+//	         e.printStackTrace();
+//	      }
+//	      closeDB();
+//	      
+//	      return pol;
+//	   }
 
 	 
 	 boolean insertCase(AccidentCase accCase) 
@@ -426,8 +420,8 @@ public class AccidentCaseDAO {
 			int chk =0;
 			boolean flag=false; 
 			sql = "INSERT "+
-				  "INTO accidentcase(province,town,year,month,day,policeno,dead,injured,actype,latitude,longitude) "+
-				  "VALUES(?,?,?,?,?,?,?,?,?,?,?)";
+				  "INTO accidentcase(province,town,year,month,day,dead,injured,actype,latitude,longitude) "+
+				  "VALUES(?,?,?,?,?,?,?,?,?,?)";
 	
 			try {
 				pstmt = conn.prepareStatement(sql);
@@ -437,12 +431,11 @@ public class AccidentCaseDAO {
 				pstmt.setString(3, accCase.getYear());
 				pstmt.setString(4, accCase.getMonth());
 				pstmt.setString(5, accCase.getDay());
-				pstmt.setString(6, accCase.getPoliceno());
-				pstmt.setInt(7, accCase.getDead());
-				pstmt.setInt(8, accCase.getInjured());
-				pstmt.setString(9, accCase.getActype());
-				pstmt.setDouble(10, accCase.getLatitude());
-				pstmt.setDouble(11, accCase.getLongitude());
+				pstmt.setInt(6, accCase.getDead());
+				pstmt.setInt(7, accCase.getInjured());
+				pstmt.setString(8, accCase.getActype());
+				pstmt.setDouble(9, accCase.getLatitude());
+				pstmt.setDouble(10, accCase.getLongitude());
 				
 				chk = pstmt.executeUpdate();
 				
@@ -465,7 +458,7 @@ public class AccidentCaseDAO {
 			boolean flag=false; 
 			
 			sql = "UPDATE accidentcase " + 
-				  "SET province = ? , town = ?, year = ? , month = ?, day = ?, policeno = ?, dead = ?, injured =? , actype = ?, latitude = ?, longitude = ? " + 
+				  "SET province = ? , town = ?, year = ? , month = ?, day = ?, dead = ?, injured =? , actype = ?, latitude = ?, longitude = ? " + 
 				  "WHERE cscode = ? ";
 			try {
 				pstmt = conn.prepareStatement(sql);
@@ -475,13 +468,12 @@ public class AccidentCaseDAO {
 				pstmt.setString(3, accCase.getYear());
 				pstmt.setString(4, accCase.getMonth());
 				pstmt.setString(5, accCase.getDay());
-				pstmt.setString(6, accCase.getPoliceno());
-				pstmt.setInt(7, accCase.getDead());
-				pstmt.setInt(8, accCase.getInjured());
-				pstmt.setString(9, accCase.getActype());
-				pstmt.setDouble(10, accCase.getLatitude());
-				pstmt.setDouble(11, accCase.getLongitude());
-				pstmt.setInt(12, accCase.getCscode());
+				pstmt.setInt(6, accCase.getDead());
+				pstmt.setInt(7, accCase.getInjured());
+				pstmt.setString(8, accCase.getActype());
+				pstmt.setDouble(9, accCase.getLatitude());
+				pstmt.setDouble(10, accCase.getLongitude());
+				pstmt.setInt(11, accCase.getCscode());
 				
 				chk = pstmt.executeUpdate();
 				
@@ -603,8 +595,6 @@ public class AccidentCaseDAO {
 			 				accCase.setMonth(date.substring(4,6));
 			 				accCase.setDay(date.substring(6,8));
 			 				
-			 				accCase.setPoliceno(getPolCode((String)jObj.get("cd_003"))); 
-			 				
 			 				accCase.setDead(((Long)jObj.get("no_010")).intValue());
 			 				accCase.setInjured(((Long)jObj.get("injpsn_co")).intValue());
 			 				accCase.setCasulity();
@@ -620,7 +610,6 @@ public class AccidentCaseDAO {
 			 				System.out.println("year:" +accCase.getYear());
 			 				System.out.println("month:" +accCase.getMonth());
 			 				System.out.println("day:" +accCase.getDay());
-			 				System.out.println("경찰번호:" +accCase.getPoliceno());
 			 				System.out.println("사상자수:" +accCase.getCasulity());
 			 				System.out.println("사망자수:" +accCase.getDead());
 			 				System.out.println("부상자수:" +accCase.getInjured());

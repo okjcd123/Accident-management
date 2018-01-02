@@ -7,7 +7,6 @@ public class AccidentCase {
 	private String year;            //년도
 	private String month;           //월
 	private String day;             //일
-	private String policeno;        //경찰번호
 	private int casulity;           //사상자 = 사망자 + 부상자
 	private int dead;               //사망자
 	private int injured;            //부상자 
@@ -50,12 +49,6 @@ public class AccidentCase {
 	}
 	public void setDay(String day) {
 		this.day = day;
-	}
-	public String getPoliceno() {
-		return policeno;
-	}
-	public void setPoliceno(String policeno) {
-		this.policeno = policeno;
 	}
 	public int getCasulity() {
 		return casulity;
