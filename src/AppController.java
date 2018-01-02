@@ -118,7 +118,7 @@ public class AppController {
 									AppManager.CreateInstance().getAppMain().yearcb.setSelectedItem("년도");
 									AppManager.CreateInstance().getAppMain().monthcb.setSelectedItem("월");
 									AppManager.CreateInstance().getAppMain().daycb.setSelectedItem("일");
-									AppManager.CreateInstance().getAppMain().polno.setText("");
+									//AppManager.CreateInstance().getAppMain().polno.setText("");
 									AppManager.CreateInstance().getAppMain().dead.setText("");
 									AppManager.CreateInstance().getAppMain().injured.setText("");
 									AppManager.CreateInstance().getAppMain().accType.setSelectedItem("차대차");

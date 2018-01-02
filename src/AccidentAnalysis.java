@@ -49,7 +49,7 @@ import chrriis.dj.nativeswing.swtimpl.components.WebBrowserWindowWillOpenEvent;
 public class AccidentAnalysis extends JDialog{
 
 	protected static final String LS = System.getProperty("line.separator");		//html 문서 개행 명령어 
-	private	String[] year = {"전체", "2012","2013","2014","2015","2016","2017","2018"};
+	private	String[] year = {"년도","2012","2013","2014","2015","2016"};
 	protected String[] month = {"월","01","02","03","04","05","06","07","08","09","10","11","12"};
 	
 	private ArrayList <AccidentCase> accList = new ArrayList<AccidentCase>();
@@ -64,7 +64,7 @@ public class AccidentAnalysis extends JDialog{
 	private JComboBox yearBox;
 	private JComboBox monthBox;
 	
-	private JButton searchDateBtn = new JButton(ImageData.viewChartBasic);
+	private JButton showChartBtn = new JButton(ImageData.viewChartBasic);
 	private JButton parsingButton = new JButton(ImageData.parsingBasic);
 	private JButton deleteButton = new JButton(ImageData.resetBasic);
 	
@@ -100,7 +100,8 @@ public class AccidentAnalysis extends JDialog{
 		setSize(1300,600);
   	  	setLayout(null);
   	  	setResizable(false);
- 
+  	  	setAlwaysOnTop(true); //항상 창 젤위에
+  	  	
 	    JPanel upPanel = new JPanel();
 	    upPanel.setBounds(0,0,1300,40);
 	    upPanel.setLayout(null);
@@ -172,8 +173,8 @@ public class AccidentAnalysis extends JDialog{
 		monthBox.setBounds(165,10, 140,40);
 		boxPanel.add(monthBox);
 		
-		searchDateBtn.setBounds(320, 10, 100,40);
-		boxPanel.add(searchDateBtn);
+		showChartBtn.setBounds(320, 10, 100,40);
+		boxPanel.add(showChartBtn);
 		
 		parsingButton.setBounds(430,10,100,40);
 		boxPanel.add(parsingButton);
@@ -231,16 +232,16 @@ public class AccidentAnalysis extends JDialog{
 	      }
 	    });
 	    
-	    searchDateBtn.addActionListener(new YearSearch());    //버튼 이벤트 추가
-	    searchDateBtn.addMouseListener(new MouseAdapter()
+	    showChartBtn.addActionListener(new YearSearch());    //버튼 이벤트 추가
+	    showChartBtn.addMouseListener(new MouseAdapter()
 	    		{
 			    	public void mouseEntered(MouseEvent e)
 					{
-			    		searchDateBtn.setIcon(ImageData.viewChartEntered);
+			    		showChartBtn.setIcon(ImageData.viewChartEntered);
 					}
 					public void mouseExited(MouseEvent e)
 					{
-			    		searchDateBtn.setIcon(ImageData.viewChartBasic);
+						showChartBtn.setIcon(ImageData.viewChartBasic);
 					}
 	    		});
 	    parsingButton.addActionListener(new YearSearch()); 
@@ -334,22 +335,33 @@ public class AccidentAnalysis extends JDialog{
 			String selectedYear;
 			String selectedMonth;
 			
-			if(obj == searchDateBtn)
+			if(obj == showChartBtn)
 			{
 				selectedYear = (String) yearBox.getSelectedItem();
 				selectedMonth = (String) monthBox.getSelectedItem();
 				
-				if(selectedYear.equals("전체"))
+				if(selectedYear.equals("년도"))
 				{
 					chart = getChart("All");	
 					accList = AppManager.CreateInstance().getAccidentCaseDAO().getAll(); 
+					JOptionPane.showMessageDialog(showChartBtn, "전체 사고 데이터가 지도와 차트에 표시됩니다.\n 전체 데이터가 크면 시간이 다소 걸릴 수 있습니다. 잠시만 기다려 주십시오.");
+					
 					script.resetScript();
 					script.setAnalysisMain(accList);
 					webBrowser.executeJavascript(script.getScript());					//지도 설정	
 				}
-				else if(selectedYear != "전체")
+				else if(selectedYear.equals("년도") == false)
 				{
-					if(selectedYear != "전체" && selectedMonth != "월")
+					if(selectedMonth.equals("월"))
+					{
+						chart = getChart(selectedYear);
+						accList = AppManager.CreateInstance().getAccidentCaseDAO().searchCaseTime(selectedYear);
+						script.resetScript();
+						script.setAnalysisMain(accList);
+						webBrowser.executeJavascript(script.getScript());					//지도 설정	
+						repaint();	
+					}
+					else
 					{
 						chart = getChart(selectedYear);
 						accList = AppManager.CreateInstance().getAccidentCaseDAO().searchCaseTime(selectedYear, selectedMonth);
@@ -357,15 +369,6 @@ public class AccidentAnalysis extends JDialog{
 						script.setAnalysisMain(accList);
 						webBrowser.executeJavascript(script.getScript());					//지도 설정	
 						repaint();
-					}
-					else
-					{
-						chart = getChart(selectedYear);
-						accList = AppManager.CreateInstance().getAccidentCaseDAO().searchCaseTime(selectedYear);
-						script.resetScript();
-						script.setAnalysisMain(accList);
-						webBrowser.executeJavascript(script.getScript());					//지도 설정	
-						repaint();		
 					}
 				}
 				
@@ -375,20 +378,20 @@ public class AccidentAnalysis extends JDialog{
 			{
 				selectedYear = (String) yearBox.getSelectedItem();
 				
-				if(selectedYear.equals("전체"))
+				if(selectedYear.equals("년도"))
 				{
-					JOptionPane.showMessageDialog(parsingButton, "Parsing 할 년도를 선택해주세요.");
+					JOptionPane.showMessageDialog(parsingButton, "Parsing 할 년도를 선택하십시오.");
 				}
 				else
 				{
-						//Parsing 할 것인지를 확인
-						int result = JOptionPane.showConfirmDialog(parsingButton, selectedYear+"년도 데이터를 Parsing 하시겠습니까?"); 
-						
-						if(result == JOptionPane.YES_OPTION)     //Yes 버튼(초기화 함)
-						{
-					    	if(AppManager.CreateInstance().getAccidentCaseDAO().ParsingAccidentData(selectedYear))
-					    		JOptionPane.showMessageDialog(parsingButton, selectedYear+"년도 데이터를 Parsing 완료");
-						}
+					//Parsing 할 것인지를 확인
+					int result = JOptionPane.showConfirmDialog(parsingButton, selectedYear+"년도 데이터를 Parsing 하시겠습니까?"); 
+					
+					if(result == JOptionPane.YES_OPTION)     //Yes 버튼(초기화 함)
+					{
+				    	if(AppManager.CreateInstance().getAccidentCaseDAO().ParsingAccidentData(selectedYear))
+				    		JOptionPane.showMessageDialog(parsingButton, selectedYear+"년도 데이터를 Parsing 완료");
+					}
 				}
 				
 			}
@@ -403,7 +406,7 @@ public class AccidentAnalysis extends JDialog{
 				}
 			}
 
-			searchDateBtn.setIcon(ImageData.viewChartBasic);
+			showChartBtn.setIcon(ImageData.viewChartBasic);
 			parsingButton.setIcon(ImageData.parsingBasic);
 			deleteButton.setIcon(ImageData.resetBasic);
 		}

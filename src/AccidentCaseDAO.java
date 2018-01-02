@@ -20,7 +20,7 @@ public class AccidentCaseDAO {
 	String DBpw;
 	
 	String jdbcDriver = "com.mysql.jdbc.Driver";
-	String jdbcUrl = "jdbc:mysql://localhost/javadb2";//mysql이 연결 안되는 관계로 강의자료값을 넣었습니다.
+	String jdbcUrl = "jdbc:mysql://localhost/javadb";
 	
 	Connection conn;
 
@@ -306,41 +306,6 @@ public class AccidentCaseDAO {
 	   }
 	
 	
-//	String getPolCode(String dpcode)
-//	{
-//		int num = 0;
-//		Vector<String> list = new Vector<String>();
-//		
-//		connectDB();
-//		sql = "select * from police where dpcode = ? ";
-//		
-//		try {
-//			pstmt = conn.prepareStatement(sql);
-//			pstmt.setString(1, dpcode);
-//			rs = pstmt.executeQuery();
-//				
-//			while(rs.next())
-//			{
-//				list.add(rs.getString("policeno"));
-//			}
-//			
-//			rs.close();
-//			num = list.size();
-//
-//		} catch (SQLException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		closeDB();
-//		
-//		if(num>0)
-//			return list.get((int) (Math.random()*num));
-//		else
-//		{
-//			return "NULL";
-//		}
-//	}
-
 	ArrayList<AccidentCase> getAll() {
 		
 		AccidentCase accCase;
@@ -380,39 +345,6 @@ public class AccidentCaseDAO {
 		return datas;
 	}
 	
-//	 Police getPolice (String polno)
-//	   {
-//	      int num = 0;
-//	      Police pol = new Police();
-//	      
-//	      connectDB();
-//	      sql = "select * from police where policeno = ? ";
-//	      
-//	      try {
-//	         pstmt = conn.prepareStatement(sql);
-//	         pstmt.setString(1, polno);
-//	         rs = pstmt.executeQuery();
-//	            
-//	         if(rs.next())
-//	         {
-//	            pol.setPoliceno(polno);
-//	            pol.setPolname(rs.getString("polname"));
-//	            pol.setRank(rs.getString("rank"));
-//	            pol.setDepart(rs.getString("depart"));
-//	            pol.setDpcode(rs.getString("dpcode"));
-//	         }
-//	         
-//	         rs.close();
-//	         
-//	      } catch (SQLException e) {
-//	         // TODO Auto-generated catch block
-//	         e.printStackTrace();
-//	      }
-//	      closeDB();
-//	      
-//	      return pol;
-//	   }
-
 	 
 	 boolean insertCase(AccidentCase accCase) 
 		{
