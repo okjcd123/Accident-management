@@ -220,8 +220,8 @@ public class AppMain extends JFrame{
       setUndecorated(true);
       setLocation(250,250);
       setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-      getContentPane().add(introPanel);
-     
+     // getContentPane().add(introPanel);
+     getContentPane().add(primary);
       //------------------------------------------------------------------------
       exit.setBounds(1260, 5, 30, 30);
       exit.setBorderPainted(false);
@@ -824,8 +824,7 @@ public class AppMain extends JFrame{
          btns[i].addActionListener(action);
       }
    }
-   
-   
+
    //Search 내부 버튼 관련---------------------------------------------------------------------
    public void addActionSearchProListener(ActionListener action)
    {

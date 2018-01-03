@@ -106,7 +106,7 @@ public class Javascript {
 		}
 		
 		others = new String("}");
-		src = new String("function includeJs(jsFilePath)\r\n" + 									//googleAPI의 javascript 코드를 원격으로 사용할수 있는 권한 설정
+		src = new String("function includeJs(jsFilePath)\r\n" + 																//googleAPI의 javascript 코드를 원격으로 사용할수 있는 권한 설정
                 "{ var js = document.createElement(\"script\")\r\n" + 
                 "\r\n" + 
                 "js.type = \"text/javascript\";\r\n" + 
@@ -114,7 +114,9 @@ public class Javascript {
                 "\r\n" + 
                 "document.body.appendChild(js);\r\n" + 
                 "}\r\n" + 
-                "includeJs(\"https://maps.googleapis.com/maps/api/js?key=AIzaSyDu5LHktof5c2e81HbeiMy3tm4vIfkEs9c&libraries=places&callback=initMap\");\r\n");
+                "includeJs(\"https://maps.googleapis.com/maps/api/js?"
+                + "key=AIzaSyDu5LHktof5c2e81HbeiMy3tm4vIfkEs"
+                + "9c&libraries=places&callback=initMap\");\r\n");
 
 	}
 

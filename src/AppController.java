@@ -35,7 +35,6 @@ public class AppController {
 		registerOpenedFlag = false;
 		updateOpenedFlag = false;
 		analysisOpenedFlag = false;
-		
 		AppManager.CreateInstance().setAppController(this);
 		
 		AppManager.CreateInstance().getAppMain().introPanel.addActionLoginButtonListener(new ActionListener()
@@ -82,8 +81,7 @@ public class AppController {
 						
 					}
 				});
-		
-		
+	
 		AppManager.CreateInstance().getAppMain().addActionButtonListener(new ActionListener()
 				{
 					@Override
@@ -395,24 +393,40 @@ public class AppController {
 							
 							if(pro.equals("전체"))//장소가 전체 일경우
 							{
-								if(year == "년도" || month == "월")		//장소가 전체 이면서 날짜도 없는 경우 모두 가져오기.
+								if(year == "년도" && month == "월")		//장소가 전체 이면서 날짜도 없는 경우 모두 가져오기.
 								{
 									outputDatas = AppManager.CreateInstance().getAccidentCaseDAO().getAll();	
 								}
-								else									//장소가 전체 이면서 특정날짜가 설정되어있는 경우
+								else if(year != "년도" && month == "월")				//년은 선택 되어 있고, 월은 선택 안되어있는 경우
+								{
+									outputDatas = AppManager.CreateInstance().getAccidentCaseDAO().searchCaseTime(year);
+								}
+								else if(year == "년도 " && month != "월")				//년은 선택되어 있지 않고, 월은 선택되어있는 경우
+								{
+									outputDatas = AppManager.CreateInstance().getAccidentCaseDAO().searchCaseMonthTime(month);
+								}
+								else												//장소가 전체 이면서 특정날짜가 설정되어있는 경우
 								{
 									outputDatas = AppManager.CreateInstance().getAccidentCaseDAO().searchCaseTime(year,month);
 								}
 							}
-							else					//장소가 전체가 아닌 경우
+							else									//장소가 전체가 아닌 경우 (장소가 결정되어있는 경우
 							{
-								if(year == "년도" || month == "월")	//특정 장소 + 날짜 비설정 
+								if(year == "년도" && month == "월")	//특정 장소 + 날짜 비설정 
 								{
 									outputDatas = AppManager.CreateInstance().getAccidentCaseDAO().searchCaseLoca(pro, tow);							
 								}
-								else								//특정 장소 + 날짜 설정
+								else if(year == "년도" && month != "월")
 								{
-									outputDatas = AppManager.CreateInstance().getAccidentCaseDAO().searchCase(pro, tow, year, month);
+									outputDatas = AppManager.CreateInstance().getAccidentCaseDAO().searchCaseLocaMonth(pro, tow, month);
+								}
+								else if(year != "년도" && month == "월")
+								{
+									outputDatas = AppManager.CreateInstance().getAccidentCaseDAO().searchCaseLocaYear(pro, tow, year);
+								}
+								else if(year != "년도" && month != "월")
+								{
+									outputDatas = AppManager.CreateInstance().getAccidentCaseDAO().searchCase(pro, tow, year, month);			
 								}
 							}
 							// 출력 절차

@@ -184,6 +184,92 @@ public class AccidentCaseDAO {
 		return datas;
 	}	
 	
+	ArrayList<AccidentCase> searchCaseLocaYear(String province, String town, String year)
+	{
+		AccidentCase accCase;
+		datas = new ArrayList<AccidentCase>();
+		connectDB();
+		sql = "select * from accidentcase where (province = ? and town = ? and year = ?)";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, province);
+			pstmt.setString(2, town);
+			pstmt.setString(3, year);
+			rs = pstmt.executeQuery();
+
+			while(rs.next()) {
+				accCase = new AccidentCase();
+				accCase.setCscode(rs.getInt("cscode"));
+				accCase.setProvince(rs.getString("province"));
+				accCase.setTown(rs.getString("town"));
+				accCase.setYear(rs.getString("year"));
+				accCase.setMonth(rs.getString("month"));
+				accCase.setDay(rs.getString("day"));
+				accCase.setDead(rs.getInt("dead"));
+				accCase.setInjured(rs.getInt("injured"));
+				accCase.setCasulity();
+				accCase.setActype(rs.getString("actype"));
+				accCase.setLatitude(rs.getDouble("latitude"));
+				accCase.setLongitude(rs.getDouble("longitude"));
+				
+				datas.add(accCase);
+			}
+			
+			rs.close();
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		closeDB();
+		return datas;
+	}
+	
+	ArrayList<AccidentCase> searchCaseLocaMonth(String province, String town, String month)
+	{
+		AccidentCase accCase;
+		datas = new ArrayList<AccidentCase>();
+		connectDB();
+		sql = "select * from accidentcase where (province = ? and town = ? and month = ?)";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, province);
+			pstmt.setString(2, town);
+			pstmt.setString(3, month);
+			rs = pstmt.executeQuery();
+
+			while(rs.next()) {
+				accCase = new AccidentCase();
+				accCase.setCscode(rs.getInt("cscode"));
+				accCase.setProvince(rs.getString("province"));
+				accCase.setTown(rs.getString("town"));
+				accCase.setYear(rs.getString("year"));
+				accCase.setMonth(rs.getString("month"));
+				accCase.setDay(rs.getString("day"));
+				accCase.setDead(rs.getInt("dead"));
+				accCase.setInjured(rs.getInt("injured"));
+				accCase.setCasulity();
+				accCase.setActype(rs.getString("actype"));
+				accCase.setLatitude(rs.getDouble("latitude"));
+				accCase.setLongitude(rs.getDouble("longitude"));
+				
+				datas.add(accCase);
+			}
+			
+			rs.close();
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		closeDB();
+		return datas;
+	}
+	
 	ArrayList<AccidentCase> searchCaseLoca(String province, String town)
 	{
 		AccidentCase accCase;
@@ -261,11 +347,9 @@ public class AccidentCaseDAO {
 	            // TODO Auto-generated catch block
 	            e.printStackTrace();
 	         }
-	         return datas;
-	         
+	         return datas;  
 	      }
-	
-	
+		
 	ArrayList<AccidentCase> searchCaseTime(String year)
 	{
 		AccidentCase accCase;
@@ -305,6 +389,42 @@ public class AccidentCaseDAO {
 	      return datas;
 	   }
 	
+	ArrayList<AccidentCase> searchCaseMonthTime(String month)
+	   {
+	      AccidentCase accCase;
+	      datas = new ArrayList<AccidentCase>();
+	      connectDB();
+	      
+	         sql = "select * from accidentcase where month = ?)";
+	         try {
+	            pstmt = conn.prepareStatement(sql);
+	            pstmt.setString(1,month);
+	            rs = pstmt.executeQuery();
+	            
+	            while(rs.next()) {
+	               accCase = new AccidentCase();
+	               accCase.setCscode(rs.getInt("cscode"));
+	               accCase.setProvince(rs.getString("province"));
+	               accCase.setTown(rs.getString("town"));
+	               accCase.setYear(rs.getString("year"));
+	               accCase.setMonth(rs.getString("month"));
+	               accCase.setDay(rs.getString("day"));
+	               accCase.setDead(rs.getInt("dead"));
+	               accCase.setInjured(rs.getInt("injured"));
+	               accCase.setCasulity();
+	               accCase.setActype(rs.getString("actype"));
+	               accCase.setLatitude(rs.getDouble("latitude"));
+	               accCase.setLongitude(rs.getDouble("longitude"));
+	               
+	               datas.add(accCase);
+	            }
+	         } catch (SQLException e) {
+	            // TODO Auto-generated catch block
+	            e.printStackTrace();
+	         }
+	         return datas;  
+	      }
+
 	
 	ArrayList<AccidentCase> getAll() {
 		
@@ -344,7 +464,6 @@ public class AccidentCaseDAO {
 		closeDB();
 		return datas;
 	}
-	
 	 
 	 boolean insertCase(AccidentCase accCase) 
 		{
@@ -463,7 +582,6 @@ public class AccidentCaseDAO {
 			closeDB();
 
 		}
-		
 		
 		boolean ParsingAccidentData(String year)
 		{
@@ -637,8 +755,7 @@ public class AccidentCaseDAO {
 			
 			return "NULL";
 		}
-		
-		
+				
 		String findAcctype(String code)
 		{
 			String acctype[] = {"차대사람","차대차","차량단독"};
