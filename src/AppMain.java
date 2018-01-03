@@ -220,8 +220,9 @@ public class AppMain extends JFrame{
       setUndecorated(true);
       setLocation(250,250);
       setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-     // getContentPane().add(introPanel);
-     getContentPane().add(primary);
+      getContentPane().add(introPanel);
+     
+      //getContentPane().add(primary);
       //------------------------------------------------------------------------
       exit.setBounds(1260, 5, 30, 30);
       exit.setBorderPainted(false);

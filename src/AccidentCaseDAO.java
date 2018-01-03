@@ -23,7 +23,6 @@ public class AccidentCaseDAO {
 	String jdbcUrl = "jdbc:mysql://localhost/javadb";
 	
 	Connection conn;
-
 	PreparedStatement pstmt;
 	ResultSet rs;
 
@@ -52,7 +51,7 @@ public class AccidentCaseDAO {
 			return false;
 		}
 	}
-	
+
 	//DB¿¬°á
 	void connectDB(){
 
@@ -67,7 +66,7 @@ public class AccidentCaseDAO {
 			e.printStackTrace();
 		}
 	}
-	
+
 	//DB ´Ý±â
 	void closeDB(){
 		try {
@@ -78,7 +77,6 @@ public class AccidentCaseDAO {
 			e.printStackTrace();
 		}
 	}
-
 	
 	int getNewCaseCode() {
 		
@@ -183,7 +181,7 @@ public class AccidentCaseDAO {
 		closeDB();
 		return datas;
 	}	
-	
+
 	ArrayList<AccidentCase> searchCaseLocaYear(String province, String town, String year)
 	{
 		AccidentCase accCase;
