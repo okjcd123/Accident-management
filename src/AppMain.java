@@ -98,7 +98,6 @@ public class AppMain extends JFrame{
    protected JPanel searchDownPanel;
    protected JPanel searchButtonPanel;
    
-   
    protected JLabel siDolbl;
    protected JLabel guGunlbl;
    protected JComboBox siDo = new JComboBox(province);
@@ -115,10 +114,9 @@ public class AppMain extends JFrame{
    
    protected JLabel label1;   //장소
    protected JLabel label2;    //날짜
-   protected JLabel label3;    //경찰번호
-   protected JLabel label5;    //사상자 수
-   protected JLabel label6;   //사고 타입
-   protected JLabel label7;    //"위도, 경도
+   protected JLabel label3;    //사상자 수
+   protected JLabel label4;   //사고 타입
+   protected JLabel label5;    //"위도, 경도
    
    protected JPanel rightPanel;
    protected JTextField polno = new JTextField(10);
@@ -138,7 +136,7 @@ public class AppMain extends JFrame{
    protected JComboBox monthcb = new JComboBox(month);
    protected JComboBox daycb = new JComboBox(day);
    
-   //사상사주 입력 부분
+   //사상사수 입력 부분
    protected JPanel casualty;
    protected   JLabel tmp1;
    protected   JLabel tmp2;
@@ -159,13 +157,11 @@ public class AppMain extends JFrame{
    protected JDialog diaUpdate;
    protected JPanel leftUpdatePanel;
    protected JLabel caseNum;         //사건 번호
-   
-   protected JLabel labelUpdate1;   //장소
+   protected JLabel labelUpdate1;     //장소
    protected JLabel labelUpdate2;    //날짜
-   protected JLabel labelUpdate3;    //경찰번호
-   protected JLabel labelUpdate5;    //사상자 수
-   protected JLabel labelUpdate6;   //사고 타입
-   protected JLabel labelUpdate7;    //"위도, 경도
+   protected JLabel labelUpdate3;    //사상자 수
+   protected JLabel labelUpdate4;     //사고 타입
+   protected JLabel labelUpdate5;    //"위도, 경도
    
    protected JPanel rightUpdatePanel;
    
@@ -307,8 +303,8 @@ public class AppMain extends JFrame{
    public class Intro extends JPanel
    {
       //intro관련 요소들------------------------------------------------------------------------
-      JTextField idField = new JTextField();
-      JPasswordField pwField = new JPasswordField();
+      JTextField idField = new JTextField("");
+      JPasswordField pwField = new JPasswordField("");
       JButton loginBtn = new JButton(ImageData.loginBaiscImage);
         
       public Intro()
@@ -349,8 +345,8 @@ public class AppMain extends JFrame{
        diaSearch.setSize(430,300);
        diaSearch.setResizable(false);
        diaSearch.setUndecorated(true);
+       diaSearch.setAlwaysOnTop(true);   //항상 제일 위의 창
        diaSearch.setLayout(null);
-       diaSearch.setTitle("사고 정보 검색");
        
        JPanel upPanel = new JPanel();
        upPanel.setBounds(0,0,430,40);
@@ -367,19 +363,17 @@ public class AppMain extends JFrame{
        upPanel.add(menuBarSearch);
        diaSearch.add(upPanel);
        
-       
        //라벨패널
        searchUpPanel = new JPanel();
-       searchUpPanel.setBounds(0,40,100,200);
+       searchUpPanel.setBounds(0,40,100,180);
        searchUpPanel.setLayout(new GridLayout(3,1));
        searchUpPanel.setBackground(Color.LIGHT_GRAY);
-
       
        JPanel siDoPn = new JPanel();
        siDoPn.setLayout(null);
        siDoPn.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
        siDolbl = new JLabel("시/도");
-       siDolbl.setBounds(35,10,50,50);
+       siDolbl.setBounds(35,18,50,30);
        siDoPn.add(siDolbl);
        searchUpPanel.add(siDoPn);
        
@@ -387,7 +381,7 @@ public class AppMain extends JFrame{
        guGunPn.setLayout(null);
        guGunPn.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
        guGunlbl = new JLabel("군/구");
-       guGunlbl.setBounds(35,10,50,50);
+       guGunlbl.setBounds(35,18,50,30);
        guGunPn.add(guGunlbl);
        searchUpPanel.add(guGunPn);
        
@@ -395,13 +389,13 @@ public class AppMain extends JFrame{
        CalPn.setLayout(null);
        CalPn.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
        JLabel calLbl = new JLabel("년/월");
-       calLbl.setBounds(35,10,50,50);
+       calLbl.setBounds(35,18,50,30);
        CalPn.add(calLbl);
        searchUpPanel.add(CalPn);
        
        //콤보박스 패널관리
        searchDownPanel = new JPanel();
-       searchDownPanel.setBounds(100,40,330,200);
+       searchDownPanel.setBounds(100,40,330,180);
        searchDownPanel.setBackground(Color.WHITE);
        searchDownPanel.setLayout(new GridLayout(3,1));
        
@@ -409,7 +403,7 @@ public class AppMain extends JFrame{
        sidoCbPn.setLayout(null);
        sidoCbPn.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
        sidoCbPn.setBackground(Color.WHITE);
-       siDo.setBounds(10,20,120,30);
+       siDo.setBounds(10,10,120,40);
        sidoCbPn.add(siDo);
        searchDownPanel.add(sidoCbPn);
 
@@ -417,7 +411,7 @@ public class AppMain extends JFrame{
        gunguCbPn.setLayout(null);
        gunguCbPn.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
        gunguCbPn.setBackground(Color.WHITE);
-       guGun.setBounds(10,20,120,30);
+       guGun.setBounds(10,10,120,40);
        gunguCbPn.add(guGun);
        searchDownPanel.add(gunguCbPn);
        
@@ -425,9 +419,10 @@ public class AppMain extends JFrame{
        calCbPn.setLayout(null);
        calCbPn.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
        calCbPn.setBackground(Color.WHITE);
-       yearcbSearch.setBounds(10,20,120,30);
-       monthcbSearch.setBounds(170,20,100,30);
-       calCbPn.add(yearcbSearch);calCbPn.add(monthcbSearch);
+       yearcbSearch.setBounds(10,10,120,40);
+       monthcbSearch.setBounds(140,10,100,40);
+       calCbPn.add(yearcbSearch);
+       calCbPn.add(monthcbSearch);
        
        searchDownPanel.add(calCbPn);
 
@@ -435,8 +430,8 @@ public class AppMain extends JFrame{
        //버튼패널관리
        searchButtonPanel = new JPanel();
        searchButtonPanel.setLayout(null);
-       searchButtonPanel.setBounds(0,200+40,400,100);
-       searchButton.setBounds(135, 5, 150, 50);
+       searchButtonPanel.setBounds(0,220,400,80);
+       searchButton.setBounds(135, 15, 150, 50);
        searchButtonPanel.add(searchButton);
 
        diaSearch.add(searchUpPanel);
@@ -446,14 +441,15 @@ public class AppMain extends JFrame{
        diaSearch.setVisible(true);
     }
   
+   //사고 등록 버튼을 눌렀을 때
   public void registration() {
 
        dia = new JDialog();
-       dia.setTitle("사고 등록");
        dia.setLayout(null);
        dia.setResizable(false);
-       dia.setSize(550,550);
+       dia.setSize(550,420);
        dia.setUndecorated(true);
+       dia.setAlwaysOnTop(true);  //항상 제일 위에 창에 위치
        
        JPanel upRegist = new JPanel();
        upRegist.setLayout(null);
@@ -472,70 +468,69 @@ public class AppMain extends JFrame{
        //leftPanel 관련 사항 --------------------------------------------------
        leftPanel = new JPanel();
        leftPanel.setBackground(Color.LIGHT_GRAY);
-       //leftPanel.setLayout(null);
-       leftPanel.setLayout(new GridLayout(6,1));
-       leftPanel.setBounds(0,40,100,430);
+
+       leftPanel.setLayout(new GridLayout(5,1));
+       leftPanel.setBounds(0,40,100,300);
 
        JPanel lap1 = new JPanel();
        JPanel lap2 = new JPanel();
        JPanel lap3 = new JPanel();
+       JPanel lap4 = new JPanel();
        JPanel lap5 = new JPanel();
-       JPanel lap6 = new JPanel();
-       JPanel lap7 = new JPanel();
+       
        lap1.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
        lap2.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
        lap3.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
+       lap4.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
        lap5.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
-       lap6.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
-       lap7.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
 
-       lap1.setLayout(null);lap2.setLayout(null);lap3.setLayout(null);
-       lap5.setLayout(null);lap6.setLayout(null);lap7.setLayout(null);
+       lap1.setLayout(null);
+       lap2.setLayout(null);
+       lap3.setLayout(null);
+       lap4.setLayout(null);
+       lap5.setLayout(null);
 
        label1 = new JLabel("장소",JLabel.CENTER);
        label2 = new JLabel("날짜",JLabel.CENTER);
-       label3 = new JLabel("경찰번호",JLabel.CENTER);
-       label5 = new JLabel("사상자 수",JLabel.CENTER);
-       label6 = new JLabel("사고 타입",JLabel.CENTER);
-       label7 = new JLabel("위도, 경도",JLabel.CENTER);
-
-
-       label1.setBounds(35,20,30,30);
-       label2.setBounds(35,20,30,30);
-       label3.setBounds(20,20,60,30);
-       label5.setBounds(20,20,60,30);
-       label6.setBounds(20,20,60,30);
-       label7.setBounds(20,20,60,30);
-       lap1.add(label1);lap2.add(label2);lap3.add(label3);
-       lap5.add(label5);lap6.add(label6);lap7.add(label7);
-
+       label3 = new JLabel("사상자 수",JLabel.CENTER);
+       label4 = new JLabel("사고 타입",JLabel.CENTER);
+       label5 = new JLabel("위도, 경도",JLabel.CENTER);
+       
+       label1.setBounds(35,18,30,30);
+       label2.setBounds(35,18,30,30);
+       label3.setBounds(20,18,60,30);
+       label4.setBounds(20,18,60,30);
+       label5.setBounds(20,18,60,30);
+       
+       lap1.add(label1);
+       lap2.add(label2);
+       lap3.add(label3);
+       lap4.add(label4);
+       lap5.add(label5);
 
        leftPanel.add(lap1);
        leftPanel.add(lap2);
        leftPanel.add(lap3);
+       leftPanel.add(lap4);
        leftPanel.add(lap5);
-       leftPanel.add(lap6);
-       leftPanel.add(lap7);
 
        dia.add(leftPanel);
 
        //rightPanel 관련 사항 --------------------------------------------------
 
        rightPanel = new JPanel();
-       rightPanel.setBounds(100,40,700,430);
-       rightPanel.setLayout(new GridLayout(6,1));
+       rightPanel.setBounds(100,40,700,300);
+       rightPanel.setLayout(new GridLayout(5,1));
        rightPanel.setBackground(Color.WHITE);
-
        dia.add(rightPanel);
-
 
        //장소입력부분
        loc = new JPanel();
        loc.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
        loc.setLayout(null);
        loc.setBackground(Color.WHITE);
-       pro.setBounds(10,15,120,40);
-       tow.setBounds(140,15,100,40);
+       pro.setBounds(10,10,120,40);
+       tow.setBounds(140,10,100,40);
 
        loc.add(pro);
        loc.add(tow);
@@ -547,26 +542,16 @@ public class AppMain extends JFrame{
        time.setLayout(null);
        time.setBackground(Color.WHITE);
 
-       yearcb.setBounds(10,15,120,40);
-       monthcb.setBounds(140,15,100,40);
-       daycb.setBounds(260,15,100,40);
+       yearcb.setBounds(10,10,120,40);
+       monthcb.setBounds(140,10,100,40);
+       daycb.setBounds(260,10,100,40);
 
        time.add(yearcb);
        time.add(monthcb);
        time.add(daycb);
        rightPanel.add(time);
 
-       //경찰번호 입력부분
-       JPanel tm = new JPanel();
-       tm.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
-       tm.setLayout(null);
-       tm.setBackground(Color.WHITE);
-       polno.setFont(new Font("돋움",Font.PLAIN,20));
-       polno.setBounds(10,15,120,40);
-       tm.add(polno);
-       rightPanel.add(tm);
-
-       //사상사주 입력 부분
+       //사상사수 입력 부분
        casualty = new JPanel();
        casualty.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
        casualty.setLayout(null);
@@ -575,11 +560,11 @@ public class AppMain extends JFrame{
        tmp1 = new JLabel("사망자 수");
        tmp2 = new JLabel("부상자 수");
 
-       tmp1.setBounds(10,15,60,40);
-       dead.setBounds(80,15,50,40);
+       tmp1.setBounds(10,10,60,40);
+       dead.setBounds(80,10,50,40);
        dead.setFont(new Font("돋움",Font.PLAIN,15));
-       tmp2.setBounds(140,15,60,40);
-       injured.setBounds(210,15,50,40);
+       tmp2.setBounds(140,10,60,40);
+       injured.setBounds(210,10,50,40);
        injured.setFont(new Font("돋움",Font.PLAIN,15));
 
        casualty.add(tmp1); casualty.add(dead);
@@ -590,7 +575,7 @@ public class AppMain extends JFrame{
        JPanel typeTmp = new JPanel();
        typeTmp.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
        typeTmp.setLayout(null);
-       accType.setBounds(10,15,120,40);
+       accType.setBounds(10,10,120,40);
        typeTmp.setBackground(Color.WHITE);
        typeTmp.add(accType);
        rightPanel.add(typeTmp);
@@ -603,11 +588,11 @@ public class AppMain extends JFrame{
        laTmp = new JLabel("위도");
        loTmp = new JLabel("경도");
 
-       laTmp.setBounds(10,15,40,40);
-       lati.setBounds(60,15,70,40);
+       laTmp.setBounds(10,10,40,40);
+       lati.setBounds(60,10,70,40);
        lati.setFont(new Font("돋움",Font.PLAIN,15));
-       loTmp.setBounds(140,15,40,40);
-       longi.setBounds(190,15,70,40);
+       loTmp.setBounds(140,10,40,40);
+       longi.setBounds(190,10,70,40);
        longi.setFont(new Font("돋움",Font.PLAIN,15));
        locInfo.add(laTmp);locInfo.add(lati);
        locInfo.add(loTmp);locInfo.add(longi);
@@ -617,22 +602,23 @@ public class AppMain extends JFrame{
        subPanel = new JPanel();
        subPanel.setLayout(null);
        subPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
-       subPanel.setBounds(0,470,550,120);
+       subPanel.setBounds(0,340,550,80);
        regBtn.setBounds(193, 15, 150, 50);
        subPanel.add(regBtn);
        dia.add(subPanel);
 
-
        dia.setVisible(true);
     }
+  
+  //사고 수정/삭제 버튼을 눌렀을 때
     public void modifyDelete() {
-
+         
        diaUpdate = new JDialog();
-       diaUpdate.setTitle("사고 수정 / 삭제");
        diaUpdate.setLayout(null);
        diaUpdate.setResizable(false);
-       diaUpdate.setSize(550,550);
+       diaUpdate.setSize(550,480);
        diaUpdate.setUndecorated(true);
+       diaUpdate.setAlwaysOnTop(true);  //항상 제일 위에 창에 위치
        
        JPanel upUpdate = new JPanel();
        upUpdate.setLayout(null);
@@ -652,66 +638,66 @@ public class AppMain extends JFrame{
        //leftPanel 관련 사항 --------------------------------------------------
        leftUpdatePanel = new JPanel();
        leftUpdatePanel.setBackground(Color.LIGHT_GRAY);
-       leftUpdatePanel.setLayout(new GridLayout(7,1));
-       leftUpdatePanel.setBounds(0,40,100+20,430);
+       leftUpdatePanel.setLayout(new GridLayout(6,1));
+       leftUpdatePanel.setBounds(0,40,120,360);
 
        JPanel caseLap = new JPanel();
        JPanel lapUpdate1 = new JPanel();
        JPanel lapUpdate2 = new JPanel();
        JPanel lapUpdate3 = new JPanel();
+       JPanel lapUpdate4 = new JPanel();
        JPanel lapUpdate5 = new JPanel();
-       JPanel lapUpdate6 = new JPanel();
-       JPanel lapUpdate7 = new JPanel();
 
        caseLap.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
        lapUpdate1.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
        lapUpdate2.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
        lapUpdate3.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
+       lapUpdate4.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
        lapUpdate5.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
-       lapUpdate6.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
-       lapUpdate7.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
 
        caseLap.setLayout(null);
-       lapUpdate1.setLayout(null);lapUpdate2.setLayout(null);lapUpdate3.setLayout(null);
-       lapUpdate5.setLayout(null);lapUpdate6.setLayout(null);lapUpdate7.setLayout(null);
-
-
+       lapUpdate1.setLayout(null);
+       lapUpdate2.setLayout(null);
+       lapUpdate3.setLayout(null);
+       lapUpdate4.setLayout(null);
+       lapUpdate5.setLayout(null);
+       
        caseNum = new JLabel("사고번호 입력",JLabel.CENTER);
        labelUpdate1 = new JLabel("장소",JLabel.CENTER);
        labelUpdate2 = new JLabel("날짜",JLabel.CENTER);
-       labelUpdate3 = new JLabel("경찰번호",JLabel.CENTER);
-       labelUpdate5 = new JLabel("사상자 수",JLabel.CENTER);
-       labelUpdate6 = new JLabel("사고 타입",JLabel.CENTER);
-       labelUpdate7 = new JLabel("위도, 경도",JLabel.CENTER);
+       labelUpdate3 = new JLabel("사상자 수",JLabel.CENTER);
+       labelUpdate4 = new JLabel("사고 타입",JLabel.CENTER);
+       labelUpdate5 = new JLabel("위도, 경도",JLabel.CENTER);
 
        caseNum.setBounds(15, 15, 90, 30);
        labelUpdate1.setBounds(43,18,30,30);
        labelUpdate2.setBounds(43,18,30,30);
        labelUpdate3.setBounds(28,18,60,30);
+       labelUpdate4.setBounds(28,18,60,30);
        labelUpdate5.setBounds(28,18,60,30);
-       labelUpdate6.setBounds(28,18,60,30);
-       labelUpdate7.setBounds(28,18,60,30);
 
        caseLap.add(caseNum);
-       lapUpdate1.add(labelUpdate1);lapUpdate2.add(labelUpdate2);lapUpdate3.add(labelUpdate3);
-       lapUpdate5.add(labelUpdate5);lapUpdate6.add(labelUpdate6);lapUpdate7.add(labelUpdate7);
+       lapUpdate1.add(labelUpdate1);
+       lapUpdate2.add(labelUpdate2);
+       lapUpdate3.add(labelUpdate3);
+       lapUpdate4.add(labelUpdate4);
+       lapUpdate5.add(labelUpdate5);
 
 
        leftUpdatePanel.add(caseLap);
        leftUpdatePanel.add(lapUpdate1);
        leftUpdatePanel.add(lapUpdate2);
        leftUpdatePanel.add(lapUpdate3);
+       leftUpdatePanel.add(lapUpdate4);
        leftUpdatePanel.add(lapUpdate5);
-       leftUpdatePanel.add(lapUpdate6);
-       leftUpdatePanel.add(lapUpdate7);
 
        diaUpdate.add(leftUpdatePanel);
 
        //rightPanel 관련 사항 --------------------------------------------------
 
        rightUpdatePanel = new JPanel();
-       rightUpdatePanel.setBounds(100+20,40,700-20,430);
-       rightUpdatePanel.setLayout(new GridLayout(7,1));
+       rightUpdatePanel.setBounds(120,40,680,360);
+       rightUpdatePanel.setLayout(new GridLayout(6,1));
        rightUpdatePanel.setBackground(Color.WHITE);
 
        diaUpdate.add(rightUpdatePanel);
@@ -756,17 +742,7 @@ public class AppMain extends JFrame{
        timeUpdate.add(daycbUpdate);
        rightUpdatePanel.add(timeUpdate);
 
-       //경찰번호 입력부분
-       JPanel tmUpdate = new JPanel();
-       tmUpdate.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
-       tmUpdate.setLayout(null);
-       tmUpdate.setBackground(Color.WHITE);
-       polnoUpdate.setFont(new Font("돋움",Font.PLAIN,20));
-       polnoUpdate.setBounds(10,10,120,40);
-       tmUpdate.add(polnoUpdate);
-       rightUpdatePanel.add(tmUpdate);
-
-       //사상사주 입력 부분
+       //사상사수 입력 부분
        casualtyUpdate = new JPanel();
        casualtyUpdate.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
        casualtyUpdate.setLayout(null);
@@ -825,9 +801,9 @@ public class AppMain extends JFrame{
        subUpdatePanel = new JPanel();
        subUpdatePanel.setLayout(null);
        subUpdatePanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
-       subUpdatePanel.setBounds(0,470,550,120);
-       updateButton.setBounds(100,10,150,50);
-       deleteButton.setBounds(290,10,150,50);
+       subUpdatePanel.setBounds(0,400,550,80);
+       updateButton.setBounds(100,15,150,50);
+       deleteButton.setBounds(290,15,150,50);
        subUpdatePanel.add(updateButton);subUpdatePanel.add(deleteButton);
        diaUpdate.add(subUpdatePanel);
 

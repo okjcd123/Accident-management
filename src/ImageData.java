@@ -48,6 +48,9 @@ public class ImageData {
 	public static ImageIcon viewChartBasic = new ImageIcon(Execute.class.getResource("images/viewChartBasic.png"));
 	public static ImageIcon viewChartEntered = new ImageIcon(Execute.class.getResource("images/viewChartEntered.png"));
 
+	public static ImageIcon viewMapBasic = new ImageIcon(Execute.class.getResource("images/viewMapBasic.png"));
+	public static ImageIcon viewMapEntered = new ImageIcon(Execute.class.getResource("images/viewMapEntered.png"));
+	
 	public static ImageIcon parsingBasic = new ImageIcon(Execute.class.getResource("images/parsingBtnBasic.png"));
 	public static ImageIcon parsingEntered = new ImageIcon(Execute.class.getResource("images/parsingBtnEntered.png"));
 
