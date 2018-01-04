@@ -1,3 +1,10 @@
+/**
+ * DetailInfo.class
+ * @author 김준혁, 김준혁, 문희호
+ * 
+ * 최종 작성일: 2017년 12월 23일
+ * 최종 수정일: 2018년 1월 2일
+ */
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics;

@@ -1,3 +1,10 @@
+/**
+ * AccidentController.class
+ * @author 김준혁, 김준혁, 문희호
+ * 
+ * 최종 작성일: 2017년 12월 23일
+ * 최종 수정일: 2018년 1월 2일
+ */
 import java.awt.Cursor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -358,10 +365,10 @@ public class AppController {
 		AppManager.CreateInstance().getAppMain().addActionSearchProListener(new ActionListener()
 				{
 					@Override
-					public void actionPerformed(ActionEvent arg0) {
+					public void actionPerformed(ActionEvent arg0)
+					{
 						JComboBox tmp = (JComboBox)arg0.getSource();
 						String select = (String)tmp.getSelectedItem();
-					
 						if(select.equals("전체")) {
 							AppManager.CreateInstance().getAppMain().guGun.setModel(new DefaultComboBoxModel());
 						}
@@ -385,6 +392,7 @@ public class AppController {
 						if(btn == AppManager.CreateInstance().getAppMain().searchButton)
 						{
 							ArrayList <AccidentCase> outputDatas = new ArrayList<AccidentCase>();
+							
 							//데이터 받아오기
 							String pro = (String)AppManager.CreateInstance().getAppMain().siDo.getSelectedItem();
 							String tow = (String)AppManager.CreateInstance().getAppMain().guGun.getSelectedItem();
@@ -513,13 +521,14 @@ public class AppController {
 								
 								int maxIndex = AppManager.CreateInstance().getAccidentCaseDAO().getNewCaseCode();
 								AccidentCase outputCase = new AccidentCase();
+								
 								outputCase = AppManager.CreateInstance().getAccidentCaseDAO().getCase(maxIndex);
 								String [] temp = {Integer.toString(outputCase.getCscode()),
 										outputCase.getProvince(),outputCase.getTown(), outputCase.getYear(),
 										outputCase.getMonth(), outputCase.getDay(),Integer.toString(outputCase.getCasulity()),
 										Integer.toString(outputCase.getDead()),Integer.toString(outputCase.getInjured()),
 										outputCase.getActype()};
-							
+								
 								//Table 초기화
 								AppManager.CreateInstance().getAppMain().basicTable.setRowCount(0);
 								
@@ -531,20 +540,22 @@ public class AppController {
 								AppManager.CreateInstance().getAppMain().btns[1].setEnabled(true);
 								AppManager.CreateInstance().getAppMain().btns[2].setEnabled(true);
 								AppManager.CreateInstance().getAppMain().btns[3].setEnabled(true);
-		
+								
 								registerOpenedFlag = false;
 								AppManager.CreateInstance().getAppMain().regBtn.setIcon(ImageData.regDialogBtnBasic);
+				
 							}
 							else
 							{
 								JOptionPane.showMessageDialog(AppManager.CreateInstance().getAppMain().diaUpdate, "등록 실패!\n정보 정확히 입력하십시오!", "경고", JOptionPane.PLAIN_MESSAGE);
 								AppManager.CreateInstance().getAppMain().dia.dispose();
+								
 								AppManager.CreateInstance().getAppMain().btns[0].setEnabled(true);
 								AppManager.CreateInstance().getAppMain().btns[1].setEnabled(true);
 								AppManager.CreateInstance().getAppMain().btns[2].setEnabled(true);
 								AppManager.CreateInstance().getAppMain().btns[3].setEnabled(true);
-		
 								registerOpenedFlag = false;
+
 								AppManager.CreateInstance().getAppMain().regBtn.setIcon(ImageData.regDialogBtnBasic);
 								
 							}
@@ -552,6 +563,7 @@ public class AppController {
 						
 					}
 				});
+		
 		AppManager.CreateInstance().getAppMain().addActionUpdateProListener(new ActionListener()
 				{
 					public void actionPerformed(ActionEvent arg0) {
@@ -613,16 +625,13 @@ public class AppController {
 					public void actionPerformed(ActionEvent arg0)
 					{
 						Object obj = arg0.getSource();
-						
 						if(obj == AppManager.CreateInstance().getAppMain().updateButton)
 						{
-							
 							//모든 정보 가져와서 tempCase 에 저장하기.
 							AccidentCase tempCase = new AccidentCase();
 							boolean succFlag;
 							
 							int caseNum = Integer.parseInt(AppManager.CreateInstance().getAppMain().caseNumTxt.getText());
-							
 							tempCase.setCscode(Integer.parseInt(AppManager.CreateInstance().getAppMain().caseNumTxt.getText()));
 							tempCase.setProvince((String)AppManager.CreateInstance().getAppMain().proUpdate.getSelectedItem());
 							tempCase.setTown((String)AppManager.CreateInstance().getAppMain().towUpdate.getSelectedItem());
@@ -673,7 +682,6 @@ public class AppController {
 								AppManager.CreateInstance().getAppMain().btns[1].setEnabled(true);
 								AppManager.CreateInstance().getAppMain().btns[2].setEnabled(true);
 								AppManager.CreateInstance().getAppMain().btns[3].setEnabled(true);
-		
 								updateOpenedFlag = false;
 								AppManager.CreateInstance().getAppMain().searchUpdateBtn.setIcon(ImageData.updateSearchBtnBasic);
 								AppManager.CreateInstance().getAppMain().updateButton.setIcon(ImageData.updateDialogBtnBasic);

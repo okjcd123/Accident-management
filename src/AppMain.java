@@ -113,10 +113,10 @@ public class AppMain extends JFrame{
    protected JPanel leftPanel;
    
    protected JLabel label1;   //장소
-   protected JLabel label2;    //날짜
-   protected JLabel label3;    //사상자 수
+   protected JLabel label2;   //날짜
+   protected JLabel label3;   //사상자 수
    protected JLabel label4;   //사고 타입
-   protected JLabel label5;    //"위도, 경도
+   protected JLabel label5;   //"위도, 경도
    
    protected JPanel rightPanel;
    protected JTextField polno = new JTextField(10);
@@ -389,11 +389,12 @@ public class AppMain extends JFrame{
        JPanel CalPn = new JPanel();
        CalPn.setLayout(null);
        CalPn.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
+      
        JLabel calLbl = new JLabel("년/월");
        calLbl.setBounds(35,18,50,30);
        CalPn.add(calLbl);
-       searchUpPanel.add(CalPn);
        
+       searchUpPanel.add(CalPn);
        //콤보박스 패널관리
        searchDownPanel = new JPanel();
        searchDownPanel.setBounds(100,40,330,180);
@@ -424,10 +425,9 @@ public class AppMain extends JFrame{
        monthcbSearch.setBounds(140,10,100,40);
        calCbPn.add(yearcbSearch);
        calCbPn.add(monthcbSearch);
-       
+        
        searchDownPanel.add(calCbPn);
-
-       
+      
        //버튼패널관리
        searchButtonPanel = new JPanel();
        searchButtonPanel.setLayout(null);
@@ -438,7 +438,6 @@ public class AppMain extends JFrame{
        diaSearch.add(searchUpPanel);
        diaSearch.add(searchDownPanel);
        diaSearch.add(searchButtonPanel);
-       
        diaSearch.setVisible(true);
     }
   
