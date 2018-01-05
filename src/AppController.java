@@ -421,15 +421,15 @@ public class AppController {
 							
 							if(pro.equals("전체"))																					//장소가 전체 일경우
 							{
-								if(year == "년도" && month == "월")		//장소가 전체 이면서 날짜도 없는 경우 모두 가져오기.
+								if(year.contentEquals("년도") && month.equals("월"))		//장소가 전체 이면서 날짜도 없는 경우 모두 가져오기.
 								{
 									outputDatas = AppManager.CreateInstance().getAccidentCaseDAO().getAll();	
 								}
-								else if(year != "년도" && month == "월")				//년은 선택 되어 있고, 월은 선택 안되어있는 경우
+								else if(!year.equals("년도") && month.equals("월"))				//년은 선택 되어 있고, 월은 선택 안되어있는 경우
 								{
 									outputDatas = AppManager.CreateInstance().getAccidentCaseDAO().searchCaseTime(year);
 								}
-								else if(year == "년도 " && month != "월")				//년은 선택되어 있지 않고, 월은 선택되어있는 경우
+								else if(year.equals("년도") && !month.equals("월"))				//년은 선택되어 있지 않고, 월은 선택되어있는 경우
 								{
 									outputDatas = AppManager.CreateInstance().getAccidentCaseDAO().searchCaseMonthTime(month);
 								}
@@ -440,19 +440,19 @@ public class AppController {
 							}
 							else													//장소가 전체가 아닌 경우 (장소가 결정되어있는 경우
 							{
-								if(year == "년도" && month == "월")					//특정 장소 + 날짜 비설정 
+								if(year.equals("년도") && month.equals("월"))					//특정 장소 + 날짜 비설정 
 								{
 									outputDatas = AppManager.CreateInstance().getAccidentCaseDAO().searchCaseLoca(pro, tow);							
 								}
-								else if(year == "년도" && month != "월")				//특정장소 + 월 설정
+								else if(year.equals("년도") && !month.equals("월"))				//특정장소 + 월 설정
 								{
 									outputDatas = AppManager.CreateInstance().getAccidentCaseDAO().searchCaseLocaMonth(pro, tow, month);
 								}
-								else if(year != "년도" && month == "월")				//특정장소 + 년 설정
+								else if(!year.equals("년도") && month.equals("월"))				//특정장소 + 년 설정
 								{
 									outputDatas = AppManager.CreateInstance().getAccidentCaseDAO().searchCaseLocaYear(pro, tow, year);
 								}
-								else if(year != "년도" && month != "월")				//특정장소 + 년월 설정
+								else															//특정장소 + 년월 설정
 								{
 									outputDatas = AppManager.CreateInstance().getAccidentCaseDAO().searchCase(pro, tow, year, month);			
 								}
