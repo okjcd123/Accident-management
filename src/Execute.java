@@ -12,9 +12,9 @@ public class Execute {
 	
 	public static void main(String[] args) {
 		
-		new AppMain();
-		new AppController();
-		new AccidentCaseDAO();
+		new AppMain();										//AppMain 梓端 持失
+		new AppController();								//AppController 梓端 持失
+		new AccidentCaseDAO();								//AccidentCaseDAO 梓端 持失
 		
 	}
 }

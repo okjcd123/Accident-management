@@ -1,10 +1,10 @@
-
-//table 전환작업 필요
-//등록, 삭제 디테일 잡기
-//Detail info 개요 측면 잡기
-//Analysis 틀 잡기
-//Detail info, Analysis 버튼 이벤트 클래스 별도 생성
-
+/**
+ * AppMain.class
+ * @author 김준혁, 김준혁, 문희호
+ * 
+ * 최종 작성일: 2017년 12월 23일
+ * 최종 수정일: 2018년 1월 2일
+ */
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Container;
