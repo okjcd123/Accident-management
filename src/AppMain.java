@@ -1,10 +1,10 @@
-
-//table 전환작업 필요
-//등록, 삭제 디테일 잡기
-//Detail info 개요 측면 잡기
-//Analysis 틀 잡기
-//Detail info, Analysis 버튼 이벤트 클래스 별도 생성
-
+/**
+ * AppMain.class
+ * @author 김준혁, 김준혁, 문희호
+ * 
+ * 최종 작성일: 2017년 12월 23일
+ * 최종 수정일: 2018년 1월 2일
+ */
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Container;
@@ -39,6 +39,7 @@ public class AppMain extends JFrame{
    protected String contents[][] = {{"1", "서울특별시", "강남구", "2017", "02", "28", "1", "0" ,"1", "차대사람"}
    ,{"1", "서울특별시", "강남구", "2017", "02", "28", "1", "0" ,"1", "차대차"}};
    
+   //각각 콤보박스에 필요한 스트링 배열
    protected   String[] year = {"년도","2012","2013","2014","2015","2016","2017","2018"};
    protected String[] month = {"월","01","02","03","04","05","06","07","08","09","10","11","12",};
    protected String[] day = {"일","01","02","03","04","05","06","07","08","09","10","11","12","13",
@@ -113,10 +114,10 @@ public class AppMain extends JFrame{
    protected JPanel leftPanel;
    
    protected JLabel label1;   //장소
-   protected JLabel label2;    //날짜
-   protected JLabel label3;    //사상자 수
+   protected JLabel label2;   //날짜
+   protected JLabel label3;   //사상자 수
    protected JLabel label4;   //사고 타입
-   protected JLabel label5;    //"위도, 경도
+   protected JLabel label5;   //"위도, 경도
    
    protected JPanel rightPanel;
    protected JTextField polno = new JTextField(10);
@@ -213,21 +214,21 @@ public class AppMain extends JFrame{
 
    public AppMain() {
       
-      AppManager.CreateInstance().setAppMain(this);
+      AppManager.CreateInstance().setAppMain(this);//AppManager에 AppMain 객체 등록
       setTitle("교통 사고 관리 시스템");
       setSize(Execute.WIDTH,Execute.HEIGHT-60);
-      setResizable(false);
-      setUndecorated(true);
+      setResizable(false);                        // 프레임크기 변경 불가하게 false 처리
+      setUndecorated(true);						  // 프레임 타이틀바를 없앤다.
       setLocation(250,250);
       setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       getContentPane().add(introPanel);
      
       //getContentPane().add(primary);
       //------------------------------------------------------------------------
-      exit.setBounds(1260, 5, 30, 30);
-      exit.setBorderPainted(false);
-      exit.setContentAreaFilled(false);
-      exit.setFocusPainted(false);
+      exit.setBounds(1260, 5, 30, 30);           // 종료버튼 위치지정
+      exit.setBorderPainted(false);              // 버튼의 외곽선 없앤다.
+      exit.setContentAreaFilled(false);          // 버튼 내용영역 채우지 않음
+      exit.setFocusPainted(false);           	 // 버튼 선택되었을때 생기는 테두리 사용안함
       primary.add(exit);
       //-----------------------
       menuBar.setBounds(0,0,1300, 40);
@@ -240,6 +241,7 @@ public class AppMain extends JFrame{
       bPanel.setLayout(null);
       bPanel.setBounds(0, 0, 1300, 110);
       
+      // 메인화면 버튼을 배열로 생성후 패널에 추가
       btns = new JButton[4];
       btns[0] = new JButton(ImageData.searchBasic);
       btns[0].setBounds(20,45,311,60);
@@ -310,6 +312,7 @@ public class AppMain extends JFrame{
         
       public Intro()
       {
+    	  // 각 컴포넌트 위치 지정후 패널에 추가
          setBounds(0,0,Execute.WIDTH,Execute.HEIGHT);
          setLayout(null);
          idField.setBounds(980, 500, 140, 30);
@@ -322,12 +325,13 @@ public class AppMain extends JFrame{
       }
       public void paintComponent(Graphics g)
       {
-         if(status == false)
+         if(status == false)                 // status가 false 이면 인트로 이미지를 패널에 채워준다.
          {
             super.paintComponents(g);
             g.drawImage(ImageData.introImage,0, 0, null);
          }
       }
+      //버튼에 리스너를 달아준다.
       public void addActionLoginButtonListener(ActionListener action) {
          // TODO Auto-generated method stub
          introPanel.loginBtn.addActionListener(action);
@@ -344,9 +348,9 @@ public class AppMain extends JFrame{
    {
        diaSearch = new JDialog();
        diaSearch.setSize(430,300);
-       diaSearch.setResizable(false);
-       diaSearch.setUndecorated(true);
-       diaSearch.setAlwaysOnTop(true);   //항상 제일 위의 창
+       diaSearch.setResizable(false);    // 프레임크기 변경 불가하게 만들기
+       diaSearch.setUndecorated(true);   // 타이틀바 없애기
+       diaSearch.setAlwaysOnTop(true);   // 항상 제일 위의 창
        diaSearch.setLayout(null);
        
        JPanel upPanel = new JPanel();
@@ -372,7 +376,7 @@ public class AppMain extends JFrame{
       
        JPanel siDoPn = new JPanel();
        siDoPn.setLayout(null);
-       siDoPn.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
+       siDoPn.setBorder(new EtchedBorder(EtchedBorder.LOWERED)); // 패널에 테두리 추가
        siDolbl = new JLabel("시/도");
        siDolbl.setBounds(35,18,50,30);
        siDoPn.add(siDolbl);
@@ -389,10 +393,13 @@ public class AppMain extends JFrame{
        JPanel CalPn = new JPanel();
        CalPn.setLayout(null);
        CalPn.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
+      
        JLabel calLbl = new JLabel("년/월");
        calLbl.setBounds(35,18,50,30);
        CalPn.add(calLbl);
+       
        searchUpPanel.add(CalPn);
+       
        
        //콤보박스 패널관리
        searchDownPanel = new JPanel();
@@ -424,10 +431,9 @@ public class AppMain extends JFrame{
        monthcbSearch.setBounds(140,10,100,40);
        calCbPn.add(yearcbSearch);
        calCbPn.add(monthcbSearch);
-       
+        
        searchDownPanel.add(calCbPn);
-
-       
+      
        //버튼패널관리
        searchButtonPanel = new JPanel();
        searchButtonPanel.setLayout(null);
@@ -438,7 +444,6 @@ public class AppMain extends JFrame{
        diaSearch.add(searchUpPanel);
        diaSearch.add(searchDownPanel);
        diaSearch.add(searchButtonPanel);
-       
        diaSearch.setVisible(true);
     }
   
@@ -478,7 +483,7 @@ public class AppMain extends JFrame{
        JPanel lap3 = new JPanel();
        JPanel lap4 = new JPanel();
        JPanel lap5 = new JPanel();
-       
+       //각 패널에 테두리 추가
        lap1.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
        lap2.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
        lap3.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
@@ -563,10 +568,10 @@ public class AppMain extends JFrame{
 
        tmp1.setBounds(10,10,60,40);
        dead.setBounds(80,10,50,40);
-       dead.setFont(new Font("돋움",Font.PLAIN,15));
+       dead.setFont(new Font("돋움",Font.PLAIN,15)); //텍스트 필드 폰트값 지정
        tmp2.setBounds(140,10,60,40);
        injured.setBounds(210,10,50,40);
-       injured.setFont(new Font("돋움",Font.PLAIN,15));
+       injured.setFont(new Font("돋움",Font.PLAIN,15)); //텍스트 필드 폰트값 지정
 
        casualty.add(tmp1); casualty.add(dead);
        casualty.add(tmp2); casualty.add(injured);
@@ -649,6 +654,7 @@ public class AppMain extends JFrame{
        JPanel lapUpdate4 = new JPanel();
        JPanel lapUpdate5 = new JPanel();
 
+       //각 패널에 테두리 추가
        caseLap.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
        lapUpdate1.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
        lapUpdate2.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
