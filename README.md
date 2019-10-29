@@ -1,7 +1,7 @@
 
 # Accident-managemet System
 
-developed by Team 7
+developed by Team 7 (Heeho Moon, Junhyuk Kim, Junhyuk Kim)
 
 * new accident management system
 
